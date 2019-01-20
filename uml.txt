@@ -1,0 +1,109 @@
+@startuml
+package Modele {
+abstract class Element {
+-String code
+-String nom
+-int quantite
+-String uniteQuantite
+-double prixAchat
+-double prixVente
++String getCode()
++int getQuantite()
++setQuantite()
++String getUniteQuantite()
++double getPrixAchat()
++double getPrixVente()
++setPrix()
+}
+
+Produit : +String toString()
+
+MatierePremiere : +String toString()
+
+class ChaineDeProduction {
+-String code
+-String nom
+-int niveau
++String getCode()
++int getNiveau()
++setNiveau()
++Element[] getEntrants()
++Element[] getSortants()
++String toString()
+}
+
+class Usine {
+-String nom
++ChaineDeProduction[] getChaines()
++Element[] getStocks()
++Element[] getListeAchats()
++double calculerProduction()
++String toString()
+}
+
+}
+
+package Controleur {
+class Routeur {
++execute()
+}
+
+class ControllerElement {
++StringgetCode()
++int getQuantite()
++modifierQuantite(int quantite)
++boolean enStock(int quantite)
++String getUniteQuantite()
++double getPrixAchat()
++double getPrixVente()
++setPrix()
+}
+
+class ControllerChaineDeProduction {
++String getCode()
++int getNiveau()
++changerNiveau()
++Element[] getEntrants()
++Element[] getSortants()
++changerNiveau()
++Element getEntrant(String code)
++Element getSortant(String code)
++addEntrant()
++addSortant()
++rmEntrant()
++rmSortant()
++String toString()
+}
+
+class ControllerUsine {
++String getNom()
++ChaineDeProduction[] getChaines()
++ChaineDeProduction getChaine(String code)
++Element[] getStocks()
++Element getElement(String code)
++String toString()
+}
+
+}
+
+package Vue {
+
+class Vues {
+
+}
+
+}
+
+Vues -down- Routeur
+Routeur -down- ControllerElement
+Routeur -down- ControllerChaineDeProduction
+Routeur -down- ControllerUsine
+Element -up- ControllerElement
+ChaineDeProduction -up- ControllerChaineDeProduction
+Usine -up- ControllerUsine
+Usine -right- "*" ChaineDeProduction
+Usine -down- "*" Element
+ChaineDeProduction -down- "*" Element
+Element <|-- Produit
+Element <|-- MatierePremiere
+@enduml
