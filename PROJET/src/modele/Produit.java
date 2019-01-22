@@ -8,6 +8,10 @@ package modele;
  *
  */
 public class Produit extends Element {
+	
+	public Produit(String code, String nom, double quantite, String unite) {
+		super(code,nom,quantite,unite);
+	}
 
 	/**
 	 * @param code
@@ -17,7 +21,7 @@ public class Produit extends Element {
 	 * @param uniteQuantite
 	 * @param prixVente
 	 */
-	public Produit(String code, String nom, double prixAchat, double quantite, UniteQuantite unite, double prixVente) {
+	public Produit(String code, String nom, double prixAchat, double quantite, String unite, double prixVente) {
 		super(code, nom, prixAchat, quantite, unite, prixVente);
 		// TODO Auto-generated constructor stub
 	}
@@ -25,23 +29,11 @@ public class Produit extends Element {
 	/**
 	 * @param code
 	 * @param nom
-	 * @param prixAchat
-	 * @param quantite
-	 * @param uniteQuantite
-	 */
-	public Produit(String code, String nom, double prixAchat, double quantite, UniteQuantite unite) {
-		super(code, nom, prixAchat, quantite, unite);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param code
-	 * @param nom
 	 * @param quantite
 	 * @param uniteQuantite
 	 * @param prixVente
 	 */
-	public Produit(String code, String nom, double quantite, UniteQuantite unite, double prixVente) {
+	public Produit(String code, String nom, double quantite, String unite, double prixVente) {
 		super(code, nom, quantite, unite, prixVente);
 		// TODO Auto-generated constructor stub
 	}

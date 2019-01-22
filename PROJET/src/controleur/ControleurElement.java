@@ -20,6 +20,12 @@ public class ControleurElement {
 		this.e = e;
 	}
 	
+	public String getCode() {
+		return this.e.getCode();
+	}
 	
+	public void changeQuantite(double nQuantite) {
+		this.e.setQuantite(nQuantite);
+	}
 
 }

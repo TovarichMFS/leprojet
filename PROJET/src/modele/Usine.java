@@ -4,6 +4,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author tovarich
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class Usine {
 	private String nom;
 	private ArrayList<ChaineDeProduction> chaines;
-	private ArrayList<Element> stocks;
+	private HashMap<String,Element> stocks;
 
 	/**
 	 * 
@@ -20,7 +21,7 @@ public class Usine {
 	public Usine(String nom) {
 		this.nom = nom;
 		this.chaines = new ArrayList<ChaineDeProduction>();
-		this.stocks = new ArrayList<Element>();
+		this.stocks = new HashMap<String,Element>();
 	}
 
 	/**
@@ -44,12 +45,8 @@ public class Usine {
 	/**
 	 * @return the stocks
 	 */
-	public ArrayList<Element> getStocks() {
+	public HashMap<String,Element> getStocks() {
 		return stocks;
-	}
-	
-	public void addStock(Element e) {
-		this.stocks.add(e);
 	}
 	
 	@Override
@@ -59,7 +56,7 @@ public class Usine {
 			chaines += c.toString()+"\n";
 		}
 		String stocks = "";
-		for (Element e : this.stocks) {
+		for (Element e : this.stocks.values()) {
 			stocks += e.toString()+"\n";
 		}
 		return "Usine "+this.getNom()+":\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines;

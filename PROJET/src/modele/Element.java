@@ -1,11 +1,19 @@
 package modele;
 
-public abstract class Element {
+public abstract class Element implements Cloneable{
 	private String code, nom;
-	private UniteQuantite unite;
+	private String unite;
 	private double quantite,prixAchat,prixVente;
+	
+	public Element(String code, String nom, double quantite, String unite) {
+		this.code = code;
+		this.nom = nom;
+		this.setQuantite(quantite);
+		this.unite = unite;
+	}
+	
 
-	public Element(String code, String nom, double prixAchat, double quantite, UniteQuantite unite, double prixVente) {
+	public Element(String code, String nom, double prixAchat, double quantite, String unite, double prixVente) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -14,7 +22,7 @@ public abstract class Element {
 		this.setPrixVente(prixVente);
 	}
 	
-	public Element(String code, String nom, double prixAchat, double quantite, UniteQuantite unite) {
+	public Element(String code, String nom, double prixAchat, double quantite, String unite) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -22,7 +30,7 @@ public abstract class Element {
 		this.setPrixAchat(prixAchat);
 	}
 	
-	public Element(String code, String nom, double quantite, UniteQuantite unite, double prixVente) {
+	public Element(String code, String nom, double quantite, String unite, double prixVente) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -51,7 +59,7 @@ public abstract class Element {
 	/**
 	 * @return the uniteQuantite
 	 */
-	public UniteQuantite getUniteQuantite() {
+	public String getUniteQuantite() {
 		return this.unite;
 	}
 
@@ -88,6 +96,11 @@ public abstract class Element {
 	 */
 	public String getNom() {
 		return nom;
+	}
+	
+	 @Override
+	public Element clone() throws CloneNotSupportedException {   
+		return (Element)super.clone();
 	}
 
 }
