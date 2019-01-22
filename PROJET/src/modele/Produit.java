@@ -17,8 +17,8 @@ public class Produit extends Element {
 	 * @param uniteQuantite
 	 * @param prixVente
 	 */
-	public Produit(String code, String nom, double prixAchat, int quantite, String uniteQuantite, double prixVente) {
-		super(code, nom, prixAchat, quantite, uniteQuantite, prixVente);
+	public Produit(String code, String nom, double prixAchat, int quantite, UniteQuantite unite, double prixVente) {
+		super(code, nom, prixAchat, quantite, unite, prixVente);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -29,8 +29,8 @@ public class Produit extends Element {
 	 * @param quantite
 	 * @param uniteQuantite
 	 */
-	public Produit(String code, String nom, double prixAchat, int quantite, String uniteQuantite) {
-		super(code, nom, prixAchat, quantite, uniteQuantite);
+	public Produit(String code, String nom, double prixAchat, int quantite, UniteQuantite unite) {
+		super(code, nom, prixAchat, quantite, unite);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -41,8 +41,8 @@ public class Produit extends Element {
 	 * @param uniteQuantite
 	 * @param prixVente
 	 */
-	public Produit(String code, String nom, int quantite, String uniteQuantite, double prixVente) {
-		super(code, nom, quantite, uniteQuantite, prixVente);
+	public Produit(String code, String nom, int quantite, UniteQuantite unite, double prixVente) {
+		super(code, nom, quantite, unite, prixVente);
 		// TODO Auto-generated constructor stub
 	}
 	
