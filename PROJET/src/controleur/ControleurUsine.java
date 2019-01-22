@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import modele.ChaineDeProduction;
@@ -36,11 +37,28 @@ public class ControleurUsine {
 	}
 	
 	public Element getStock(String code) {
-		return this.u.getStocks().get(code);
+		return this.getStocks().get(code);
+	}
+	
+	public HashMap<String,Element> getStocks(){
+		return this.u.getStocks();
 	}
 	
 	public void addChaine(ChaineDeProduction c) {
 		this.u.addChaine(c);
+	}
+	
+	public ChaineDeProduction getChaine(String code) {
+		for (ChaineDeProduction c : this.getChaines()) {
+			ControleurChaineDeProduction cCDP = new ControleurChaineDeProduction(c);
+			if(code.equals(cCDP.getCode()))
+				return c;
+		}
+		return null;
+	}
+	
+	public ArrayList<ChaineDeProduction> getChaines() {
+		return this.u.getChaines();
 	}
 	
 	public void chargerCSV() {
@@ -89,6 +107,7 @@ public class ControleurUsine {
 				String code = split[0];
 				String nom = split[1];
 				c = new ChaineDeProduction(code, nom);
+				ControleurChaineDeProduction cCDP = new ControleurChaineDeProduction(c);
 				String[] splitE = split[2].split(",");
 				String[] splitS = split[3].split(",");
 				int inverse = 0;
@@ -107,7 +126,7 @@ public class ControleurUsine {
 						ControleurElement cE = new ControleurElement(e);
 						cE.changeQuantite(Double.valueOf(string2));
 						inverse = 0;
-						c.addEntrant(e);
+						cCDP.addEntrant(e);
 					}
 				}
 				inverse = 0;
@@ -125,7 +144,7 @@ public class ControleurUsine {
 						ControleurElement cE = new ControleurElement(e);
 						cE.changeQuantite(Double.valueOf(string2));
 						inverse = 0;
-						c.addSortants(e);
+						cCDP.addSortant(e);
 					}
 				}
 				this.addChaine(c);

@@ -59,20 +59,12 @@ public class ChaineDeProduction {
 	public ArrayList<Element> getEntrants() {
 		return entrants;
 	}
-	
-	public void addEntrant(Element e) {
-		this.entrants.add(e);
-	}
 
 	/**
 	 * @return the sortants
 	 */
 	public ArrayList<Element> getSortants() {
 		return sortants;
-	}
-	
-	public void addSortants(Element e) {
-		this.sortants.add(e);
 	}
 	
 	@Override
