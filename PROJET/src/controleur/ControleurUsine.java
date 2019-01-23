@@ -9,8 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import static java.nio.file.StandardOpenOption.APPEND;
 
 import modele.ChaineDeProduction;
