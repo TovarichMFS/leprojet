@@ -3,17 +3,18 @@ package Modele {
 abstract class Element {
 -String code
 -String nom
--int quantite
+-double quantite
 -String uniteQuantite
 -double prixAchat
 -double prixVente
 +String getCode()
-+int getQuantite()
-+setQuantite()
++double getQuantite()
++setQuantite(double quantite)
 +String getUniteQuantite()
 +double getPrixAchat()
 +double getPrixVente()
-+setPrix()
++setPrixAchat(double achat)
++setPrixVente(double vente)
 }
 
 Produit : +String toString()
@@ -37,7 +38,6 @@ class Usine {
 +ChaineDeProduction[] getChaines()
 +Element[] getStocks()
 +Element[] getListeAchats()
-+double calculerProduction()
 +String toString()
 }
 
@@ -49,14 +49,15 @@ class Routeur {
 }
 
 class ControllerElement {
-+StringgetCode()
-+int getQuantite()
-+modifierQuantite(int quantite)
++String getCode()
++double getQuantite()
++modifierQuantite(double quantite)
 +boolean enStock(int quantite)
 +String getUniteQuantite()
 +double getPrixAchat()
 +double getPrixVente()
-+setPrix()
++setPrixAchat(double achat)
++setPrixVente(double vente)
 }
 
 class ControllerChaineDeProduction {
@@ -65,7 +66,6 @@ class ControllerChaineDeProduction {
 +changerNiveau()
 +Element[] getEntrants()
 +Element[] getSortants()
-+changerNiveau()
 +Element getEntrant(String code)
 +Element getSortant(String code)
 +addEntrant()
@@ -77,10 +77,13 @@ class ControllerChaineDeProduction {
 
 class ControllerUsine {
 +String getNom()
++addStock(Element e)
++Element[] getStocks()
++Element getStock(String code)
 +ChaineDeProduction[] getChaines()
 +ChaineDeProduction getChaine(String code)
-+Element[] getStocks()
-+Element getElement(String code)
++chargerCSV()
++double calculerProduction()
 +String toString()
 }
 
