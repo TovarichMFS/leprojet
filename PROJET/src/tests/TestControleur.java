@@ -9,6 +9,7 @@ public class TestControleur {
 		ControleurUsine u = new ControleurUsine(new Usine("lol"));
 		u.chargerCSV();
 		System.out.println(u);
+		u.saveCSV();
 
 	}
 

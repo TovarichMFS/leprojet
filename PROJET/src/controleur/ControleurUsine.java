@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.nio.file.StandardOpenOption.APPEND;
+
 import modele.ChaineDeProduction;
 import modele.Element;
 import modele.MatierePremiere;
@@ -67,6 +69,10 @@ public class ControleurUsine {
 	
 	public void rmChaine(ChaineDeProduction c) {
 		this.getChaines().remove(c);
+	}
+	
+	public double calculerProduction() {
+		return 0;
 	}
 	
 	public void chargerCSV() {
@@ -159,6 +165,65 @@ public class ControleurUsine {
 			}
 		} catch (IOException e) {
 			System.out.println("Le fichier chaines.csv n'a pas été trouvé!");
+		}
+	}
+	
+	public void saveCSV() {
+		Path p = Paths.get("e1.csv");
+		try {
+			Files.write(p, String.format("Code;Nom;Quantite;unite;achat;vente\n").getBytes());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (String cle : this.getStocks().keySet()) {
+			Element e = this.getStock(cle);
+			String entree = e.getCode()+";"+e.getNom()+";"+e.getQuantite()+";"+e.getUniteQuantite()+";";
+			if(e.getPrixAchat()==0)
+				entree += "NA;";
+			else
+				entree += e.getPrixAchat()+";";
+			if(e.getPrixVente()==0)
+				entree += "NA\n";
+			else
+				entree += e.getPrixVente()+"\n";
+			try {
+				Files.write(p, String.format(entree).getBytes(), APPEND);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		Path p2 = Paths.get("c1.csv");
+		try {
+			Files.write(p2, String.format("Code;Nom;Entree (code,qte);Sortie (code,qte)\n").getBytes());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (ChaineDeProduction c : this.getChaines()) {
+			String entree = c.getCode()+";"+c.getNom()+";";
+			for (int i=0;i<c.getEntrants().size();i++) {
+				entree += "("+c.getEntrants().get(i).getCode()+","+c.getEntrants().get(i).getQuantite()+")";
+				if(i<c.getEntrants().size()-1)
+					entree+=",";
+				else
+					entree+=";";
+			}
+			for (int i=0;i<c.getSortants().size();i++) {
+				entree += "("+c.getSortants().get(i).getCode()+","+c.getSortants().get(i).getQuantite()+")";
+				if(i<c.getSortants().size()-1)
+					entree+=",";
+				else
+					entree+="\n";
+			}
+			try {
+				Files.write(p2, String.format(entree).getBytes(), APPEND);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 	

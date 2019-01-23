@@ -22,7 +22,7 @@ public class MatierePremiere extends Element {
 	
 	@Override
 	public double getPrixVente() {
-		return -1;
+		return 0;
 	}
 	
 	@Override

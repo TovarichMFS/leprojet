@@ -1,0 +1,8 @@
+Code;Nom;Quantite;unite;achat;vente
+E005;Propulsions;0.0;pieces;NA;15.0
+E006;Coques;0.0;pieces;NA;NA
+E007;Drones;0.0;pieces;NA;150.0
+E001;Circuit principal;200.0;pieces;50.0;20.0
+E002;Plastique;500.0;kilogrammes;3.0;NA
+E003;Plaques aluminium;100.0;pieces;20.0;10.0
+E004;Servomoteurs;250.0;pieces;15.0;10.0
