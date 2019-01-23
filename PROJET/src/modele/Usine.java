@@ -16,7 +16,8 @@ public class Usine {
 	private HashMap<String,Element> stocks;
 
 	/**
-	 * 
+	 * Construit une Usine
+	 * @param nom
 	 */
 	public Usine(String nom) {
 		this.nom = nom;
@@ -25,26 +26,32 @@ public class Usine {
 	}
 
 	/**
-	 * @return the nom
+	 * Retourne le nom de l'Usine
+	 * @return nom
 	 */
 	public String getNom() {
 		return nom;
 	}
 
 	/**
-	 * @return the chaines
+	 * Retourne la liste des {@link ChaineDeProduction} de l'Usine
+	 * @return chaines
 	 */
 	public ArrayList<ChaineDeProduction> getChaines() {
 		return chaines;
 	}
 
 	/**
-	 * @return the stocks
+	 * Retourne la liste des {@link Element} en stock de l'Usine
+	 * @return stocks
 	 */
 	public HashMap<String,Element> getStocks() {
 		return stocks;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		String chaines = "";

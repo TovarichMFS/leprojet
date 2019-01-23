@@ -23,35 +23,62 @@ import modele.Usine;
  */
 public class ControleurUsine {
 
-	/**
-	 * 
-	 */
 	private Usine u;
+	/**
+	 * Construit un ControleurUsine sur l'Usine u
+	 * @param u
+	 */
 	public ControleurUsine(Usine u) {
 		this.u = u;
 	}
 	
+	/**
+	 * Ajoute un Element e dans le stock de l'Usine u
+	 * @param e
+	 */
 	public void addStock(Element e) {
 		ControleurElement cE = new ControleurElement(e);
 		this.u.getStocks().put(cE.getCode(), e);
 	}
 	
+	/**
+	 * Retourne l'Element du stock dont le code est passé en paramètre
+	 * @param code
+	 * @return Element
+	 */
 	public Element getStock(String code) {
 		return this.getStocks().get(code);
 	}
 	
+	/**
+	 * Retourne le stock de l'Usine u
+	 * @return HashMap<String,Element>
+	 */
 	public HashMap<String,Element> getStocks(){
 		return this.u.getStocks();
 	}
 	
+	/**
+	 * Retire l'Element e du stock de l'Usine u
+	 * @param e
+	 */
 	public void rmStock(Element e) {
 		this.getStocks().remove(e);
 	}
 	
+	/**
+	 * Ajoute la ChaineDeProduction c à la liste des chaines de l'Usine u
+	 * @param c
+	 */
 	public void addChaine(ChaineDeProduction c) {
 		this.u.getChaines().add(c);
 	}
 	
+	/**
+	 * Retourne la ChaineDeProduction correspondante au code passé en paramètre
+	 * @param code
+	 * @return ChaineDeProduction
+	 */
 	public ChaineDeProduction getChaine(String code) {
 		for (ChaineDeProduction c : this.getChaines()) {
 			ControleurChaineDeProduction cCDP = new ControleurChaineDeProduction(c);
@@ -61,18 +88,33 @@ public class ControleurUsine {
 		return null;
 	}
 	
+	/**
+	 * Retourne la liste des CHaineDeProduction de l'Usine u
+	 * @return ArrayList<ChaineDeProduction>
+	 */
 	public ArrayList<ChaineDeProduction> getChaines() {
 		return this.u.getChaines();
 	}
 	
+	/**
+	 * Retire la ChaineDeProduction c de la liste des chaines de l'Usine u
+	 * @param c
+	 */
 	public void rmChaine(ChaineDeProduction c) {
 		this.getChaines().remove(c);
 	}
 	
+	/**
+	 * Calcule les revenus/coûts de la production prévue
+	 * @return double
+	 */
 	public double calculerProduction() {
 		return 0;
 	}
 	
+	/**
+	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u
+	 */
 	public void chargerCSV() {
 		Path pE = Paths.get("elements.csv");
 		try {
@@ -166,12 +208,14 @@ public class ControleurUsine {
 		}
 	}
 	
+	/**
+	 * Sauvegarde les Element et les CHaineDeProduction dans un fichier CSV
+	 */
 	public void saveCSV() {
 		Path p = Paths.get("e1.csv");
 		try {
 			Files.write(p, String.format("Code;Nom;Quantite;unite;achat;vente\n").getBytes());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		for (String cle : this.getStocks().keySet()) {
@@ -188,7 +232,6 @@ public class ControleurUsine {
 			try {
 				Files.write(p, String.format(entree).getBytes(), APPEND);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -197,7 +240,6 @@ public class ControleurUsine {
 		try {
 			Files.write(p2, String.format("Code;Nom;Entree (code,qte);Sortie (code,qte)\n").getBytes());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		for (ChaineDeProduction c : this.getChaines()) {
@@ -219,12 +261,15 @@ public class ControleurUsine {
 			try {
 				Files.write(p2, String.format(entree).getBytes(), APPEND);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
 	public String toString() {
 		return this.u.toString();
 	}

@@ -5,6 +5,13 @@ public abstract class Element implements Cloneable{
 	private String unite;
 	private double quantite,prixAchat,prixVente;
 	
+	/**
+	 * Construit un Element sans prix
+	 * @param code
+	 * @param nom
+	 * @param quantite
+	 * @param unite
+	 */
 	public Element(String code, String nom, double quantite, String unite) {
 		this.code = code;
 		this.nom = nom;
@@ -13,6 +20,15 @@ public abstract class Element implements Cloneable{
 	}
 	
 
+	/**
+	 * Construit un Element avec prix d'achat et de vente
+	 * @param code
+	 * @param nom
+	 * @param prixAchat
+	 * @param quantite
+	 * @param unite
+	 * @param prixVente
+	 */
 	public Element(String code, String nom, double prixAchat, double quantite, String unite, double prixVente) {
 		this.code = code;
 		this.nom = nom;
@@ -22,6 +38,14 @@ public abstract class Element implements Cloneable{
 		this.setPrixVente(prixVente);
 	}
 	
+	/**
+	 * Construit un ELement avec un prix d'achat
+	 * @param code
+	 * @param nom
+	 * @param prixAchat
+	 * @param quantite
+	 * @param unite
+	 */
 	public Element(String code, String nom, double prixAchat, double quantite, String unite) {
 		this.code = code;
 		this.nom = nom;
@@ -30,6 +54,14 @@ public abstract class Element implements Cloneable{
 		this.setPrixAchat(prixAchat);
 	}
 	
+	/**
+	 * Construit un Element avec un prix de vente
+	 * @param code
+	 * @param nom
+	 * @param quantite
+	 * @param unite
+	 * @param prixVente
+	 */
 	public Element(String code, String nom, double quantite, String unite, double prixVente) {
 		this.code = code;
 		this.nom = nom;
@@ -38,67 +70,82 @@ public abstract class Element implements Cloneable{
 		this.setPrixVente(prixVente);
 	}
 
+	/**
+	 * Retourne le code de l'Element
+	 * @return String
+	 */
 	public String getCode() {
 		return code;
 	}
 
 	/**
-	 * @return the quantite
+	 * Retourne la quantite de l'Element
+	 * @return quantite
 	 */
 	public double getQuantite() {
 		return quantite;
 	}
 
 	/**
-	 * @param quantite the quantite to set
+	 * Modifie la quantite de l'Element
+	 * @param quantite
 	 */
 	public void setQuantite(double quantite) {
 		this.quantite = quantite;
 	}
 
 	/**
-	 * @return the uniteQuantite
+	 * Retourne l'unité de quantité de l'Element
+	 * @return uniteQuantite
 	 */
 	public String getUniteQuantite() {
 		return this.unite;
 	}
 
 	/**
-	 * @return the prixAchat
+	 * Retourne le prix d'achat de l'Element
+	 * @return prixAchat
 	 */
 	public double getPrixAchat() {
 		return prixAchat;
 	}
 
 	/**
-	 * @param prixAchat the prixAchat to set
+	 * Modifie le prix d'achat de l'Element
+	 * @param prixAchat
 	 */
 	public void setPrixAchat(double prixAchat) {
 		this.prixAchat = prixAchat;
 	}
 
 	/**
-	 * @return the prixVente
+	 * Retourne le prix de vente de l'Element
+	 * @return prixVente
 	 */
 	public double getPrixVente() {
 		return prixVente;
 	}
 
 	/**
-	 * @param prixVente the prixVente to set
+	 * Modifie le prix de vente de l'Element
+	 * @param prixVente
 	 */
 	public void setPrixVente(double prixVente) {
 		this.prixVente = prixVente;
 	}
 
 	/**
-	 * @return the nom
+	 * Retourne le nom de l'Element
+	 * @return nom
 	 */
 	public String getNom() {
 		return nom;
 	}
 	
-	 @Override
+	 /* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
 	public Element clone() throws CloneNotSupportedException {   
 		return (Element)super.clone();
 	}

@@ -9,11 +9,19 @@ package modele;
  */
 public class Produit extends Element {
 	
+	/**
+	 * Construit un Produit sans prix
+	 * @param code
+	 * @param nom
+	 * @param quantite
+	 * @param unite
+	 */
 	public Produit(String code, String nom, double quantite, String unite) {
 		super(code,nom,quantite,unite);
 	}
 
 	/**
+	 * Construit un Produit avec prix d'achat et de vente
 	 * @param code
 	 * @param nom
 	 * @param prixAchat
@@ -23,10 +31,10 @@ public class Produit extends Element {
 	 */
 	public Produit(String code, String nom, double prixAchat, double quantite, String unite, double prixVente) {
 		super(code, nom, prixAchat, quantite, unite, prixVente);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
+	 * Construit un Produit avec un prix de vente
 	 * @param code
 	 * @param nom
 	 * @param quantite
@@ -35,9 +43,11 @@ public class Produit extends Element {
 	 */
 	public Produit(String code, String nom, double quantite, String unite, double prixVente) {
 		super(code, nom, quantite, unite, prixVente);
-		// TODO Auto-generated constructor stub
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		String prix = ""; 

@@ -14,8 +14,11 @@ public class ChaineDeProduction {
 	private int niveau;
 	private ArrayList<Element> entrants, sortants;
 
+
 	/**
-	 * 
+	 * Construit une ChaineDeProduction
+	 * @param code
+	 * @param nom
 	 */
 	public ChaineDeProduction(String code, String nom) {
 		this.code = code;
@@ -26,47 +29,56 @@ public class ChaineDeProduction {
 	}
 
 	/**
-	 * @return the code
+	 * Retourne le code de la ChaineDeProduction
+	 * @return code
 	 */
 	public String getCode() {
 		return code;
 	}
 
 	/**
-	 * @return the nom
+	 * Retourne le nom de la ChaineDeProduction
+	 * @return nom
 	 */
 	public String getNom() {
 		return nom;
 	}
 
 	/**
-	 * @return the niveau
+	 * Retourne le niveau de la ChaineDeProduction
+	 * @return niveau
 	 */
 	public int getNiveau() {
 		return niveau;
 	}
 
 	/**
-	 * @param niveau the niveau to set
+	 * Modifie le niveau de la ChaineDeProduction
+	 * @param niveau
 	 */
 	public void setNiveau(int niveau) {
 		this.niveau = niveau;
 	}
 
 	/**
-	 * @return the entrants
+	 * Retourne la liste des {@link Element} entrants
+	 * @return entrants
 	 */
 	public ArrayList<Element> getEntrants() {
 		return entrants;
 	}
 
 	/**
-	 * @return the sortants
+	 * Retourne la liste des {@link Element} sortants
+	 * @return sortants
 	 */
 	public ArrayList<Element> getSortants() {
 		return sortants;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		String ent = "";
