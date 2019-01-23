@@ -44,8 +44,12 @@ public class ControleurUsine {
 		return this.u.getStocks();
 	}
 	
+	public void rmStock(Element e) {
+		this.getStocks().remove(e);
+	}
+	
 	public void addChaine(ChaineDeProduction c) {
-		this.u.addChaine(c);
+		this.u.getChaines().add(c);
 	}
 	
 	public ChaineDeProduction getChaine(String code) {
@@ -59,6 +63,10 @@ public class ControleurUsine {
 	
 	public ArrayList<ChaineDeProduction> getChaines() {
 		return this.u.getChaines();
+	}
+	
+	public void rmChaine(ChaineDeProduction c) {
+		this.getChaines().remove(c);
 	}
 	
 	public void chargerCSV() {

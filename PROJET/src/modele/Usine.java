@@ -37,10 +37,6 @@ public class Usine {
 	public ArrayList<ChaineDeProduction> getChaines() {
 		return chaines;
 	}
-	
-	public void addChaine(ChaineDeProduction c) {
-		this.chaines.add(c);
-	}
 
 	/**
 	 * @return the stocks
