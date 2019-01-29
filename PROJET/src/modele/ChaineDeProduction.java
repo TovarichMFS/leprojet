@@ -23,7 +23,7 @@ public class ChaineDeProduction {
 	public ChaineDeProduction(String code, String nom) {
 		this.code = code;
 		this.nom = nom;
-		this.setNiveau(0);
+		this.setNiveau(1);
 		this.entrants = new ArrayList<Element>();
 		this.sortants = new ArrayList<Element>();
 	}

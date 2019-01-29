@@ -16,6 +16,7 @@ import modele.Element;
 import modele.MatierePremiere;
 import modele.Produit;
 import modele.Usine;
+import others.CalculException;
 
 /**
  * @author tovarich
@@ -89,7 +90,7 @@ public class ControleurUsine {
 	}
 	
 	/**
-	 * Retourne la liste des CHaineDeProduction de l'Usine u
+	 * Retourne la liste des ChaineDeProduction de l'Usine u
 	 * @return ArrayList<ChaineDeProduction>
 	 */
 	public ArrayList<ChaineDeProduction> getChaines() {
@@ -105,11 +106,93 @@ public class ControleurUsine {
 	}
 	
 	/**
-	 * Calcule les revenus/coûts de la production prévue
-	 * @return double
+	 * Retourne la liste des achats de l'Usine u
+	 * @return listeAchats
 	 */
-	public double calculerProduction() {
-		return 0;
+	public HashMap<String, Element> getListeAchats(){
+		return this.u.getListeAchats();
+	}
+	
+	/**
+	 * Retourne l'Elément de la liste d'achats selon son code
+	 * @param code
+	 * @return Element
+	 */
+	public Element getAchat(String code) {
+		return this.getListeAchats().get(code);
+	}
+	
+	/**
+	 * Ajoute l'Element e à la liste d'achats
+	 * @param e
+	 */
+	public void addAchat(Element e) {
+		this.getListeAchats().put(e.getCode(),e);
+	}
+	
+	/**
+	 * Retire un Element de la liste d'achats selon son code
+	 * @param code
+	 */
+	public void rmAchat(String code) {
+		this.getListeAchats().remove(code);
+	}
+	
+	/**
+	 * @param listeAchats the listeAchats to set
+	 */
+	public void setListeAchats(HashMap<String, Element> listeAchats) {
+		this.u.setListeAchats(listeAchats);
+	}
+	
+	/**
+	 * Calcule les revenus/coûts de la production prévue. Retourne une exception si la production est impossible.
+	 * @return double
+	 * @throws CalculException 
+	 * @throws CloneNotSupportedException 
+	 */
+	@SuppressWarnings("unchecked")
+	public double calculerProduction() throws CalculException, CloneNotSupportedException {
+		HashMap<String,Element> cpStocks = new HashMap<String, Element>();
+		for (String key : this.getStocks().keySet()) {
+			cpStocks.put(key, this.getStocks().get(key).clone());
+		}
+		HashMap<String,Element> cpAchats = new HashMap<String, Element>();
+		for (String key : this.getListeAchats().keySet()) {
+			cpAchats.put(key, this.getListeAchats().get(key).clone());
+		}
+		double montant = 0;
+		for (ChaineDeProduction c : this.getChaines()) {
+			for (Element e : c.getEntrants()) {
+				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
+			}
+			for (Element s : c.getSortants()) {
+				cpStocks.get(s.getCode()).setQuantite(cpStocks.get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()));
+			}
+		}
+		for (String key : cpStocks.keySet()) {
+			if(cpStocks.get(key).getQuantite()<0) {
+				if(cpStocks.get(key).getPrixAchat()==0)
+					throw new CalculException();
+				else{
+					if(cpAchats.containsKey(key)) {
+						cpAchats.get(key).setQuantite(cpAchats.get(key).getQuantite() - cpStocks.get(key).getQuantite());
+						montant-=cpAchats.get(key).getPrixAchat()*cpAchats.get(key).getQuantite();
+					}else {
+						Element tmp = cpStocks.get(key);
+						tmp.setQuantite(-cpStocks.get(key).getQuantite());
+						montant-=tmp.getPrixAchat()*tmp.getQuantite();
+						cpAchats.put(key, tmp);
+					}
+				}
+			}else {
+				if(cpStocks.get(key).getPrixVente()!=0) {
+					montant += cpStocks.get(key).getPrixVente() * cpStocks.get(key).getQuantite();
+				}
+			}
+		}
+		this.setListeAchats(cpAchats);
+		return montant;
 	}
 	
 	/**

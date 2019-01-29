@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class Usine {
 	private String nom;
 	private ArrayList<ChaineDeProduction> chaines;
-	private HashMap<String,Element> stocks;
+	private HashMap<String,Element> stocks, listeAchats;
 
 	/**
 	 * Construit une Usine
@@ -23,6 +23,7 @@ public class Usine {
 		this.nom = nom;
 		this.chaines = new ArrayList<ChaineDeProduction>();
 		this.stocks = new HashMap<String,Element>();
+		this.listeAchats = new HashMap<String,Element>();
 	}
 
 	/**
@@ -49,6 +50,22 @@ public class Usine {
 		return stocks;
 	}
 	
+	/**
+	 * Retourne la liste d'achats
+	 * @return listeAchats
+	 */
+	public HashMap<String,Element> getListeAchats() {
+		return listeAchats;
+	}
+	
+	/**
+	 * Remplace la liste d'achats par celle passée en paramètre
+	 * @param listeAchats
+	 */
+	public void setListeAchats(HashMap<String, Element> listeAchats) {
+		this.listeAchats = listeAchats;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -62,7 +79,11 @@ public class Usine {
 		for (Element e : this.stocks.values()) {
 			stocks += e.toString()+"\n";
 		}
-		return "Usine "+this.getNom()+":\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines;
+		String achats = "";
+		for (String key : this.getListeAchats().keySet()) {
+			achats += this.getListeAchats().get(key).toString()+"\n";
+		}
+		return "Usine "+this.getNom()+":\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines+"Liste d'achats:\n"+achats;
 	}
 
 }
