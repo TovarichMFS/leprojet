@@ -30,6 +30,14 @@ public class ControleurElement {
 	}
 	
 	/**
+	 * Retourne le nom d'un élément
+	 * @return String nom
+	 */
+	public String getNom() {
+		return this.e.getNom();
+	}
+	
+	/**
 	 * Retourne la quantite d'un élément
 	 * @return double quantite
 	 */
@@ -62,7 +70,7 @@ public class ControleurElement {
 	 * @return String unite
 	 */
 	public String getUnite() {
-		return this.getUnite();
+		return this.e.getUniteQuantite();
 	}
 	
 	/**

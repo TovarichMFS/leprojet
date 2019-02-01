@@ -32,6 +32,14 @@ public class ControleurChaineDeProduction {
 	}
 	
 	/**
+	 * Retourne le nom de la ChaineDeProduction c
+	 * @return String
+	 */
+	public String getNom() {
+		return this.c.getNom();
+	}
+	
+	/**
 	 * Retourne le niveau de la ChaineDeProduction c
 	 * @return int
 	 */

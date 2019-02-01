@@ -13,7 +13,7 @@ public class CalculException extends Exception {
 	 * 
 	 */
 	public CalculException() {
-		super("La production est impossible");
+		super("La production est impossible (Un entrant ne peut pas être acheté)");
 	}
 
 }
