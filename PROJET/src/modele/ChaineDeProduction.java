@@ -4,6 +4,7 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author tovarich
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class ChaineDeProduction {
 	private String code, nom;
 	private int niveau;
-	private ArrayList<Element> entrants, sortants;
+	private HashMap<String,Element> entrants, sortants;
 
 
 	/**
@@ -24,8 +25,8 @@ public class ChaineDeProduction {
 		this.code = code;
 		this.nom = nom;
 		this.setNiveau(1);
-		this.entrants = new ArrayList<Element>();
-		this.sortants = new ArrayList<Element>();
+		this.entrants = new HashMap<String,Element>();
+		this.sortants = new HashMap<String,Element>();
 	}
 
 	/**
@@ -64,7 +65,7 @@ public class ChaineDeProduction {
 	 * Retourne la liste des {@link Element} entrants
 	 * @return entrants
 	 */
-	public ArrayList<Element> getEntrants() {
+	public HashMap<String,Element> getEntrants() {
 		return entrants;
 	}
 
@@ -72,7 +73,7 @@ public class ChaineDeProduction {
 	 * Retourne la liste des {@link Element} sortants
 	 * @return sortants
 	 */
-	public ArrayList<Element> getSortants() {
+	public HashMap<String,Element> getSortants() {
 		return sortants;
 	}
 	
@@ -82,11 +83,11 @@ public class ChaineDeProduction {
 	@Override
 	public String toString() {
 		String ent = "";
-		for (Element element : this.entrants)
-			ent += element.toString()+"\n";
+		for (String key : this.entrants.keySet())
+			ent += this.entrants.get(key).toString()+"\n";
 		String sort = "";
-		for (Element element : this.sortants)
-			sort += element.toString()+"\n";
+		for (String key : this.sortants.keySet())
+			sort += this.sortants.get(key).toString()+"\n";
 		return "Chaine "+this.getNom()+" ("+this.getCode()+"): Niveau "+this.getNiveau()+"\nEntrants:\n"+ent+"Sortants:\n"+sort;
 	}
 

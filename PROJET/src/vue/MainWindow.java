@@ -5,17 +5,24 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.sound.midi.ControllerEventListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
@@ -30,6 +37,8 @@ import modele.Usine;
 public class MainWindow extends JFrame{
 	
 	private ControleurUsine u;
+	private VueListeChaines lC;
+	private VueListeElements lE;
 
 	/**
 	 * 
@@ -62,27 +71,60 @@ public class MainWindow extends JFrame{
 		JPanel pStocks = new JPanel();
 		BorderLayout bLe = new BorderLayout();
 		pStocks.setLayout(bLe);
+		
+		JPanel pTeteStocks=  new JPanel();
+		GridLayout fLTS = new GridLayout(1,3);
+		pTeteStocks.setLayout(fLTS);
 		JLabel lStocks = new JLabel("Stocks");
-		lStocks.setBackground(new Color(224, 224, 224));
-		lStocks.setOpaque(true);
-		lStocks.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		pTeteStocks.setBackground(new Color(224, 224, 224));
+		pTeteStocks.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		lStocks.setFont(new Font(getName(), Font.BOLD, 18));
-		pStocks.add(lStocks,BorderLayout.NORTH);
-		VueListeElements lE = new VueListeElements(u.getStocks());
+		pTeteStocks.add(lStocks);
+		JPanel pFillS = new JPanel();
+		pFillS.setBackground(new Color(224, 224, 224));
+		pTeteStocks.add(pFillS);
+		JButton bAddStock = new JButton("Ajouter");
+		bAddStock.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFrame frame = new JFrame();
+				VueElement vAddE = new VueElement(null);
+				frame.add(vAddE);
+				frame.setResizable(false);
+				frame.pack();
+				frame.show();
+				System.out.println("lol");
+			}
+		});
+		pTeteStocks.add(bAddStock);
+		pStocks.add(pTeteStocks,BorderLayout.NORTH);
+		
+		lE = new VueListeElements(u.getStocks());
 		pStocks.add(lE,BorderLayout.CENTER);
 		pContenu.add(pStocks);
 		
 		//Liste des Chaines de production
 		JPanel pChaines = new JPanel();
-		VueListeChaines lC = new VueListeChaines(u.getChaines());
 		BorderLayout bLc = new BorderLayout();
 		pChaines.setLayout(bLc);
+		
+		JPanel pTeteChaines = new JPanel();
+		GridLayout fLTC = new GridLayout(1,3);
+		pTeteChaines.setLayout(fLTC);
 		JLabel lChaines = new JLabel("Chaines de production");
-		lChaines.setBackground(new Color(224, 224, 224));
-		lChaines.setOpaque(true);
-		lChaines.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		pTeteChaines.setBackground(new Color(224, 224, 224));
+		pTeteChaines.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		lChaines.setFont(new Font(getName(), Font.BOLD, 18));
-		pChaines.add(lChaines,BorderLayout.NORTH);
+		pTeteChaines.add(lChaines);
+		JPanel pFillC = new JPanel();
+		pFillC.setBackground(new Color(224, 224, 224));
+		pTeteChaines.add(pFillC);
+		JButton bAddChaine = new JButton("Ajouter");
+		pTeteChaines.add(bAddChaine);
+		pChaines.add(pTeteChaines,BorderLayout.NORTH);
+		
+		lC = new VueListeChaines(u.getChaines());
 		pChaines.add(lC,BorderLayout.CENTER);
 		pContenu.add(pChaines);
 		
@@ -108,7 +150,36 @@ public class MainWindow extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Options");
 		JMenuItem jmi1 = new JMenuItem("Charger CSV");
+		jmi1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int choix = JOptionPane.showConfirmDialog(null, "Charger un CSV va écraser les données actuelles.\nVoulez-vous continuer?","Charger CSV", JOptionPane.YES_NO_OPTION);
+				if(choix==JOptionPane.YES_OPTION) {
+					System.out.println(u.toString());
+					u.chargerCSV();
+					System.out.println(u.toString());
+					lC = new VueListeChaines(u.getChaines());
+					lC.revalidate();
+					lC.repaint();
+					
+					lE = new VueListeElements(u.getStocks());
+					lE.revalidate();
+					lE.repaint();
+				}
+			}
+		});
 		JMenuItem jmi2 = new JMenuItem("Sauvegarder CSV");
+		jmi2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int choix = JOptionPane.showConfirmDialog(null, "Sauvegarder le CSV va écraser le fichier précédent.\nVoulez-vous continuer?","Sauvegarder CSV",JOptionPane.YES_NO_OPTION);
+				if(choix==JOptionPane.YES_OPTION) {
+					u.saveCSV();
+				}
+			}
+		});
 		menu.add(jmi1);
 		menu.addSeparator();
 		menu.add(jmi2);
@@ -122,5 +193,6 @@ public class MainWindow extends JFrame{
 	    setResizable(false);
 	    this.pack();
 	}
+	
 
 }

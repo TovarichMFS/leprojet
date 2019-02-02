@@ -163,10 +163,12 @@ public class ControleurUsine {
 		}
 		double montant = 0;
 		for (ChaineDeProduction c : this.getChaines()) {
-			for (Element e : c.getEntrants()) {
+			for (String key : c.getEntrants().keySet()) {
+				Element e = c.getEntrants().get(key);
 				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
 			}
-			for (Element s : c.getSortants()) {
+			for (String key : c.getSortants().keySet()) {
+				Element s = c.getSortants().get(key);
 				cpStocks.get(s.getCode()).setQuantite(cpStocks.get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()));
 			}
 		}
@@ -226,7 +228,6 @@ public class ControleurUsine {
 				}else {
 					e = new Produit(code, nom, achat, quantite, unite, vente);
 				}
-				System.out.println(e.toString());
 				this.addStock(e);
 			}
 		} catch (IOException e) {

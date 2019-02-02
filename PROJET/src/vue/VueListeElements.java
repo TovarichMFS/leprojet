@@ -4,6 +4,8 @@
 package vue;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.BoxLayout;
@@ -81,7 +83,19 @@ public class VueListeElements extends JPanel{
 				blocElement.add(tfQuantite);
 				blocElement.add(tfAchat);
 				blocElement.add(tfVente);
-				JButton bDetails = new JButton("Détails");
+				JButton bDetails = new JButton(">");
+				bDetails.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JFrame frame = new JFrame();
+						VueElement ve = new VueElement(listeE.get(key));
+						frame.add(ve);
+						frame.setResizable(false);
+						frame.pack();
+						frame.show();
+					}
+				});
 				blocElement.add(bDetails);
 				this.add(blocElement);
 			}

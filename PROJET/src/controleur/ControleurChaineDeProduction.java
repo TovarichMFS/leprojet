@@ -3,7 +3,7 @@
  */
 package controleur;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import modele.ChaineDeProduction;
 import modele.Element;
@@ -61,9 +61,9 @@ public class ControleurChaineDeProduction {
 	 * @return Element
 	 */
 	public Element getEntrant(String code) {
-		for (Element e : this.getEntrants()) {
-			if(code.equals(e.getCode())) {
-				return e;
+		for (String key : this.getEntrants().keySet()) {
+			if(code.equals(this.getEntrants().get(key).getCode())) {
+				return this.getEntrant(key);
 			}
 		}
 		return null;
@@ -74,14 +74,14 @@ public class ControleurChaineDeProduction {
 	 * @param e
 	 */
 	public void addEntrant(Element e) {
-		this.c.getEntrants().add(e);
+		this.c.getEntrants().put(e.getCode(),e);
 	}
 	
 	/**
 	 * Retourne la liste des entrants de la ChaineDeProduction c
 	 * @return ArrayList<Element>
 	 */
-	public ArrayList<Element> getEntrants(){
+	public HashMap<String, Element> getEntrants(){
 		return this.c.getEntrants();
 	}
 	
@@ -99,9 +99,9 @@ public class ControleurChaineDeProduction {
 	 * @return Element
 	 */
 	public Element getSortant(String code) {
-		for (Element e : this.getSortants()) {
-			if(code.equals(e.getCode())) {
-				return e;
+		for (String key : this.getSortants().keySet()) {
+			if(code.equals(this.getSortants().get(key).getCode())) {
+				return this.getSortant(key);
 			}
 		}
 		return null;
@@ -112,14 +112,14 @@ public class ControleurChaineDeProduction {
 	 * @param e
 	 */
 	public void addSortant(Element e) {
-		this.c.getSortants().add(e);
+		this.c.getSortants().put(e.getCode(),e);
 	}
 	
 	/**
 	 * Retourne la liste des sortants de la ChaineDeProduction c
 	 * @return ArrayList<Element>
 	 */
-	public ArrayList<Element> getSortants(){
+	public HashMap<String, Element> getSortants(){
 		return this.c.getSortants();
 	}
 	
