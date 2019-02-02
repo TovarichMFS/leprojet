@@ -5,16 +5,22 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EtchedBorder;
 
@@ -25,92 +31,170 @@ import modele.ChaineDeProduction;
  * @author tovarich
  *
  */
-public class VueChaine extends JPanel {
+public class VueChaine extends JFrame {
 	private ControleurChaineDeProduction cC;
 
 	/**
 	 * 
 	 */
 	public VueChaine(ChaineDeProduction c) {
+		super();
+		JPanel fenetre = new JPanel();
+		this.add(fenetre);
 		this.cC = new ControleurChaineDeProduction(c);
 		BorderLayout bL = new BorderLayout();
-		this.setLayout(bL);
+		fenetre.setLayout(bL);
 		JPanel pTete = new JPanel();
 		GridLayout gLt = new GridLayout(2, 1);
 		pTete.setLayout(gLt);
 		pTete.setBackground(new Color(204, 229, 255));
 		pTete.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
+		JLabel lTitre;
+		if(c!=null)
+			lTitre = new JLabel("Chaine de Production");
+		else
+			lTitre = new JLabel("AJouter une Chaine de Production");
+		lTitre.setFont(new Font(getName(), Font.BOLD, 20));
+		pTete.add(lTitre);
+		
 		JPanel pSTete = new JPanel();
 		pSTete.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		GridLayout gLst = new GridLayout(1, 3);
+		GridLayout gLst = new GridLayout(2, 3);
 		pSTete.setLayout(gLst);
 		pSTete.setBackground(new Color(204, 229, 255));
-		JLabel lTitre = new JLabel("Chaine de Production\n");
-		lTitre.setFont(new Font(getName(), Font.BOLD, 20));
-		JLabel lCode = new JLabel(this.cC.getCode());
-		JLabel lNom = new JLabel(this.cC.getNom());
-		
-		JPanel pNiveau = new JPanel();
-		GridLayout gLn = new GridLayout(1, 2);
-		pNiveau.setLayout(gLn);
-		JLabel lNiveau = new JLabel("Niveau: ");
-		SpinnerNumberModel sNM = new SpinnerNumberModel(this.cC.getNiveau(), 0, 99, 1);
-		JSpinner sNiveau = new JSpinner(sNM);
-		pNiveau.add(lNiveau);
-		pNiveau.add(sNiveau);
+
+		JLabel lCode = new JLabel("Code");
+		lCode.setFont(new Font(getName(), Font.BOLD, 12));
+		JLabel lNom = new JLabel("Nom");
+		lNom.setFont(new Font(getName(), Font.BOLD, 12));
+		JLabel lNiveau = new JLabel("Niveau");
+		lNiveau.setFont(new Font(getName(), Font.BOLD, 12));
 		pSTete.add(lCode);
 		pSTete.add(lNom);
-		pSTete.add(pNiveau);
-		pTete.add(lTitre);
+		pSTete.add(lNiveau);
+		
+		Component cCode;
+		JTextField tNom = new JTextField(12);
+		SpinnerNumberModel sNM = new SpinnerNumberModel(0, 0, 99, 1);
+		if(c!=null) {
+			cCode = new JLabel(this.cC.getCode());
+			tNom.setText(this.cC.getNom());
+			sNM.setValue(this.cC.getNiveau());
+		}else
+			cCode = new JTextField(6);
+		JSpinner sNiveau = new JSpinner(sNM);
+		pSTete.add(cCode);
+		pSTete.add(tNom);
+		pSTete.add(sNiveau);
+		
 		pTete.add(pSTete);
-		this.add(pTete, BorderLayout.NORTH);
+		fenetre.add(pTete, BorderLayout.NORTH);
 		
 		JPanel pContenu = new JPanel();
 		pContenu.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		GridLayout gLc = new GridLayout(3,1);
 		pContenu.setLayout(gLc);
 		
+		VueListeElements listeE;
+		VueListeElements listeS;
+		if(c!=null) {
+			listeE = new VueListeElements(this.cC.getEntrants());
+			listeS = new VueListeElements(this.cC.getSortants());
+		}else {
+			listeE = new VueListeElements(new HashMap<>());
+			listeS = new VueListeElements(new HashMap<>());
+		}
+		
 		JPanel pEntrants = new JPanel();
 		BorderLayout bLe = new BorderLayout();
 		pEntrants.setLayout(bLe);
+		JPanel pTeteEntr = new JPanel();
+		GridLayout gLte = new GridLayout(1, 3);
+		pTeteEntr.setLayout(gLte);
+		pTeteEntr.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		JLabel lEntrants = new JLabel("Eléments entrants");
 		lEntrants.setBackground(new Color(224, 224, 224));
 		lEntrants.setOpaque(true);
-		lEntrants.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		lEntrants.setFont(new Font(getName(), Font.BOLD, 18));
-		pEntrants.add(lEntrants,BorderLayout.NORTH);
-		VueListeElements listeE = new VueListeElements(this.cC.getEntrants());
+		pTeteEntr.add(lEntrants);
+		JPanel pFillE = new JPanel();
+		pFillE.setBackground(new Color(224, 224, 224));
+		pTeteEntr.add(pFillE);
+		JButton bAddEntrant = new JButton("Ajouter");
+		bAddEntrant.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VueElement vAddE = new VueElement(null);
+				vAddE.show();	
+			}
+		});
+		pTeteEntr.add(bAddEntrant);
+		pEntrants.add(pTeteEntr,BorderLayout.NORTH);
 		pEntrants.add(listeE,BorderLayout.CENTER);
 		
 		JPanel pSortants = new JPanel();
 		BorderLayout bLs = new BorderLayout();
 		pSortants.setLayout(bLs);
+		JPanel pTeteSort = new JPanel();
+		GridLayout gLts = new GridLayout(1, 3);
+		pTeteSort.setLayout(gLts);
+		pTeteSort.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		JLabel lSortants = new JLabel("Eléments sortants");
 		lSortants.setBackground(new Color(224, 224, 224));
 		lSortants.setOpaque(true);
-		lSortants.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		lSortants.setFont(new Font(getName(), Font.BOLD, 18));
-		pSortants.add(lSortants,BorderLayout.NORTH);
-		VueListeElements listeS = new VueListeElements(this.cC.getSortants());
+		pTeteSort.add(lSortants);
+		JPanel pFillS = new JPanel();
+		pFillS.setBackground(new Color(224, 224, 224));
+		pTeteSort.add(pFillS);
+		JButton bAddSortant = new JButton("Ajouter");
+		bAddSortant.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VueElement vAddE = new VueElement(null);
+				vAddE.show();	
+			}
+		});
+		pTeteSort.add(bAddSortant);
+		pSortants.add(pTeteSort,BorderLayout.NORTH);
 		pSortants.add(listeS,BorderLayout.CENTER);
 		
 		pContenu.add(pEntrants);
 		pContenu.add(pSortants);
 		
-		this.add(pContenu, BorderLayout.CENTER);
+		fenetre.add(pContenu, BorderLayout.CENTER);
 		
 		JPanel pBoutons = new JPanel();
 		FlowLayout fLb = new FlowLayout();
 		pBoutons.setLayout(fLb);
+		if(c!=null) {
+			JButton bModif = new JButton("Modifier");
+			JButton bSuppr = new JButton("Supprimer");
+			pBoutons.add(bModif);
+			pBoutons.add(bSuppr);
+		}else {
+			JButton bAJout = new JButton("Ajouter");
+			pBoutons.add(bAJout);
+		}
 		JButton bAnnuler = new JButton("Annuler");
-		JButton bModif = new JButton("Modifier");
-		JButton bSuppr = new JButton("Supprimer");
-		pBoutons.add(bAnnuler);
-		pBoutons.add(bModif);
-		pBoutons.add(bSuppr);
+		bAnnuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+				
+			}
+		});
 		
-		this.add(pBoutons, BorderLayout.SOUTH);
+		pBoutons.add(bAnnuler);
+		
+		fenetre.add(pBoutons, BorderLayout.SOUTH);
+		this.setResizable(false);
+		this.pack();
 	}
 
 }

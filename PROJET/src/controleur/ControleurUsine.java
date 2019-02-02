@@ -201,6 +201,7 @@ public class ControleurUsine {
 	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u
 	 */
 	public void chargerCSV() {
+		this.u = new Usine(u.getNom());
 		Path pE = Paths.get("elements.csv");
 		try {
 			ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
@@ -328,15 +329,19 @@ public class ControleurUsine {
 		}
 		for (ChaineDeProduction c : this.getChaines()) {
 			String entree = c.getCode()+";"+c.getNom()+";";
-			for (int i=0;i<c.getEntrants().size();i++) {
-				entree += "("+c.getEntrants().get(i).getCode()+","+c.getEntrants().get(i).getQuantite()+")";
+			int i = 0;
+			for (String key : c.getEntrants().keySet()) {
+				entree += "("+c.getEntrants().get(key).getCode()+","+c.getEntrants().get(key).getQuantite()+")";
+				i++;
 				if(i<c.getEntrants().size()-1)
 					entree+=",";
 				else
 					entree+=";";
 			}
-			for (int i=0;i<c.getSortants().size();i++) {
-				entree += "("+c.getSortants().get(i).getCode()+","+c.getSortants().get(i).getQuantite()+")";
+			i = 0;
+			for (String key : c.getSortants().keySet()) {
+				entree += "("+c.getSortants().get(key).getCode()+","+c.getSortants().get(key).getQuantite()+")";
+				i++;
 				if(i<c.getSortants().size()-1)
 					entree+=",";
 				else

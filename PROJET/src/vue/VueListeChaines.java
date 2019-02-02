@@ -57,12 +57,10 @@ public class VueListeChaines extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JFrame frame = new JFrame();
 						VueChaine vc = new VueChaine(c);
-						frame.add(vc);
-						frame.setResizable(false);
-						frame.pack();
-						frame.show();
+						vc.setResizable(false);
+						vc.pack();
+						vc.show();
 						
 					}
 				});

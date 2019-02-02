@@ -29,6 +29,7 @@ import javax.swing.border.EtchedBorder;
 
 import controleur.ControleurUsine;
 import modele.Usine;
+import others.CalculException;
 
 /**
  * @author tovarich
@@ -47,7 +48,7 @@ public class MainWindow extends JFrame{
 		//Initialisation Controleur
 		super("");
 		this.u = new ControleurUsine(new Usine(""));
-		u.chargerCSV();
+		//u.chargerCSV();
 		
 		//Création fenêtre principale
 		JPanel fenetre = new JPanel();
@@ -88,13 +89,8 @@ public class MainWindow extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JFrame frame = new JFrame();
 				VueElement vAddE = new VueElement(null);
-				frame.add(vAddE);
-				frame.setResizable(false);
-				frame.pack();
-				frame.show();
-				System.out.println("lol");
+				vAddE.show();
 			}
 		});
 		pTeteStocks.add(bAddStock);
@@ -121,6 +117,14 @@ public class MainWindow extends JFrame{
 		pFillC.setBackground(new Color(224, 224, 224));
 		pTeteChaines.add(pFillC);
 		JButton bAddChaine = new JButton("Ajouter");
+		bAddChaine.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VueChaine vAddC = new VueChaine(null);
+				vAddC.show();	
+			}
+		});
 		pTeteChaines.add(bAddChaine);
 		pChaines.add(pTeteChaines,BorderLayout.NORTH);
 		
@@ -146,6 +150,29 @@ public class MainWindow extends JFrame{
 		
 		fenetre.add(pContenu,BorderLayout.CENTER);
 		
+		//Production
+		JPanel pBas = new JPanel();
+		pBas.setBackground(new Color(224, 224, 224));
+		pBas.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		JButton bProd = new JButton("Calculer Production");
+		bProd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					double res = u.calculerProduction();
+					JOptionPane.showMessageDialog(null, "La production aura un coût estimé à "+res+" €", "Production", JOptionPane.INFORMATION_MESSAGE);
+				} catch (CalculException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
+				} catch (CloneNotSupportedException e1) {
+					JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		pBas.add(bProd);
+		fenetre.add(pBas, BorderLayout.SOUTH);
+		
 		//Menu
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("Options");
@@ -156,16 +183,20 @@ public class MainWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int choix = JOptionPane.showConfirmDialog(null, "Charger un CSV va écraser les données actuelles.\nVoulez-vous continuer?","Charger CSV", JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
-					System.out.println(u.toString());
 					u.chargerCSV();
-					System.out.println(u.toString());
+					pChaines.remove(lC);
 					lC = new VueListeChaines(u.getChaines());
 					lC.revalidate();
 					lC.repaint();
+					pChaines.add(lC,BorderLayout.CENTER);
 					
+					pStocks.remove(lE);
 					lE = new VueListeElements(u.getStocks());
 					lE.revalidate();
 					lE.repaint();
+					pStocks.add(lE,BorderLayout.CENTER);
+					
+					pack();
 				}
 			}
 		});
@@ -177,6 +208,7 @@ public class MainWindow extends JFrame{
 				int choix = JOptionPane.showConfirmDialog(null, "Sauvegarder le CSV va écraser le fichier précédent.\nVoulez-vous continuer?","Sauvegarder CSV",JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
 					u.saveCSV();
+					JOptionPane.showMessageDialog(null, "Sauvegarde effectuée", "Sauvegarde CSV", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});

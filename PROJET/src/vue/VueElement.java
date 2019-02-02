@@ -5,13 +5,17 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -26,7 +30,7 @@ import modele.Element;
  * @author tovarich
  *
  */
-public class VueElement extends JPanel {
+public class VueElement extends JFrame {
 
 	private ControleurElement cE;
 	
@@ -34,9 +38,12 @@ public class VueElement extends JPanel {
 	 * 
 	 */
 	public VueElement(Element e) {
+		super();
+		JPanel fenetre = new JPanel();
+		this.add(fenetre);
 		this.cE = new ControleurElement(e);
 		BorderLayout bL = new BorderLayout();
-		this.setLayout(bL);
+		fenetre.setLayout(bL);
 		JLabel lTete = new JLabel();
 		if(e!=null) {
 			lTete.setText("Elément "+this.cE.getCode());
@@ -47,7 +54,7 @@ public class VueElement extends JPanel {
 		lTete.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		lTete.setBackground(new Color(204, 229, 255));
 		lTete.setOpaque(true);
-		this.add(lTete, BorderLayout.NORTH);
+		fenetre.add(lTete, BorderLayout.NORTH);
 		
 		JPanel pContenu = new JPanel();
 		pContenu.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
@@ -59,7 +66,7 @@ public class VueElement extends JPanel {
 		FlowLayout fLn = new FlowLayout();
 		pNom.setLayout(fLn);
 		JLabel lNom = new JLabel("Nom:");
-		JTextField tNom = new JTextField("");
+		JTextField tNom = new JTextField(10);
 		if(e!=null)
 			tNom.setText(this.cE.getNom());
 		pNom.add(lNom);
@@ -71,11 +78,13 @@ public class VueElement extends JPanel {
 		FlowLayout fLq = new FlowLayout();
 		pNom.setLayout(fLq);
 		JLabel lQuantite = new JLabel("Quantité:");
-		JTextField tQuantite = new JTextField(0);
-		JLabel lUnite = new JLabel("");
+		JTextField tQuantite = new JTextField(5);
+		Component lUnite;
 		if(e!=null) {
 			tQuantite.setText(this.cE.getQuantite()+"");
-			lUnite.setText(this.cE.getUnite());
+			lUnite = new JLabel(this.cE.getUnite());
+		}else {
+			lUnite = new JTextField(10);
 		}
 		pQuantite.add(lQuantite);
 		pQuantite.add(tQuantite);
@@ -87,10 +96,10 @@ public class VueElement extends JPanel {
 		FlowLayout fLp = new FlowLayout();
 		pNom.setLayout(fLp);
 		JLabel lAchat = new JLabel("Prix d'achat:");
-		JTextField tAchat = new JTextField(0);
+		JTextField tAchat = new JTextField("0",4);
 		JLabel lEuro = new JLabel("€");
 		JLabel lVente = new JLabel("Prix de vente:");
-		JTextField tVente = new JTextField(0);
+		JTextField tVente = new JTextField("0",4);
 		if(e!=null) {
 			tAchat.setText(this.cE.getPrixAchat()+"");
 			tVente.setText(this.cE.getPrixVente()+"");
@@ -103,22 +112,35 @@ public class VueElement extends JPanel {
 		pPrix.add(lEuro);
 		pContenu.add(pPrix);
 		
-		this.add(pContenu, BorderLayout.CENTER);
+		fenetre.add(pContenu, BorderLayout.CENTER);
 		
 		JPanel pBoutons = new JPanel();
 		FlowLayout fLb = new FlowLayout();
 		pBoutons.setLayout(fLb);
 		JButton bAnnuler = new JButton("Annuler");
+		bAnnuler.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+				
+			}
+		});
 		if(e!=null) {
 			JButton bModif = new JButton("Modifier");
 			JButton bSuppr = new JButton("Supprimer");
 			pBoutons.add(bModif);
 			pBoutons.add(bSuppr);
+		}else {
+			JButton bAjout = new JButton("Ajouter");
+			pBoutons.add(bAjout);
 		}
 		pBoutons.add(bAnnuler);
 		
-		this.add(pBoutons, BorderLayout.SOUTH);
-		System.out.println("oui");
+		fenetre.add(pBoutons, BorderLayout.SOUTH);
+		this.setResizable(false);
+		this.pack();
 		
 	}
 

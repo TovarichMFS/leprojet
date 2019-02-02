@@ -88,12 +88,8 @@ public class VueListeElements extends JPanel{
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JFrame frame = new JFrame();
 						VueElement ve = new VueElement(listeE.get(key));
-						frame.add(ve);
-						frame.setResizable(false);
-						frame.pack();
-						frame.show();
+						ve.show();
 					}
 				});
 				blocElement.add(bDetails);
