@@ -142,6 +142,14 @@ public abstract class Element implements Cloneable{
 		return nom;
 	}
 	
+	/**
+	 * Modifie le nom de l'Element
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	
 	 /* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */

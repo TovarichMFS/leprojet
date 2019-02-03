@@ -33,6 +33,14 @@ public class Usine {
 	public String getNom() {
 		return nom;
 	}
+	
+	/**
+	 * Modifie le nom de l'usine
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 
 	/**
 	 * Retourne la liste des {@link ChaineDeProduction} de l'Usine

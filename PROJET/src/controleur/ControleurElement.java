@@ -38,6 +38,14 @@ public class ControleurElement {
 	}
 	
 	/**
+	 * Modifie le nom d'un élément
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.e.setNom(nom);
+	}
+	
+	/**
 	 * Retourne la quantite d'un élément
 	 * @return double quantite
 	 */

@@ -40,6 +40,14 @@ public class ControleurChaineDeProduction {
 	}
 	
 	/**
+	 * Change le nom de la ChaineDeProduction c
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.c.setNom(nom);
+	}
+	
+	/**
 	 * Retourne le niveau de la ChaineDeProduction c
 	 * @return int
 	 */

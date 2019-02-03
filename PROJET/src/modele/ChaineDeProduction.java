@@ -44,6 +44,14 @@ public class ChaineDeProduction {
 	public String getNom() {
 		return nom;
 	}
+	
+	/**
+	 * Modifie le nom de la ChaineDeProduction
+	 * @param nom
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 
 	/**
 	 * Retourne le niveau de la ChaineDeProduction

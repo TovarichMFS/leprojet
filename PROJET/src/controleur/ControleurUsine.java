@@ -34,6 +34,22 @@ public class ControleurUsine {
 	}
 	
 	/**
+	 * Retourne le nom de l'Usine u
+	 * @return String
+	 */
+	public String getNom(){
+		return this.u.getNom();
+	}
+	
+	/**
+	 * Modifie le nom de l'Usine u
+	 * @param nom
+	 */
+	public void setNom(String nom){
+		this.u.setNom(nom);
+	}
+	
+	/**
 	 * Ajoute un Element e dans le stock de l'Usine u
 	 * @param e
 	 */
