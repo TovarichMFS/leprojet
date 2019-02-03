@@ -28,6 +28,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
 import controleur.ControleurUsine;
+import modele.ChaineDeProduction;
+import modele.MatierePremiere;
+import modele.Produit;
 import modele.Usine;
 import others.CalculException;
 
@@ -40,6 +43,7 @@ public class MainWindow extends JFrame{
 	private ControleurUsine u;
 	private VueListeChaines lC;
 	private VueListeElements lE;
+	private VueListeElements lA;
 
 	/**
 	 * 
@@ -49,6 +53,13 @@ public class MainWindow extends JFrame{
 		super("");
 		this.u = new ControleurUsine(new Usine(""));
 		//u.chargerCSV();
+//		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
+//		u.addStock(new Produit("AB", "AH", 0, "kg",10));
+//		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
+//		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg"));
+//		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10));
+//		c.setNiveau(2);
+//		u.addChaine(c);
 		
 		//Création fenêtre principale
 		JPanel fenetre = new JPanel();
@@ -136,7 +147,7 @@ public class MainWindow extends JFrame{
 		
 		//Liste d'achats
 		JPanel pAchats = new JPanel();
-		VueListeElements lA = new VueListeElements(u.getListeAchats());
+		lA = new VueListeElements(u.getListeAchats());
 		BorderLayout bLa = new BorderLayout();
 		pAchats.setLayout(bLa);
 		JLabel lAchats = new JLabel("Liste d'Achats");
@@ -161,7 +172,13 @@ public class MainWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					double res = u.calculerProduction();
-					JOptionPane.showMessageDialog(null, "La production aura un coût estimé à "+res+" €", "Production", JOptionPane.INFORMATION_MESSAGE);
+					pAchats.remove(lA);
+					lA = new VueListeElements(u.getListeAchats());
+					lA.revalidate();
+					lA.repaint();
+					pAchats.add(lA,BorderLayout.CENTER);
+					pack();
+					JOptionPane.showMessageDialog(null, "La production aura un coût estimé à "+res+" €\nLa liste des achats a été mise à jour.", "Production", JOptionPane.INFORMATION_MESSAGE);
 				} catch (CalculException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
 				} catch (CloneNotSupportedException e1) {
