@@ -4,10 +4,12 @@ abstract class Element {
 -String code
 -String nom
 -double quantite
--String uniteQuantite
+-String unite
 -double prixAchat
 -double prixVente
 +String getCode()
++String getNom()
++setNom(String nom)
 +double getQuantite()
 +setQuantite(double quantite)
 +String getUniteQuantite()
@@ -15,6 +17,7 @@ abstract class Element {
 +double getPrixVente()
 +setPrixAchat(double achat)
 +setPrixVente(double vente)
++Element clone()
 }
 
 Produit : +String toString()
@@ -26,8 +29,10 @@ class ChaineDeProduction {
 -String nom
 -int niveau
 +String getCode()
++String getNom()
++setNom(String nom)
 +int getNiveau()
-+setNiveau()
++setNiveau(int niveau)
 +Element[] getEntrants()
 +Element[] getSortants()
 +String toString()
@@ -35,21 +40,22 @@ class ChaineDeProduction {
 
 class Usine {
 -String nom
++String getNom()
++setNom(String nom)
 +ChaineDeProduction[] getChaines()
 +Element[] getStocks()
 +Element[] getListeAchats()
++setListeAchats(HashMap<String,Element> listeAchats)
 +String toString()
 }
 
 }
 
 package Controleur {
-class Routeur {
-+execute()
-}
 
-class ControllerElement {
+class ControleurElement {
 +String getCode()
++String getNom()
 +double getQuantite()
 +modifierQuantite(double quantite)
 +boolean enStock(int quantite)
@@ -60,8 +66,10 @@ class ControllerElement {
 +setPrixVente(double vente)
 }
 
-class ControllerChaineDeProduction {
+class ControleurChaineDeProduction {
 +String getCode()
++String getNom()
++setNom(String nom)
 +int getNiveau()
 +changerNiveau()
 +Element[] getEntrants()
@@ -75,8 +83,9 @@ class ControllerChaineDeProduction {
 +String toString()
 }
 
-class ControllerUsine {
+class ControleurUsine {
 +String getNom()
++setNom(String nom)
 +addStock(Element e)
 +Element[] getStocks()
 +Element getStock(String code)
@@ -97,13 +106,12 @@ class Vues {
 
 }
 
-Vues -down- Routeur
-Routeur -down- ControllerElement
-Routeur -down- ControllerChaineDeProduction
-Routeur -down- ControllerUsine
-Element -up- ControllerElement
-ChaineDeProduction -up- ControllerChaineDeProduction
-Usine -up- ControllerUsine
+Vues -down- ControleurElement
+Vues -down- ControleurChaineDeProduction
+Vues -down- ControleurUsine
+Element -up- ControleurElement
+ChaineDeProduction -up- ControleurChaineDeProduction
+Usine -up- ControleurUsine
 Usine -right- "*" ChaineDeProduction
 Usine -down- "*" Element
 ChaineDeProduction -down- "*" Element
