@@ -34,6 +34,7 @@ import modele.ChaineDeProduction;
  */
 public class VueChaine extends JFrame {
 	private ControleurChaineDeProduction cC;
+	private VueListeElements listeE, listeS;
 
 	/**
 	 * 
@@ -97,8 +98,6 @@ public class VueChaine extends JFrame {
 		GridLayout gLc = new GridLayout(3,1);
 		pContenu.setLayout(gLc);
 		
-		VueListeElements listeE;
-		VueListeElements listeS;
 		if(c!=null) {
 			listeE = new VueListeElementsChaine(this.cC.getEntrants(),cC,1);
 			listeS = new VueListeElementsChaine(this.cC.getSortants(),cC,2);
@@ -192,6 +191,34 @@ public class VueChaine extends JFrame {
 		});
 		
 		pBoutons.add(bAnnuler);
+		
+		JButton bActualiser = new JButton("Actualiser");
+		bActualiser.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pEntrants.remove(listeE);
+				pSortants.remove(listeS);
+				if(c!=null) {
+					listeE = new VueListeElementsChaine(cC.getEntrants(),cC,1);
+					listeS = new VueListeElementsChaine(cC.getSortants(),cC,2);
+				}else {
+					listeE = new VueListeElementsChaine(new HashMap<>(),cC,1);
+					listeS = new VueListeElementsChaine(new HashMap<>(),cC,2);
+				}
+				listeE.revalidate();
+				listeE.repaint();
+				listeS.revalidate();
+				listeS.repaint();
+				pEntrants.add(listeE);
+				pSortants.add(listeS);
+				pack();
+				
+				
+			}
+		});
+		
+		pBoutons.add(bActualiser);
 		
 		fenetre.add(pBoutons, BorderLayout.SOUTH);
 		this.setResizable(false);

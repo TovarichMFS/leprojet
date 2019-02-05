@@ -112,5 +112,13 @@ public class ControleurElement {
 	public void setPrixVente(double prix) {
 		this.e.setPrixVente(prix);
 	}
+	
+	/**
+	 * Retourne l'élément
+	 * @return double prixVente
+	 */
+	public Element getElement() {
+		return this.e;
+	}
 
 }

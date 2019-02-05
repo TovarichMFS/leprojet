@@ -75,6 +75,42 @@ public class VueElementChaine extends VueElement {
 				}
 			}
 		});
+this.bModif.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				int choix = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment modifier cet élément?","Modifier élément",JOptionPane.YES_NO_OPTION);
+				if(choix==JOptionPane.YES_OPTION) {
+					String nom = tNom.getText();
+					double quantite,achat,vente;
+					try {
+						quantite = Double.parseDouble(tQuantite.getText());
+						achat = Double.parseDouble(tAchat.getText());
+						vente = Double.parseDouble(tVente.getText());
+					}catch(NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur modification", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					if(nom!="" && quantite>=0 && achat>=0 && vente>=0) {
+						Element nE;
+						if(achat !=0 && vente==0) {
+							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite());
+						}else {
+							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente);
+						}
+						if(option==1)
+							c.addEntrant(nE);
+						else
+							c.addSortant(nE);
+						JOptionPane.showMessageDialog(null, "Elément modifié!", "Elément modifié", JOptionPane.INFORMATION_MESSAGE);
+						setVisible(false);
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur ajout", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			}
+		});
 	}
 
 }

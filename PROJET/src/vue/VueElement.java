@@ -37,7 +37,7 @@ import modele.Produit;
 public abstract class VueElement extends JFrame {
 
 	protected ControleurElement cE;
-	protected JButton bAjout, bSuppr;
+	protected JButton bAjout, bSuppr,bModif;
 	protected JTextField tCode,tNom,tQuantite,tUnite,tAchat,tVente;
 	
 	/**
@@ -46,8 +46,8 @@ public abstract class VueElement extends JFrame {
 	public VueElement(Element e) {
 		super();
 		this.bSuppr = new JButton("Supprimer");
-
 		this.bAjout = new JButton("Ajouter");
+		this.bModif = new JButton("Modifier");
 		JPanel fenetre = new JPanel();
 		this.add(fenetre);
 		this.cE = new ControleurElement(e);
@@ -144,7 +144,6 @@ public abstract class VueElement extends JFrame {
 			}
 		});
 		if(e!=null) {
-			JButton bModif = new JButton("Modifier");
 			pBoutons.add(bModif);
 			pBoutons.add(this.bSuppr);
 		}else {

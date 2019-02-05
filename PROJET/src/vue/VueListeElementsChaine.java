@@ -14,7 +14,6 @@ import javax.swing.JTextField;
 
 import controleur.ControleurChaineDeProduction;
 import controleur.ControleurElement;
-import controleur.ControleurUsine;
 import modele.Element;
 
 /**
