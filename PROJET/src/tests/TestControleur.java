@@ -20,6 +20,7 @@ public class TestControleur {
 		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10));
 		c.setNiveau(2);
 		u.addChaine(c);
+		u.rmStock("AA");
 //		u.addAchat(new MatierePremiere("AA", "AH", 12, 1, "kg"));
 //		ControleurUsine u = new ControleurUsine(new Usine("lol"));
 //		u.chargerCSV();

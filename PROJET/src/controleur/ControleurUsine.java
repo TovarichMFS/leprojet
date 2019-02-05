@@ -77,10 +77,10 @@ public class ControleurUsine {
 	
 	/**
 	 * Retire l'Element e du stock de l'Usine u
-	 * @param e
+	 * @param code
 	 */
-	public void rmStock(Element e) {
-		this.getStocks().remove(e);
+	public void rmStock(String code) {
+		this.getStocks().remove(code);
 	}
 	
 	/**

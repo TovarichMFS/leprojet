@@ -25,6 +25,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EtchedBorder;
 
 import controleur.ControleurChaineDeProduction;
+import controleur.ControleurUsine;
 import modele.ChaineDeProduction;
 
 /**
@@ -37,7 +38,7 @@ public class VueChaine extends JFrame {
 	/**
 	 * 
 	 */
-	public VueChaine(ChaineDeProduction c) {
+	public VueChaine(ChaineDeProduction c,ControleurUsine u) {
 		super();
 		JPanel fenetre = new JPanel();
 		this.add(fenetre);
@@ -99,11 +100,11 @@ public class VueChaine extends JFrame {
 		VueListeElements listeE;
 		VueListeElements listeS;
 		if(c!=null) {
-			listeE = new VueListeElements(this.cC.getEntrants());
-			listeS = new VueListeElements(this.cC.getSortants());
+			listeE = new VueListeElementsChaine(this.cC.getEntrants(),cC,1);
+			listeS = new VueListeElementsChaine(this.cC.getSortants(),cC,2);
 		}else {
-			listeE = new VueListeElements(new HashMap<>());
-			listeS = new VueListeElements(new HashMap<>());
+			listeE = new VueListeElementsChaine(new HashMap<>(),cC,1);
+			listeS = new VueListeElementsChaine(new HashMap<>(),cC,2);
 		}
 		
 		JPanel pEntrants = new JPanel();
@@ -126,7 +127,7 @@ public class VueChaine extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueElement vAddE = new VueElement(null);
+				VueElement vAddE = new VueElementChaine(null,cC,1);
 				vAddE.show();	
 			}
 		});
@@ -154,7 +155,7 @@ public class VueChaine extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueElement vAddE = new VueElement(null);
+				VueElement vAddE = new VueElementChaine(null,cC,2);
 				vAddE.show();	
 			}
 		});

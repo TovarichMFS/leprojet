@@ -52,7 +52,7 @@ public class MainWindow extends JFrame{
 		//Initialisation Controleur
 		super("");
 		this.u = new ControleurUsine(new Usine(""));
-		//u.chargerCSV();
+		u.chargerCSV();
 //		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
 //		u.addStock(new Produit("AB", "AH", 0, "kg",10));
 //		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
@@ -100,14 +100,14 @@ public class MainWindow extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				VueElement vAddE = new VueElement(null);
+				VueElement vAddE = new VueElementStock(null,u);
 				vAddE.show();
 			}
 		});
 		pTeteStocks.add(bAddStock);
 		pStocks.add(pTeteStocks,BorderLayout.NORTH);
 		
-		lE = new VueListeElements(u.getStocks());
+		lE = new VueListeElementsUsine(u.getStocks(),u,0);
 		pStocks.add(lE,BorderLayout.CENTER);
 		pContenu.add(pStocks);
 		
@@ -132,14 +132,14 @@ public class MainWindow extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueChaine vAddC = new VueChaine(null);
+				VueChaine vAddC = new VueChaine(null,u);
 				vAddC.show();	
 			}
 		});
 		pTeteChaines.add(bAddChaine);
 		pChaines.add(pTeteChaines,BorderLayout.NORTH);
 		
-		lC = new VueListeChaines(u.getChaines());
+		lC = new VueListeChaines(u.getChaines(),u);
 		pChaines.add(lC,BorderLayout.CENTER);
 		pContenu.add(pChaines);
 		
@@ -147,7 +147,7 @@ public class MainWindow extends JFrame{
 		
 		//Liste d'achats
 		JPanel pAchats = new JPanel();
-		lA = new VueListeElements(u.getListeAchats());
+		lA = new VueListeElementsUsine(u.getListeAchats(),u,3);
 		BorderLayout bLa = new BorderLayout();
 		pAchats.setLayout(bLa);
 		JLabel lAchats = new JLabel("Liste d'Achats");
@@ -163,6 +163,8 @@ public class MainWindow extends JFrame{
 		
 		//Production
 		JPanel pBas = new JPanel();
+		FlowLayout fLb = new FlowLayout();
+		pBas.setLayout(fLb);
 		pBas.setBackground(new Color(224, 224, 224));
 		pBas.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		JButton bProd = new JButton("Calculer Production");
@@ -173,7 +175,7 @@ public class MainWindow extends JFrame{
 				try {
 					double res = u.calculerProduction();
 					pAchats.remove(lA);
-					lA = new VueListeElements(u.getListeAchats());
+					lA = new VueListeElementsUsine(u.getListeAchats(),u,3);
 					lA.revalidate();
 					lA.repaint();
 					pAchats.add(lA,BorderLayout.CENTER);
@@ -188,6 +190,33 @@ public class MainWindow extends JFrame{
 			}
 		});
 		pBas.add(bProd);
+		JButton bActu = new JButton("Actualiser");
+		bActu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pChaines.remove(lC);
+				lC = new VueListeChaines(u.getChaines(),u);
+				lC.revalidate();
+				lC.repaint();
+				pChaines.add(lC,BorderLayout.CENTER);
+				
+				pStocks.remove(lE);
+				lE = new VueListeElementsUsine(u.getStocks(),u,0);
+				lE.revalidate();
+				lE.repaint();
+				pStocks.add(lE,BorderLayout.CENTER);
+				
+				pAchats.remove(lA);
+				lA = new VueListeElementsUsine(u.getListeAchats(),u,3);
+				lA.revalidate();
+				lA.repaint();
+				pAchats.add(lA,BorderLayout.CENTER);
+				pack();
+				
+			}
+		});
+		pBas.add(bActu);
 		fenetre.add(pBas, BorderLayout.SOUTH);
 		
 		//Menu
@@ -202,13 +231,13 @@ public class MainWindow extends JFrame{
 				if(choix==JOptionPane.YES_OPTION) {
 					u.chargerCSV();
 					pChaines.remove(lC);
-					lC = new VueListeChaines(u.getChaines());
+					lC = new VueListeChaines(u.getChaines(),u);
 					lC.revalidate();
 					lC.repaint();
 					pChaines.add(lC,BorderLayout.CENTER);
 					
 					pStocks.remove(lE);
-					lE = new VueListeElements(u.getStocks());
+					lE = new VueListeElementsUsine(u.getStocks(),u,0);
 					lE.revalidate();
 					lE.repaint();
 					pStocks.add(lE,BorderLayout.CENTER);

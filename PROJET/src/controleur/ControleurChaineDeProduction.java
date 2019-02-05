@@ -94,11 +94,11 @@ public class ControleurChaineDeProduction {
 	}
 	
 	/**
-	 * Retire l'Element e de la liste des entrants
-	 * @param e
+	 * Retire l'Element de la liste des entrants
+	 * @param codee
 	 */
-	public void rmEntrant(Element e) {
-		this.c.getEntrants().remove(e);
+	public void rmEntrant(String code) {
+		this.c.getEntrants().remove(code);
 	}
 	
 	/**
@@ -132,11 +132,11 @@ public class ControleurChaineDeProduction {
 	}
 	
 	/**
-	 * Retire l'Element e de la liste des sortants
+	 * Retire l'Element de la liste des sortants
 	 * @param e
 	 */
-	public void rmSortant(Element e) {
-		this.c.getSortants().remove(e);
+	public void rmSortant(String code) {
+		this.c.getSortants().remove(code);
 	}
 	
 	/* (non-Javadoc)

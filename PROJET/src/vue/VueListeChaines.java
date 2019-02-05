@@ -15,12 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controleur.ControleurChaineDeProduction;
+import controleur.ControleurUsine;
 import modele.ChaineDeProduction;
 
 public class VueListeChaines extends JPanel {
 	ArrayList<ChaineDeProduction> listeC;
 
-	public VueListeChaines(ArrayList<ChaineDeProduction> listeC) {
+	public VueListeChaines(ArrayList<ChaineDeProduction> listeC,ControleurUsine u) {
 		this.listeC = listeC;
 		if(this.listeC.isEmpty()) {
 			this.add(new JLabel("La liste est vide!"));
@@ -57,7 +58,7 @@ public class VueListeChaines extends JPanel {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						VueChaine vc = new VueChaine(c);
+						VueChaine vc = new VueChaine(c,u);
 						vc.setResizable(false);
 						vc.pack();
 						vc.show();

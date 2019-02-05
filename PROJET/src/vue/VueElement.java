@@ -17,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -24,21 +25,29 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EtchedBorder;
 
 import controleur.ControleurElement;
+import controleur.ControleurUsine;
 import modele.Element;
+import modele.MatierePremiere;
+import modele.Produit;
 
 /**
  * @author tovarich
  *
  */
-public class VueElement extends JFrame {
+public abstract class VueElement extends JFrame {
 
-	private ControleurElement cE;
+	protected ControleurElement cE;
+	protected JButton bAjout, bSuppr;
+	protected JTextField tCode,tNom,tQuantite,tUnite,tAchat,tVente;
 	
 	/**
 	 * 
 	 */
 	public VueElement(Element e) {
 		super();
+		this.bSuppr = new JButton("Supprimer");
+
+		this.bAjout = new JButton("Ajouter");
 		JPanel fenetre = new JPanel();
 		this.add(fenetre);
 		this.cE = new ControleurElement(e);
@@ -66,9 +75,15 @@ public class VueElement extends JFrame {
 		FlowLayout fLn = new FlowLayout();
 		pNom.setLayout(fLn);
 		JLabel lNom = new JLabel("Nom:");
-		JTextField tNom = new JTextField(10);
+		this.tNom = new JTextField(10);
+		this.tCode = new JTextField(5);
 		if(e!=null)
 			tNom.setText(this.cE.getNom());
+		else {
+			JLabel lCode = new JLabel("Code:");
+			pNom.add(lCode);
+			pNom.add(tCode);
+		}
 		pNom.add(lNom);
 		pNom.add(tNom);
 		pContenu.add(pNom);
@@ -78,13 +93,14 @@ public class VueElement extends JFrame {
 		FlowLayout fLq = new FlowLayout();
 		pNom.setLayout(fLq);
 		JLabel lQuantite = new JLabel("Quantité:");
-		JTextField tQuantite = new JTextField(5);
+		this.tQuantite = new JTextField(5);
 		Component lUnite;
+		this.tUnite = new JTextField(10);
 		if(e!=null) {
 			tQuantite.setText(this.cE.getQuantite()+"");
 			lUnite = new JLabel(this.cE.getUnite());
 		}else {
-			lUnite = new JTextField(10);
+			lUnite = tUnite;
 		}
 		pQuantite.add(lQuantite);
 		pQuantite.add(tQuantite);
@@ -96,10 +112,10 @@ public class VueElement extends JFrame {
 		FlowLayout fLp = new FlowLayout();
 		pNom.setLayout(fLp);
 		JLabel lAchat = new JLabel("Prix d'achat:");
-		JTextField tAchat = new JTextField("0",4);
+		this.tAchat = new JTextField("0",4);
 		JLabel lEuro = new JLabel("€");
 		JLabel lVente = new JLabel("Prix de vente:");
-		JTextField tVente = new JTextField("0",4);
+		this.tVente = new JTextField("0",4);
 		if(e!=null) {
 			tAchat.setText(this.cE.getPrixAchat()+"");
 			tVente.setText(this.cE.getPrixVente()+"");
@@ -129,12 +145,10 @@ public class VueElement extends JFrame {
 		});
 		if(e!=null) {
 			JButton bModif = new JButton("Modifier");
-			JButton bSuppr = new JButton("Supprimer");
 			pBoutons.add(bModif);
-			pBoutons.add(bSuppr);
+			pBoutons.add(this.bSuppr);
 		}else {
-			JButton bAjout = new JButton("Ajouter");
-			pBoutons.add(bAjout);
+			pBoutons.add(this.bAjout);
 		}
 		pBoutons.add(bAnnuler);
 		
