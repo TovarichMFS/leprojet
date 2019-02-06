@@ -16,7 +16,7 @@ public class TestModele {
 		//c.addEntrant(a);
 		//c.addSortants(b);
 		System.out.println(c.toString());
-		Usine u = new Usine("UIO");
+		Usine u = new Usine();
 		//u.addChaine(c);
 		//u.addStock(aa);
 		System.out.println(u.toString());

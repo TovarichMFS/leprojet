@@ -51,8 +51,8 @@ public class MainWindow extends JFrame{
 	public MainWindow() {
 		//Initialisation Controleur
 		super("");
-		this.u = new ControleurUsine(new Usine(""));
-		u.chargerCSV();
+		this.u = new ControleurUsine(new Usine());
+		this.u = new ControleurUsine(u.chargerCSV());
 //		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
 //		u.addStock(new Produit("AB", "AH", 0, "kg",10));
 //		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
@@ -229,7 +229,7 @@ public class MainWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int choix = JOptionPane.showConfirmDialog(null, "Charger un CSV va écraser les données actuelles.\nVoulez-vous continuer?","Charger CSV", JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
-					u.chargerCSV();
+					u = new ControleurUsine(u.chargerCSV());
 					pChaines.remove(lC);
 					lC = new VueListeChaines(u.getChaines(),u);
 					lC.revalidate();
@@ -253,7 +253,7 @@ public class MainWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int choix = JOptionPane.showConfirmDialog(null, "Sauvegarder le CSV va écraser le fichier précédent.\nVoulez-vous continuer?","Sauvegarder CSV",JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
-					u.saveCSV();
+					u.saveCSV(u);
 					JOptionPane.showMessageDialog(null, "Sauvegarde effectuée", "Sauvegarde CSV", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}

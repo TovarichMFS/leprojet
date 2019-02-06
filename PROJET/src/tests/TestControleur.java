@@ -11,7 +11,7 @@ import others.CalculException;
 public class TestControleur {
 
 	public static void main(String[] args) {
-		Usine us = new Usine("lol");
+		Usine us = new Usine();
 		ControleurUsine u = new ControleurUsine(us);
 		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
 		u.addStock(new Produit("AB", "AH", 0, "kg",10));

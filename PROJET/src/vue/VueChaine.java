@@ -18,6 +18,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -27,6 +28,8 @@ import javax.swing.border.EtchedBorder;
 import controleur.ControleurChaineDeProduction;
 import controleur.ControleurUsine;
 import modele.ChaineDeProduction;
+import modele.MatierePremiere;
+import modele.Produit;
 
 /**
  * @author tovarich
@@ -172,7 +175,38 @@ public class VueChaine extends JFrame {
 		pBoutons.setLayout(fLb);
 		if(c!=null) {
 			JButton bModif = new JButton("Modifier");
+			bModif.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int choix = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment modifier cette chaine?","Modifier chaine",JOptionPane.YES_NO_OPTION);
+					if(choix==JOptionPane.YES_OPTION) {
+						String nom = tNom.getText();
+						int niveau = (Integer)sNiveau.getValue();
+						if(nom!="" && niveau>=0) {
+							cC.setNom(nom);
+							cC.changeNiveau(niveau);
+							JOptionPane.showMessageDialog(null, "Chaine modifié!", "Chaine modifié", JOptionPane.INFORMATION_MESSAGE);
+						}else {
+							JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur modification", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+				}
+			});
 			JButton bSuppr = new JButton("Supprimer");
+			bSuppr.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int choix = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment supprimer cette chaine?","Supprimer chaine",JOptionPane.YES_NO_OPTION);
+					if(choix==JOptionPane.YES_OPTION) {
+						u.rmChaine(cC.getCode());
+						JOptionPane.showMessageDialog(null, "Chaine supprimée!","Supprimer chaine",JOptionPane.INFORMATION_MESSAGE);
+						setVisible(false);
+						dispose();
+					}
+				}
+			});
 			pBoutons.add(bModif);
 			pBoutons.add(bSuppr);
 		}else {

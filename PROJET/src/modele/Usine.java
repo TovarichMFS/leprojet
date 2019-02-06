@@ -6,12 +6,13 @@ package modele;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import others.CSV;
+
 /**
  * @author tovarich
  *
  */
 public class Usine {
-	private String nom;
 	private ArrayList<ChaineDeProduction> chaines;
 	private HashMap<String,Element> stocks, listeAchats;
 
@@ -19,27 +20,10 @@ public class Usine {
 	 * Construit une Usine
 	 * @param nom
 	 */
-	public Usine(String nom) {
-		this.nom = nom;
+	public Usine() {
 		this.chaines = new ArrayList<ChaineDeProduction>();
 		this.stocks = new HashMap<String,Element>();
 		this.listeAchats = new HashMap<String,Element>();
-	}
-
-	/**
-	 * Retourne le nom de l'Usine
-	 * @return nom
-	 */
-	public String getNom() {
-		return nom;
-	}
-	
-	/**
-	 * Modifie le nom de l'usine
-	 * @param nom
-	 */
-	public void setNom(String nom) {
-		this.nom = nom;
 	}
 
 	/**
@@ -91,7 +75,7 @@ public class Usine {
 		for (String key : this.getListeAchats().keySet()) {
 			achats += this.getListeAchats().get(key).toString()+"\n";
 		}
-		return "Usine "+this.getNom()+":\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines+"Liste d'achats:\n"+achats;
+		return "Usine :\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines+"Liste d'achats:\n"+achats;
 	}
 
 }
