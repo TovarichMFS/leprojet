@@ -52,14 +52,14 @@ public class MainWindow extends JFrame{
 		//Initialisation Controleur
 		super("");
 		this.u = new ControleurUsine(new Usine());
-		this.u = new ControleurUsine(u.chargerCSV());
-//		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
-//		u.addStock(new Produit("AB", "AH", 0, "kg",10));
-//		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
-//		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg"));
-//		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10));
-//		c.setNiveau(2);
-//		u.addChaine(c);
+		//this.u = new ControleurUsine(u.chargerCSV());
+		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
+		u.addStock(new Produit("AB", "AH", 0, "kg",10));
+		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
+		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg"));
+		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10));
+		c.setNiveau(2);
+		u.addChaine(c);
 		
 		//Création fenêtre principale
 		JPanel fenetre = new JPanel();
