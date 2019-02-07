@@ -70,8 +70,8 @@ public interface CalculsProduction {
 		HashMap<String,Double> res = new HashMap<String,Double>();
 		for (ChaineDeProduction c : u.getChaines()) {
 			for (String key : c.getSortants().keySet()) {
-				Element s = c.getSortants().get(key);
-				double percent = (c.getSortants().get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()))/s.getDemande();
+				Element s = u.getStocks().get(key);
+				double percent = (Double.valueOf(s.getQuantite()) + Double.valueOf((c.getSortants().get(key).getQuantite()*c.getNiveau())))/Double.valueOf(s.getDemande());
 				percent*=100;
 				if(res.containsKey(key))
 					res.put(s.getCode(), (res.get(key) + percent)/2);

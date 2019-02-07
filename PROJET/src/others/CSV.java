@@ -33,7 +33,7 @@ public interface CSV {
 	public default Usine chargerCSV() throws IOException {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
-		Path pE = Paths.get("elements.csv");
+		Path pE = Paths.get("e1.csv");
 
 		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
 		lignes.remove(0);
@@ -42,6 +42,7 @@ public interface CSV {
 			String[] split = string.split(";");
 			String code = split[0];
 			String nom = split[1];
+			nom = nom.replaceAll("§", "%");
 			double quantite = Double.valueOf(split[2]);
 			String unite = split[3];
 			double achat = 0;
@@ -130,21 +131,24 @@ public interface CSV {
 	public default void saveCSV(ControleurUsine u) {
 		Path p = Paths.get("e1.csv");
 		try {
-			Files.write(p, String.format("Code;Nom;Quantite;unite;achat;vente\n").getBytes());
+			Files.write(p, String.format("Code;Nom;Quantite;unite;achat;vente;?;demande\n").getBytes());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		for (String cle : u.getStocks().keySet()) {
 			Element e = u.getStock(cle);
-			String entree = e.getCode()+";"+e.getNom()+";"+e.getQuantite()+";"+e.getUniteQuantite()+";";
+			String nom = e.getNom().replaceAll("%", "§");
+			String entree = e.getCode()+";"+nom+";"+e.getQuantite()+";"+e.getUniteQuantite()+";";
 			if(e.getPrixAchat()==0)
 				entree += "NA;";
 			else
 				entree += e.getPrixAchat()+";";
 			if(e.getPrixVente()==0)
-				entree += "NA\n";
+				entree += "NA;";
 			else
-				entree += e.getPrixVente()+"\n";
+				entree += e.getPrixVente()+";";
+			String demande = e.getDemande()+"";
+			entree+="?;"+demande+"\n";
 			try {
 				Files.write(p, String.format(entree).getBytes(), APPEND);
 			} catch (IOException e1) {
@@ -159,7 +163,8 @@ public interface CSV {
 			e1.printStackTrace();
 		}
 		for (ChaineDeProduction c : u.getChaines()) {
-			String entree = c.getCode()+";"+c.getNom()+";";
+			String nom = c.getNom().replaceAll("%", "§");
+			String entree = c.getCode()+";"+nom+";";
 			int i = 0;
 			for (String key : c.getEntrants().keySet()) {
 				entree += "("+c.getEntrants().get(key).getCode()+","+c.getEntrants().get(key).getQuantite()+")";
