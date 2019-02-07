@@ -32,7 +32,7 @@ public class VueListeElementsUsine extends VueListeElements {
 		for (String key : listeE.keySet()) {
 			ControleurElement cE = new ControleurElement(listeE.get(key));
 			JPanel blocElement = new JPanel();
-			GridLayout gL = new GridLayout(1, 5);
+			GridLayout gL = new GridLayout(1, 7);
 			blocElement.setLayout(gL);
 			JTextField tfCode = new JTextField(cE.getCode());
 			tfCode.setEditable(false);
@@ -56,11 +56,14 @@ public class VueListeElementsUsine extends VueListeElements {
 				tfVente = new JTextField(cE.getPrixVente()+" €");
 			}
 			tfVente.setEditable(false);
+			JTextField tfDemande = new JTextField(cE.getDemande()+"");
+			tfDemande.setEditable(false);
 			blocElement.add(tfCode);
 			blocElement.add(tfNom);
 			blocElement.add(tfQuantite);
 			blocElement.add(tfAchat);
 			blocElement.add(tfVente);
+			blocElement.add(tfDemande);
 			JButton bDetails = new JButton(">");
 			bDetails.addActionListener(new ActionListener() {
 				@Override

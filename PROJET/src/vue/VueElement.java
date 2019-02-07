@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EtchedBorder;
 
@@ -39,6 +40,7 @@ public abstract class VueElement extends JFrame {
 	protected ControleurElement cE;
 	protected JButton bAjout, bSuppr,bModif;
 	protected JTextField tCode,tNom,tQuantite,tUnite,tAchat,tVente;
+	protected JSpinner sDemande;
 	
 	/**
 	 * 
@@ -77,15 +79,21 @@ public abstract class VueElement extends JFrame {
 		JLabel lNom = new JLabel("Nom:");
 		this.tNom = new JTextField(10);
 		this.tCode = new JTextField(5);
-		if(e!=null)
+		JLabel lDemande = new JLabel("Demande:");
+		SpinnerNumberModel snmDemande = new SpinnerNumberModel(0, 0, 999, 1);
+		this.sDemande = new JSpinner(snmDemande);
+		if(e!=null) {
 			tNom.setText(this.cE.getNom());
-		else {
+			this.sDemande.setValue(this.cE.getDemande());
+		}else {
 			JLabel lCode = new JLabel("Code:");
 			pNom.add(lCode);
 			pNom.add(tCode);
 		}
 		pNom.add(lNom);
 		pNom.add(tNom);
+		pNom.add(lDemande);
+		pNom.add(sDemande);
 		pContenu.add(pNom);
 		
 		JPanel pQuantite = new JPanel();

@@ -32,20 +32,22 @@ public class VueElementChaine extends VueElement {
 				String nom = tNom.getText();
 				String unite = tUnite.getText();
 				double quantite,achat,vente;
+				int demande;
 				try {
 					quantite = Double.parseDouble(tQuantite.getText());
 					achat = Double.parseDouble(tAchat.getText());
 					vente = Double.parseDouble(tVente.getText());
+					demande = (Integer)sDemande.getValue();
 				}catch(NumberFormatException e1) {
 					JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur ajout", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0) {
+				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0 && demande>=0) {
 					Element nE;
 					if(achat !=0 && vente==0) {
-						nE = new MatierePremiere(code, nom, achat, quantite, unite);
+						nE = new MatierePremiere(code, nom, achat, quantite, unite, demande);
 					}else {
-						nE = new Produit(code, nom,achat, quantite, unite, vente);
+						nE = new Produit(code, nom,achat, quantite, unite, vente, demande);
 					}
 					if(option==1)
 						c.addEntrant(nE);
@@ -83,20 +85,22 @@ this.bModif.addActionListener(new ActionListener() {
 				if(choix==JOptionPane.YES_OPTION) {
 					String nom = tNom.getText();
 					double quantite,achat,vente;
+					int demande;
 					try {
 						quantite = Double.parseDouble(tQuantite.getText());
 						achat = Double.parseDouble(tAchat.getText());
 						vente = Double.parseDouble(tVente.getText());
+						demande = (Integer)sDemande.getValue();
 					}catch(NumberFormatException e1) {
 						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur modification", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
-					if(nom!="" && quantite>=0 && achat>=0 && vente>=0) {
+					if(nom!="" && quantite>=0 && achat>=0 && vente>=0 && demande>=0) {
 						Element nE;
 						if(achat !=0 && vente==0) {
-							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite());
+							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), demande);
 						}else {
-							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente);
+							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, demande);
 						}
 						if(option==1)
 							c.addEntrant(nE);

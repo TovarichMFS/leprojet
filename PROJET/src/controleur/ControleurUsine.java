@@ -18,12 +18,13 @@ import modele.Produit;
 import modele.Usine;
 import others.CSV;
 import others.CalculException;
+import others.CalculsProduction;
 
 /**
  * @author tovarich
  *
  */
-public class ControleurUsine implements CSV{
+public class ControleurUsine implements CSV, CalculsProduction{
 
 	private Usine u;
 	/**
@@ -144,58 +145,6 @@ public class ControleurUsine implements CSV{
 	 */
 	public void setListeAchats(HashMap<String, Element> listeAchats) {
 		this.u.setListeAchats(listeAchats);
-	}
-	
-	/**
-	 * Calcule les revenus/coûts de la production prévue. Retourne une exception si la production est impossible.
-	 * @return double
-	 * @throws CalculException 
-	 * @throws CloneNotSupportedException 
-	 */
-	@SuppressWarnings("unchecked")
-	public double calculerProduction() throws CalculException, CloneNotSupportedException {
-		HashMap<String,Element> cpStocks = new HashMap<String, Element>();
-		for (String key : this.getStocks().keySet()) {
-			cpStocks.put(key, this.getStocks().get(key).clone());
-		}
-		HashMap<String,Element> cpAchats = new HashMap<String, Element>();
-		for (String key : this.getListeAchats().keySet()) {
-			cpAchats.put(key, this.getListeAchats().get(key).clone());
-		}
-		double montant = 0;
-		for (ChaineDeProduction c : this.getChaines()) {
-			for (String key : c.getEntrants().keySet()) {
-				Element e = c.getEntrants().get(key);
-				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
-			}
-			for (String key : c.getSortants().keySet()) {
-				Element s = c.getSortants().get(key);
-				cpStocks.get(s.getCode()).setQuantite(cpStocks.get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()));
-			}
-		}
-		for (String key : cpStocks.keySet()) {
-			if(cpStocks.get(key).getQuantite()<0) {
-				if(cpStocks.get(key).getPrixAchat()==0)
-					throw new CalculException();
-				else{
-					if(cpAchats.containsKey(key)) {
-						cpAchats.get(key).setQuantite(cpAchats.get(key).getQuantite() - cpStocks.get(key).getQuantite());
-						montant-=cpAchats.get(key).getPrixAchat()*cpAchats.get(key).getQuantite();
-					}else {
-						Element tmp = cpStocks.get(key);
-						tmp.setQuantite(-cpStocks.get(key).getQuantite());
-						montant-=tmp.getPrixAchat()*tmp.getQuantite();
-						cpAchats.put(key, tmp);
-					}
-				}
-			}else {
-				if(cpStocks.get(key).getPrixVente()!=0) {
-					montant += cpStocks.get(key).getPrixVente() * cpStocks.get(key).getQuantite();
-				}
-			}
-		}
-		this.setListeAchats(cpAchats);
-		return montant;
 	}
 	
 	/* (non-Javadoc)

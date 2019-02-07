@@ -6,6 +6,7 @@ package others;
 import static java.nio.file.StandardOpenOption.APPEND;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,99 +28,99 @@ import modele.Usine;
 public interface CSV {
 	/**
 	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u
+	 * @throws IOException 
 	 */
-	public default Usine chargerCSV() {
+	public default Usine chargerCSV() throws IOException {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
 		Path pE = Paths.get("elements.csv");
-		try {
-			ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
-			lignes.remove(0);
-			for (String string : lignes) {
-				Element e;
-				String[] split = string.split(";");
-				String code = split[0];
-				String nom = split[1];
-				double quantite = Double.valueOf(split[2]);
-				String unite = split[3];
-				double achat = -1;
-				double vente = -1;
-				if(!split[4].equals("NA"))
-					achat = Double.valueOf(split[4]);
-				if(!split[5].equals("NA"))
-					vente = Double.valueOf(split[5]);
-				if(achat==-1) {
-					if(vente==-1)
-						e = new Produit(code, nom, quantite, unite);
-					else
-						e = new Produit(code, nom, quantite, unite, vente);
-				}else if(vente==-1) {
-					e = new MatierePremiere(code, nom, achat, quantite, unite);
-				}else {
-					e = new Produit(code, nom, achat, quantite, unite, vente);
-				}
-				cU.addStock(e);
+
+		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
+		lignes.remove(0);
+		for (String string : lignes) {
+			Element e;
+			String[] split = string.split(";");
+			String code = split[0];
+			String nom = split[1];
+			double quantite = Double.valueOf(split[2]);
+			String unite = split[3];
+			double achat = 0;
+			double vente = 0;
+			if(!split[4].equals("NA"))
+				achat = Double.valueOf(split[4]);
+			if(!split[5].equals("NA"))
+				vente = Double.valueOf(split[5]);
+			int demande = Integer.valueOf(split[7]);
+			if(achat==-1) {
+				if(vente==-1)
+					e = new Produit(code, nom, quantite, unite, demande);
+				else
+					e = new Produit(code, nom, quantite, unite, vente, demande);
+			}else if(vente==-1) {
+				e = new MatierePremiere(code, nom, achat, quantite, unite, demande);
+			}else {
+				e = new Produit(code, nom, achat, quantite, unite, vente, demande);
 			}
-		} catch (IOException e) {
-			System.out.println("Le fichier elements.csv n'a pas été trouvé!");
+			cU.addStock(e);
 		}
 		
 		Path pC = Paths.get("chaines.csv");
-		try {
-			ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pC);
-			lignes.remove(0);
-			for (String string : lignes) {
-				ChaineDeProduction c;
-				string = string.replaceAll("[ ]", "");
-				String[] split = string.split(";");
-				String code = split[0];
-				String nom = split[1];
-				c = new ChaineDeProduction(code, nom);
-				ControleurChaineDeProduction cCDP = new ControleurChaineDeProduction(c);
-				String[] splitE = split[2].split(",");
-				String[] splitS = split[3].split(",");
-				int inverse = 0;
-				Element e = null;
-				for (String string2 : splitE) {
-					if(inverse==0) {
-						string2 = string2.substring(1, string2.length());
+
+		lignes = (ArrayList<String>) Files.readAllLines(pC);
+		lignes.remove(0);
+		for (String string : lignes) {
+			ChaineDeProduction c;
+			string = string.replaceAll("[ ]", "");
+			String[] split = string.split(";");
+			String code = split[0];
+			String nom = split[1];
+			c = new ChaineDeProduction(code, nom);
+			ControleurChaineDeProduction cCDP = new ControleurChaineDeProduction(c);
+			String[] splitE = split[2].split(",");
+			String[] splitS = split[3].split(",");
+			int inverse = 0;
+			Element e = null;
+			for (String string2 : splitE) {
+				if(inverse==0) {
+					string2 = string2.substring(1, string2.length());
+					if(cU.getStock(string2)!=null)
 						try {
 							e = (Element) cU.getStock(string2).clone();
 						} catch (CloneNotSupportedException e1) {
 							e1.printStackTrace();
 						}
-						inverse = 1;
-					}else {
-						string2 = string2.substring(0, string2.length()-1);
-						ControleurElement cE = new ControleurElement(e);
-						cE.changeQuantite(Double.valueOf(string2));
-						inverse = 0;
-						cCDP.addEntrant(e);
-					}
+					else
+						e = new Produit(string2, "", 0, "", 0);
+					inverse = 1;
+				}else {
+					string2 = string2.substring(0, string2.length()-1);
+					ControleurElement cE = new ControleurElement(e);
+					cE.changeQuantite(Double.valueOf(string2));
+					inverse = 0;
+					cCDP.addEntrant(e);
 				}
-				inverse = 0;
-				for (String string2 : splitS) {
-					if(inverse==0) {
-						string2 = string2.substring(1, string2.length());
-						try {
-							e = (Element) cU.getStock(string2).clone();
-						} catch (CloneNotSupportedException e1) {
-							e1.printStackTrace();
-						}
-						inverse = 1;
-					}else {
-						string2 = string2.substring(0, string2.length()-1);
-						ControleurElement cE = new ControleurElement(e);
-						cE.changeQuantite(Double.valueOf(string2));
-						inverse = 0;
-						cCDP.addSortant(e);
-					}
-				}
-				cU.addChaine(c);
 			}
-		} catch (IOException e) {
-			System.out.println("Le fichier chaines.csv n'a pas été trouvé!");
+			inverse = 0;
+			for (String string2 : splitS) {
+				if(inverse==0) {
+					string2 = string2.substring(1, string2.length());
+					try {
+						e = (Element) cU.getStock(string2).clone();
+					} catch (CloneNotSupportedException e1) {
+						e1.printStackTrace();
+					}
+					inverse = 1;
+				}else {
+					string2 = string2.substring(0, string2.length()-1);
+					ControleurElement cE = new ControleurElement(e);
+					cE.changeQuantite(Double.valueOf(string2));
+					inverse = 0;
+					cCDP.addSortant(e);
+				}
+			}
+			cU.addChaine(c);
 		}
+
 		return u;
 	}
 	

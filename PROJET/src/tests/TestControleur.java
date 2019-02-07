@@ -13,14 +13,13 @@ public class TestControleur {
 	public static void main(String[] args) {
 		Usine us = new Usine();
 		ControleurUsine u = new ControleurUsine(us);
-		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
+		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg",0));
 		u.addStock(new Produit("AB", "AH", 0, "kg",10));
 		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
-		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg"));
+		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg",0));
 		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10));
 		c.setNiveau(2);
 		u.addChaine(c);
-		u.rmStock("AA");
 //		u.addAchat(new MatierePremiere("AA", "AH", 12, 1, "kg"));
 //		ControleurUsine u = new ControleurUsine(new Usine("lol"));
 //		u.chargerCSV();
@@ -28,7 +27,7 @@ public class TestControleur {
 		System.out.println(u);
 //		u.saveCSV();
 		try {
-			System.out.println("Résultat production: "+u.calculerProduction());
+			System.out.println("Résultat production: "+u.calculerProduction(u));
 		} catch (CalculException e) {
 			e.printStackTrace();
 		} catch (CloneNotSupportedException e) {

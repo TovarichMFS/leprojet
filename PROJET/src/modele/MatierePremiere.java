@@ -17,8 +17,8 @@ public class MatierePremiere extends Element {
 	 * @param quantite
 	 * @param uniteQuantite
 	 */
-	public MatierePremiere(String code, String nom, double prixAchat, double quantite, String unite) {
-		super(code, nom, prixAchat, quantite, unite);
+	public MatierePremiere(String code, String nom, double prixAchat, double quantite, String unite,int demande) {
+		super(code, nom, prixAchat, quantite, unite,demande);
 	}
 	
 	/* (non-Javadoc)
@@ -41,7 +41,7 @@ public class MatierePremiere extends Element {
 	 */
 	@Override
 	public String toString() {
-		return "Matière première "+this.getNom()+" ("+this.getCode()+"): "+this.getQuantite()+" "+this.getUniteQuantite()+" Prix achat: "+this.getPrixAchat()+"€";
+		return "Matière première "+this.getNom()+" ("+this.getCode()+"): "+this.getQuantite()+" "+this.getUniteQuantite()+" Prix achat: "+this.getPrixAchat()+"€ Demande: "+this.getDemande();
 	}
 
 }

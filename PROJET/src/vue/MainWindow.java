@@ -7,11 +7,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.sound.midi.ControllerEventListener;
 import javax.swing.BorderFactory;
@@ -24,6 +27,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EtchedBorder;
 
@@ -52,12 +56,18 @@ public class MainWindow extends JFrame{
 		//Initialisation Controleur
 		super("");
 		this.u = new ControleurUsine(new Usine());
-		//this.u = new ControleurUsine(u.chargerCSV());
-		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg"));
-		u.addStock(new Produit("AB", "AH", 0, "kg",10));
+//		try {
+//			this.u = new ControleurUsine(u.chargerCSV());
+//		} catch (IOException e2) {
+//			JOptionPane.showMessageDialog(null, "Fichiers introuvables", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
+//		} catch (NumberFormatException e2) {
+//			JOptionPane.showMessageDialog(null, "Erreur encodage fichier", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
+//		}
+		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg",1));
+		u.addStock(new Produit("AB", "AH", 0, "kg",10, 2));
 		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
-		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg"));
-		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10));
+		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg",2));
+		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",10,1));
 		c.setNiveau(2);
 		u.addChaine(c);
 		
@@ -109,7 +119,8 @@ public class MainWindow extends JFrame{
 		
 		lE = new VueListeElementsUsine(u.getStocks(),u,0);
 		pStocks.add(lE,BorderLayout.CENTER);
-		pContenu.add(pStocks);
+		JScrollPane spStock = new JScrollPane(pStocks,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pContenu.add(spStock);
 		
 		//Liste des Chaines de production
 		JPanel pChaines = new JPanel();
@@ -141,7 +152,8 @@ public class MainWindow extends JFrame{
 		
 		lC = new VueListeChaines(u.getChaines(),u);
 		pChaines.add(lC,BorderLayout.CENTER);
-		pContenu.add(pChaines);
+		JScrollPane spChaine = new JScrollPane(pChaines,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		pContenu.add(spChaine);
 		
 		fenetre.add(pContenu,BorderLayout.CENTER);
 		
@@ -172,20 +184,22 @@ public class MainWindow extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					double res = u.calculerProduction();
-					pAchats.remove(lA);
-					lA = new VueListeElementsUsine(u.getListeAchats(),u,3);
-					lA.revalidate();
-					lA.repaint();
-					pAchats.add(lA,BorderLayout.CENTER);
-					pack();
-					JOptionPane.showMessageDialog(null, "La production aura un coût estimé à "+res+" €\nLa liste des achats a été mise à jour.", "Production", JOptionPane.INFORMATION_MESSAGE);
-				} catch (CalculException e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
-				} catch (CloneNotSupportedException e1) {
-					JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
-				}
+				VueResultatProduction vRP = new VueResultatProduction(u);
+				vRP.show();
+//				try {
+//					double res = u.calculerProduction(u);
+//					pAchats.remove(lA);
+//					lA = new VueListeElementsUsine(u.getListeAchats(),u,3);
+//					lA.revalidate();
+//					lA.repaint();
+//					pAchats.add(lA,BorderLayout.CENTER);
+//					pack();
+//					JOptionPane.showMessageDialog(null, "La production aura un coût estimé à "+res+" €\nLa liste des achats a été mise à jour.", "Production", JOptionPane.INFORMATION_MESSAGE);
+//				} catch (CalculException e1) {
+//					JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
+//				} catch (CloneNotSupportedException e1) {
+//					JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
+//				}
 				
 			}
 		});
@@ -229,7 +243,13 @@ public class MainWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int choix = JOptionPane.showConfirmDialog(null, "Charger un CSV va écraser les données actuelles.\nVoulez-vous continuer?","Charger CSV", JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
-					u = new ControleurUsine(u.chargerCSV());
+					try {
+						u = new ControleurUsine(u.chargerCSV());
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(null, "Fichiers introuvables", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
+					} catch (NumberFormatException e2) {
+						JOptionPane.showMessageDialog(null, "Erreur encodage fichier", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
+					}
 					pChaines.remove(lC);
 					lC = new VueListeChaines(u.getChaines(),u);
 					lC.revalidate();
@@ -264,12 +284,10 @@ public class MainWindow extends JFrame{
 		menuBar.add(menu);
 		this.setJMenuBar(menuBar);
 		
-		
-		
 	    add(fenetre, "Center");
-	    setDefaultCloseOperation(3);
-	    setResizable(false);
 	    this.pack();
+	    setDefaultCloseOperation(3);
+	    this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 

@@ -33,19 +33,21 @@ public class VueElementStock extends VueElement {
 				String nom = tNom.getText();
 				String unite = tUnite.getText();
 				double quantite,achat,vente;
+				int demande;
 				try {
 					quantite = Double.parseDouble(tQuantite.getText());
 					achat = Double.parseDouble(tAchat.getText());
 					vente = Double.parseDouble(tVente.getText());
+					demande =  (Integer)sDemande.getValue();
 				}catch(NumberFormatException e1) {
 					JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur ajout", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0) {
+				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0 && demande>=0) {
 					if(achat !=0 && vente==0) {
-						u.addStock(new MatierePremiere(code, nom, achat, quantite, unite));
+						u.addStock(new MatierePremiere(code, nom, achat, quantite, unite, demande));
 					}else {
-						u.addStock(new Produit(code, nom,achat, quantite, unite, vente));
+						u.addStock(new Produit(code, nom,achat, quantite, unite, vente, demande));
 					}
 					JOptionPane.showMessageDialog(null, "Elément ajouté!", "Elément ajouté", JOptionPane.INFORMATION_MESSAGE);
 					setVisible(false);
@@ -77,19 +79,21 @@ public class VueElementStock extends VueElement {
 				if(choix==JOptionPane.YES_OPTION) {
 					String nom = tNom.getText();
 					double quantite,achat,vente;
+					int demande;
 					try {
 						quantite = Double.parseDouble(tQuantite.getText());
 						achat = Double.parseDouble(tAchat.getText());
 						vente = Double.parseDouble(tVente.getText());
+						demande = (Integer)sDemande.getValue();
 					}catch(NumberFormatException e1) {
 						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur modification", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
-					if(nom!="" && quantite>=0 && achat>=0 && vente>=0) {
+					if(nom!="" && quantite>=0 && achat>=0 && vente>=0 && demande>=0) {
 						if(achat !=0 && vente==0) {
-							u.addStock(new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite()));
+							u.addStock(new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), demande));
 						}else {
-							u.addStock(new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente));
+							u.addStock(new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, demande));
 						}
 						JOptionPane.showMessageDialog(null, "Elément modifié!", "Elément modifié", JOptionPane.INFORMATION_MESSAGE);
 						setVisible(false);

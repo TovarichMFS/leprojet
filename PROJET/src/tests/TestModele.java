@@ -9,8 +9,8 @@ import modele.Usine;
 public class TestModele {
 
 	public static void main(String[] args) {
-		Element a = new MatierePremiere("1324536", "lol", 3, 5, "kg");
-		Element aa = new MatierePremiere("1324536", "lol", 3, 10, "kg");
+		Element a = new MatierePremiere("1324536", "lol", 3, 5, "kg", 0);
+		Element aa = new MatierePremiere("1324536", "lol", 3, 10, "kg", 0);
 		Element b = new Produit("13871983", "lel", 10, "l", 1);
 		ChaineDeProduction c = new ChaineDeProduction("111", "AH");
 		//c.addEntrant(a);

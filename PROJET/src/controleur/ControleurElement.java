@@ -114,6 +114,22 @@ public class ControleurElement {
 	}
 	
 	/**
+	 * Retourne la demande d'un élément
+	 * @return int demande
+	 */
+	public int getDemande() {
+		return this.e.getDemande();
+	}
+	
+	/**
+	 * Modifie la demande d'un élément
+	 * @param demande
+	 */
+	public void setDemande(int demande) {
+		this.e.setDemande(demande);
+	}
+	
+	/**
 	 * Retourne l'élément
 	 * @return double prixVente
 	 */
