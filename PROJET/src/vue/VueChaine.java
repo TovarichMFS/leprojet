@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -211,6 +212,31 @@ public class VueChaine extends JFrame {
 			pBoutons.add(bSuppr);
 		}else {
 			JButton bAJout = new JButton("Ajouter");
+			bAJout.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String code = ((JTextField) cCode).getText();
+					String nom = tNom.getText();
+					int niveau;
+					try {
+						niveau = (Integer)sNiveau.getValue();
+					}catch(NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur ajout", JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+					if(code!="" && nom!="" && niveau>=0) {
+						ChaineDeProduction c = new ChaineDeProduction(code, nom);
+						c.setNiveau(niveau);
+						u.addChaine(c);
+						JOptionPane.showMessageDialog(null, "Chaine ajouté!", "Chaine ajouté", JOptionPane.INFORMATION_MESSAGE);
+						setVisible(false);
+						dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur ajout", JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			});
 			pBoutons.add(bAJout);
 		}
 		JButton bAnnuler = new JButton("Annuler");
