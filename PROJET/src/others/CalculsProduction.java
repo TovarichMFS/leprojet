@@ -44,7 +44,7 @@ public interface CalculsProduction {
 		for (String key : cpStocks.keySet()) {
 			if(cpStocks.get(key).getQuantite()<0) {
 				if(cpStocks.get(key).getPrixAchat()==0)
-					throw new CalculException();
+					throw new CalculException(key);
 				else{
 					if(cpAchats.containsKey(key)) {
 						cpAchats.get(key).setQuantite(cpAchats.get(key).getQuantite() - cpStocks.get(key).getQuantite());
@@ -71,8 +71,15 @@ public interface CalculsProduction {
 		for (ChaineDeProduction c : u.getChaines()) {
 			for (String key : c.getSortants().keySet()) {
 				Element s = u.getStocks().get(key);
-				double percent = (Double.valueOf(s.getQuantite()) + Double.valueOf((c.getSortants().get(key).getQuantite()*c.getNiveau())))/Double.valueOf(s.getDemande());
-				percent*=100;
+				double percent;
+				if(s.getDemande()==0)
+					percent = 100;
+				else {
+					percent = (Double.valueOf(s.getQuantite()) + Double.valueOf((c.getSortants().get(key).getQuantite()*c.getNiveau())))/Double.valueOf(s.getDemande());
+					percent*=100;
+					if(percent==Double.POSITIVE_INFINITY)
+						percent = 0;
+				}
 				if(res.containsKey(key))
 					res.put(s.getCode(), (res.get(key) + percent)/2);
 				else

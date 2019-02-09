@@ -82,7 +82,7 @@ public class VueChaine extends JFrame {
 		
 		Component cCode;
 		JTextField tNom = new JTextField(12);
-		SpinnerNumberModel sNM = new SpinnerNumberModel(0, 0, 99, 1);
+		SpinnerNumberModel sNM = new SpinnerNumberModel(0, 0, 999, 1);
 		if(c!=null) {
 			cCode = new JLabel(this.cC.getCode());
 			tNom.setText(this.cC.getNom());
@@ -192,6 +192,8 @@ public class VueChaine extends JFrame {
 							JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur modification", JOptionPane.WARNING_MESSAGE);
 						}
 					}
+					setVisible(false);
+					dispose();
 				}
 			});
 			JButton bSuppr = new JButton("Supprimer");

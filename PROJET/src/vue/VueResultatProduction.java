@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -48,29 +49,6 @@ public class VueResultatProduction extends JFrame{
 		pContenu.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		try {
 			cout = u.calculerProduction(u);
-			pContenu = new JPanel();
-			BoxLayout bl = new BoxLayout(pContenu, BoxLayout.PAGE_AXIS);
-			pContenu.setLayout(bl);
-			for(String key : liste.keySet()) {
-				if(key!=null) {
-					JPanel blocElement = new JPanel();
-					GridLayout gLe = new GridLayout(1, 3);
-					blocElement.setLayout(gLe);
-					JTextField tCode = new JTextField(key);
-					tCode.setEnabled(false);
-					JTextField tDemande = new JTextField(liste.get(key)+"%");
-					tDemande.setEnabled(false);
-					JPanel pSatisfait = new JPanel();
-					if(liste.get(key)<100)
-						pSatisfait.setBackground(new Color(255, 0, 0));
-					else
-						pSatisfait.setBackground(new Color(0, 255, 0));
-					blocElement.add(tCode);
-					blocElement.add(tDemande);
-					blocElement.add(pSatisfait);
-					pContenu.add(blocElement);
-				}
-			}
 		} catch (CalculException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
 			pContenu.add(new JLabel("Production impossible!"));
@@ -78,18 +56,43 @@ public class VueResultatProduction extends JFrame{
 			JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
 			pContenu.add(new JLabel("Erreur!"));
 		}
+		pContenu = new JPanel();
+		BoxLayout bl = new BoxLayout(pContenu, BoxLayout.PAGE_AXIS);
+		pContenu.setLayout(bl);
+		for(String key : liste.keySet()) {
+			if(key!=null) {
+				JPanel blocElement = new JPanel();
+				GridLayout gLe = new GridLayout(1, 3);
+				blocElement.setLayout(gLe);
+				JTextField tCode = new JTextField(key);
+				tCode.setEditable(false);
+				JTextField tDemande = new JTextField(liste.get(key)+"%");
+				tDemande.setEditable(false);
+				JPanel pSatisfait = new JPanel();
+				pSatisfait.setBorder(BorderFactory.createBevelBorder(1));
+				if(liste.get(key)<100)
+					pSatisfait.setBackground(new Color(255, 0, 0));
+				else
+					pSatisfait.setBackground(new Color(0, 255, 0));
+				blocElement.add(tCode);
+				blocElement.add(tDemande);
+				blocElement.add(pSatisfait);
+				pContenu.add(blocElement);
+			}
+		}
 		fenetre.add(pContenu, BorderLayout.CENTER);
 		JPanel pBas = new JPanel();
 		FlowLayout fLb = new FlowLayout();
 		pBas.setLayout(fLb);
 		JLabel lCout = new JLabel("Profit: ");
-		JTextField tCout = new JTextField(cout+" €");
+		DecimalFormat dc = new DecimalFormat("####.####");
+		JTextField tCout = new JTextField(Double.valueOf(dc.format(cout).replaceAll(",", "."))+" €");
 		JLabel lPercent = new JLabel("Pourcentage assuré:");
 		JTextField tPercent = new JTextField();
 		if(liste.get(null)==Double.POSITIVE_INFINITY)
 			tPercent.setText(0+" %");
 		else
-			tPercent.setText(liste.get(null)+" %");
+			tPercent.setText(Double.valueOf(dc.format(liste.get(null)).replaceAll(",", "."))+" %");
 		pBas.add(lCout);
 		pBas.add(tCout);
 		pBas.add(lPercent);
