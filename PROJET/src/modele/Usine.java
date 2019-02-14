@@ -51,6 +51,22 @@ public class Usine {
 	}
 	
 	/**
+	 * Remplace la liste de stocks par celle passée en paramètre
+	 * @param stock
+	 */
+	public void setStocks(HashMap<String, Element> stocks) {
+		this.stocks = stocks;
+	}
+	
+	/**
+	 * Remplace la liste de chaines par celle passée en paramètre
+	 * @param chaines
+	 */
+	public void setChaines(ArrayList<ChaineDeProduction> chaines) {
+		this.chaines = chaines;
+	}
+	
+	/**
 	 * Remplace la liste d'achats par celle passée en paramètre
 	 * @param listeAchats
 	 */

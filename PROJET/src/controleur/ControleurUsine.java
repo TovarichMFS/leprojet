@@ -147,6 +147,22 @@ public class ControleurUsine implements CSV, CalculsProduction{
 		this.u.setListeAchats(listeAchats);
 	}
 	
+	/**
+	 * Remplace la liste de stocks par celle passée en paramètre
+	 * @param stock
+	 */
+	public void setStocks(HashMap<String, Element> stocks) {
+		this.u.setStocks(stocks);
+	}
+	
+	/**
+	 * Remplace la liste de chaines par celle passée en paramètre
+	 * @param chaines
+	 */
+	public void setChaines(ArrayList<ChaineDeProduction> chaines) {
+		this.u.setChaines(chaines);
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

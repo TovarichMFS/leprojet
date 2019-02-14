@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import javax.swing.CellEditor;
+
 import controleur.ControleurChaineDeProduction;
 import controleur.ControleurElement;
 import controleur.ControleurUsine;
@@ -33,7 +35,7 @@ public interface CSV {
 	public default Usine chargerCSV() throws IOException {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
-		Path pE = Paths.get("e1.csv");
+		Path pE = Paths.get("elements.csv");
 
 		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
 		lignes.remove(0);
@@ -65,13 +67,12 @@ public interface CSV {
 			cU.addStock(e);
 		}
 		
-		Path pC = Paths.get("chaines.csv");
+		Path pC = Paths.get("c1.csv");
 
 		lignes = (ArrayList<String>) Files.readAllLines(pC);
 		lignes.remove(0);
 		for (String string : lignes) {
 			ChaineDeProduction c;
-			string = string.replaceAll("[ ]", "");
 			String[] split = string.split(";");
 			String code = split[0];
 			String nom = split[1];
@@ -119,6 +120,8 @@ public interface CSV {
 					cCDP.addSortant(e);
 				}
 			}
+			int niveau = Integer.parseInt(split[4]);
+			cCDP.changeNiveau(niveau);
 			cU.addChaine(c);
 		}
 
@@ -158,7 +161,7 @@ public interface CSV {
 		
 		Path p2 = Paths.get("c1.csv");
 		try {
-			Files.write(p2, String.format("Code;Nom;Entree (code,qte);Sortie (code,qte)\n").getBytes());
+			Files.write(p2, String.format("Code;Nom;Entree (code,qte);Sortie (code,qte);niveau\n").getBytes());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -169,20 +172,18 @@ public interface CSV {
 			for (String key : c.getEntrants().keySet()) {
 				entree += "("+c.getEntrants().get(key).getCode()+","+c.getEntrants().get(key).getQuantite()+")";
 				i++;
-				if(i<c.getEntrants().size()-1)
-					entree+=",";
-				else
-					entree+=";";
+				entree+=",";
 			}
+			entree = entree.substring(0, entree.length()-1);
+			entree+=";";
 			i = 0;
 			for (String key : c.getSortants().keySet()) {
 				entree += "("+c.getSortants().get(key).getCode()+","+c.getSortants().get(key).getQuantite()+")";
 				i++;
-				if(i<c.getSortants().size()-1)
-					entree+=",";
-				else
-					entree+="\n";
+				entree+=",";
 			}
+			entree = entree.substring(0, entree.length()-1);
+			entree+=";"+c.getNiveau()+"\n";
 			try {
 				Files.write(p2, String.format(entree).getBytes(), APPEND);
 			} catch (IOException e1) {

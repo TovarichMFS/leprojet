@@ -61,6 +61,7 @@ public class MainWindow extends JFrame{
 		} catch (IOException e2) {
 			JOptionPane.showMessageDialog(null, "Fichiers introuvables", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
 		} catch (NumberFormatException e2) {
+			e2.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Erreur encodage fichier", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
 		}
 //		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg",1));
@@ -179,27 +180,13 @@ public class MainWindow extends JFrame{
 		pBas.setLayout(fLb);
 		pBas.setBackground(new Color(224, 224, 224));
 		pBas.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		JButton bProd = new JButton("Calculer Production");
+		JButton bProd = new JButton("Prévisions");
 		bProd.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueResultatProduction vRP = new VueResultatProduction(u);
-				vRP.show();
-//				try {
-//					double res = u.calculerProduction(u);
-//					pAchats.remove(lA);
-//					lA = new VueListeElementsUsine(u.getListeAchats(),u,3);
-//					lA.revalidate();
-//					lA.repaint();
-//					pAchats.add(lA,BorderLayout.CENTER);
-//					pack();
-//					JOptionPane.showMessageDialog(null, "La production aura un coût estimé à "+res+" €\nLa liste des achats a été mise à jour.", "Production", JOptionPane.INFORMATION_MESSAGE);
-//				} catch (CalculException e1) {
-//					JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
-//				} catch (CloneNotSupportedException e1) {
-//					JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
-//				}
+				VuePrevisionSemaine vPS = new VuePrevisionSemaine(u);
+				vPS.show();
 				
 			}
 		});

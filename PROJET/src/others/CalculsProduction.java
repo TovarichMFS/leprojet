@@ -3,11 +3,14 @@
  */
 package others;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import controleur.ControleurUsine;
 import modele.ChaineDeProduction;
 import modele.Element;
+import modele.Usine;
 
 /**
  * @author tovarich
@@ -32,6 +35,7 @@ public interface CalculsProduction {
 		}
 		double montant = 0;
 		for (ChaineDeProduction c : u.getChaines()) {
+			System.out.println(c.getCode());
 			for (String key : c.getEntrants().keySet()) {
 				Element e = c.getEntrants().get(key);
 				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
@@ -93,6 +97,23 @@ public interface CalculsProduction {
 		tot/=res.keySet().size();
 		res.put(null, tot);
 		return res;
+	}
+	
+	public default double calculerProductionSemaines(ControleurUsine u, int nbSemaines) throws CalculException, CloneNotSupportedException {
+		double total = 0;
+		Random r = new Random();
+		for(int i=0;i<nbSemaines;i++) {
+				total+=u.calculerProduction(u);
+				for (String key : u.getStocks().keySet()) {
+					if(u.getStock(key).getPrixAchat()!=0)
+						u.getStock(key).setPrixAchat(r.nextDouble()*100);
+				}
+				for (String key : u.getListeAchats().keySet()) {
+					if(u.getStock(key).getPrixAchat()!=0 && u.getStock(key).getPrixAchat()<u.getAchat(key).getPrixAchat())
+						u.getAchat(key).setPrixAchat(u.getStock(key).getPrixAchat());
+				}
+		}
+		return total;
 	}
 
 }
