@@ -35,7 +35,6 @@ public interface CalculsProduction {
 		}
 		double montant = 0;
 		for (ChaineDeProduction c : u.getChaines()) {
-			System.out.println(c.getCode());
 			for (String key : c.getEntrants().keySet()) {
 				Element e = c.getEntrants().get(key);
 				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
@@ -102,11 +101,11 @@ public interface CalculsProduction {
 	public default double calculerProductionSemaines(ControleurUsine u, int nbSemaines) throws CalculException, CloneNotSupportedException {
 		double total = 0;
 		Random r = new Random();
-		for(int i=0;i<nbSemaines;i++) {
+		for(int i=0;i<nbSemaines+1;i++) {
 				total+=u.calculerProduction(u);
 				for (String key : u.getStocks().keySet()) {
 					if(u.getStock(key).getPrixAchat()!=0)
-						u.getStock(key).setPrixAchat(r.nextDouble()*100);
+						u.getStock(key).setPrixAchat((r.nextDouble()*100)%20);
 				}
 				for (String key : u.getListeAchats().keySet()) {
 					if(u.getStock(key).getPrixAchat()!=0 && u.getStock(key).getPrixAchat()<u.getAchat(key).getPrixAchat())
@@ -114,6 +113,22 @@ public interface CalculsProduction {
 				}
 		}
 		return total;
+	}
+	
+	public default HashMap<String,Double> calculResultatDemandeSemaine(ControleurUsine u,int nbSemaine){
+		HashMap<String,Double> res = new HashMap<String,Double>();
+		res = calculResultatDemande(u);
+		HashMap<String,Double> tmp = new HashMap<String,Double>();
+		for(int i=0;i<nbSemaine-1;i++) {
+			tmp = calculResultatDemande(u);
+			for(String key : tmp.keySet()) {
+				double valeurP = res.get(key);
+				valeurP+=tmp.get(key);
+				valeurP/=2;
+				res.put(key, valeurP);
+			}
+		}
+		return res;
 	}
 
 }

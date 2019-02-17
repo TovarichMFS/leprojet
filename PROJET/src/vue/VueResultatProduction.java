@@ -27,24 +27,23 @@ import others.CalculException;
  * @author tovarich
  *
  */
-public class VueResultatProduction extends JFrame{
+public class VueResultatProduction extends JPanel{
 
 	/**
 	 * 
 	 */
-	public VueResultatProduction(ControleurUsine u) {
+	public VueResultatProduction(ControleurUsine u, int nbSemaine) {
 		super();
-		JPanel fenetre = new JPanel();
 		BorderLayout bLf = new BorderLayout();
-		fenetre.setLayout(bLf);
+		this.setLayout(bLf);
 		JLabel lTete = new JLabel("Estimation de la Production");
 		lTete.setBackground(new Color(204, 229, 255));
 		lTete.setOpaque(true);
 		lTete.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		lTete.setFont(new Font(getName(), Font.BOLD, 30));
-		fenetre.add(lTete,BorderLayout.NORTH);
+		this.add(lTete,BorderLayout.NORTH);
 		double cout = 0;
-		HashMap<String, Double> liste = u.calculResultatDemande(u);
+		HashMap<String, Double> liste = u.calculResultatDemandeSemaine(u, nbSemaine);
 		JPanel pContenu = new JPanel();
 		pContenu.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		try {
@@ -80,7 +79,7 @@ public class VueResultatProduction extends JFrame{
 				pContenu.add(blocElement);
 			}
 		}
-		fenetre.add(pContenu, BorderLayout.CENTER);
+		this.add(pContenu, BorderLayout.CENTER);
 		JPanel pBas = new JPanel();
 		FlowLayout fLb = new FlowLayout();
 		pBas.setLayout(fLb);
@@ -92,15 +91,13 @@ public class VueResultatProduction extends JFrame{
 		if(liste.get(null)==Double.POSITIVE_INFINITY)
 			tPercent.setText(0+" %");
 		else
-			tPercent.setText(Double.valueOf(dc.format(liste.get(null)).replaceAll(",", "."))+" %");
+			tPercent.setText(Double.valueOf(liste.get(null))+" %");
 		pBas.add(lCout);
 		pBas.add(tCout);
 		pBas.add(lPercent);
 		pBas.add(tPercent);
 		pBas.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		fenetre.add(pBas,BorderLayout.SOUTH);
-		this.add(fenetre);
-		this.pack();
+		this.add(pBas,BorderLayout.SOUTH);
 	}
 
 }

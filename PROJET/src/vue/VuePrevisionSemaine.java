@@ -41,6 +41,7 @@ public class VuePrevisionSemaine extends JFrame {
 	private ControleurUsine u;
 	private VueListeElements lE;
 	private VueListeElements lA;
+	private VueResultatProduction vRP;
 
 	/**
 	 * 
@@ -115,22 +116,31 @@ public class VuePrevisionSemaine extends JFrame {
 		
 		fenetre.add(pContenu,BorderLayout.CENTER);
 		
+		//Prévision de la prod
+		JPanel pProd = new JPanel();
+		BorderLayout bLprod = new BorderLayout();
+		pProd.setLayout(bLprod);
+		vRP = new VueResultatProduction(nU, (Integer) sSemaine.getValue());
+		pProd.add(vRP,BorderLayout.CENTER);
+		JScrollPane spProd = new JScrollPane(pProd,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		fenetre.add(spProd,BorderLayout.EAST);
+		
 		//PIED
 		JPanel pBas = new JPanel();
 		FlowLayout fLb = new FlowLayout();
 		pBas.setLayout(fLb);
 		pBas.setBackground(new Color(224, 224, 224));
 		pBas.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		JButton bProd = new JButton("Calculer Production");
+		/*JButton bProd = new JButton("Calculer Production");
 		bProd.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueResultatProduction vRP = new VueResultatProduction(nU);
+				VueResultatProduction vRP = new VueResultatProduction(nU,(Integer) sSemaine.getValue());
 				vRP.show();			
 			}
 		});
-		pBas.add(bProd);
+		pBas.add(bProd);*/
 		JButton bActu = new JButton("Changer semaine");
 		bActu.addActionListener(new ActionListener() {
 			
@@ -153,6 +163,11 @@ public class VuePrevisionSemaine extends JFrame {
 					lA.revalidate();
 					lA.repaint();
 					pAchats.add(lA,BorderLayout.CENTER);
+					
+					pProd.remove(vRP);
+					vRP = new VueResultatProduction(nU,(Integer) sSemaine.getValue());
+					pProd.add(vRP,BorderLayout.EAST);
+					
 					pack();
 				} catch (CalculException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
