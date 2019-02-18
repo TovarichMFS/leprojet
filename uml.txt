@@ -98,6 +98,18 @@ class ControleurUsine {
 
 }
 
+interface CalculsProduction{
++double calculerProduction(ControleurUsine u)
++double calculerProductionSemaines(ControleurUsine u, int nbSemaine)
++HashMap<String,Double> calculResultatDemande(ControleurUsine u)
++HashMap<String,Double> calculResultatDemandeSemaines(ControleurUsine u, int nbSemaine)
+}
+
+interface CSV{
++Usine chargerCSV(int nSemaine)
++void saveCSV(ControleurUsine u, int nSemaine)
+}
+
 package Vue {
 
 class Vues {
@@ -109,7 +121,9 @@ class Vues {
 Vues -down- ControleurElement
 Vues -down- ControleurChaineDeProduction
 Vues -down- ControleurUsine
+CSV -down- ControleurUsine
 Element -up- ControleurElement
+CalculsProduction -right- ControleurUsine
 ChaineDeProduction -up- ControleurChaineDeProduction
 Usine -up- ControleurUsine
 Usine -right- "*" ChaineDeProduction

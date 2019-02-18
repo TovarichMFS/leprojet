@@ -30,10 +30,10 @@ public interface CSV {
 	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u
 	 * @throws IOException 
 	 */
-	public default Usine chargerCSV(int nbSemaine) throws IOException {
+	public default Usine chargerCSV(int nSemaine) throws IOException {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
-		String file = "e"+nbSemaine+".csv";
+		String file = "e"+nSemaine+".csv";
 		Path pE = Paths.get(file);
 
 		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
@@ -66,7 +66,7 @@ public interface CSV {
 			cU.addStock(e);
 		}
 		
-		file = "c"+nbSemaine+".csv";
+		file = "c"+nSemaine+".csv";
 		Path pC = Paths.get(file);
 
 		lignes = (ArrayList<String>) Files.readAllLines(pC);
@@ -131,8 +131,8 @@ public interface CSV {
 	/**
 	 * Sauvegarde les Element et les CHaineDeProduction dans un fichier CSV
 	 */
-	public default void saveCSV(ControleurUsine u, int nbSemaine) {
-		String file = "e"+nbSemaine+".csv";
+	public default void saveCSV(ControleurUsine u, int nSemaine) {
+		String file = "e"+nSemaine+".csv";
 		File f = new File(file);
 		Path p = Paths.get(file);
 		try {
@@ -161,7 +161,7 @@ public interface CSV {
 			}
 		}
 		
-		file = "c"+nbSemaine+".csv";
+		file = "c"+nSemaine+".csv";
 		f = new File(file);
 		Path p2 = Paths.get(file);
 		try {
