@@ -5,14 +5,12 @@ package others;
 
 import static java.nio.file.StandardOpenOption.APPEND;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
-import javax.swing.CellEditor;
 
 import controleur.ControleurChaineDeProduction;
 import controleur.ControleurElement;
@@ -32,10 +30,11 @@ public interface CSV {
 	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u
 	 * @throws IOException 
 	 */
-	public default Usine chargerCSV() throws IOException {
+	public default Usine chargerCSV(int nbSemaine) throws IOException {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
-		Path pE = Paths.get("elements.csv");
+		String file = "e"+nbSemaine+".csv";
+		Path pE = Paths.get(file);
 
 		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
 		lignes.remove(0);
@@ -67,7 +66,8 @@ public interface CSV {
 			cU.addStock(e);
 		}
 		
-		Path pC = Paths.get("c1.csv");
+		file = "c"+nbSemaine+".csv";
+		Path pC = Paths.get(file);
 
 		lignes = (ArrayList<String>) Files.readAllLines(pC);
 		lignes.remove(0);
@@ -131,8 +131,10 @@ public interface CSV {
 	/**
 	 * Sauvegarde les Element et les CHaineDeProduction dans un fichier CSV
 	 */
-	public default void saveCSV(ControleurUsine u) {
-		Path p = Paths.get("e1.csv");
+	public default void saveCSV(ControleurUsine u, int nbSemaine) {
+		String file = "e"+nbSemaine+".csv";
+		File f = new File(file);
+		Path p = Paths.get(file);
 		try {
 			Files.write(p, String.format("Code;Nom;Quantite;unite;achat;vente;?;demande\n").getBytes());
 		} catch (IOException e1) {
@@ -159,7 +161,9 @@ public interface CSV {
 			}
 		}
 		
-		Path p2 = Paths.get("c1.csv");
+		file = "c"+nbSemaine+".csv";
+		f = new File(file);
+		Path p2 = Paths.get(file);
 		try {
 			Files.write(p2, String.format("Code;Nom;Entree (code,qte);Sortie (code,qte);niveau\n").getBytes());
 		} catch (IOException e1) {

@@ -57,7 +57,7 @@ public class MainWindow extends JFrame{
 		super("");
 		this.u = new ControleurUsine(new Usine());
 		try {
-			this.u = new ControleurUsine(u.chargerCSV());
+			this.u = new ControleurUsine(u.chargerCSV(0));
 		} catch (IOException e2) {
 			JOptionPane.showMessageDialog(null, "Fichiers introuvables", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
 		} catch (NumberFormatException e2) {
@@ -231,7 +231,7 @@ public class MainWindow extends JFrame{
 				int choix = JOptionPane.showConfirmDialog(null, "Charger un CSV va écraser les données actuelles.\nVoulez-vous continuer?","Charger CSV", JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
 					try {
-						u = new ControleurUsine(u.chargerCSV());
+						u = new ControleurUsine(u.chargerCSV(0));
 					} catch (IOException e1) {
 						JOptionPane.showMessageDialog(null, "Fichiers introuvables", "Erreur chargement", JOptionPane.WARNING_MESSAGE);
 					} catch (NumberFormatException e2) {
@@ -260,7 +260,7 @@ public class MainWindow extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				int choix = JOptionPane.showConfirmDialog(null, "Sauvegarder le CSV va écraser le fichier précédent.\nVoulez-vous continuer?","Sauvegarder CSV",JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
-					u.saveCSV(u);
+					u.saveCSV(u,0);
 					JOptionPane.showMessageDialog(null, "Sauvegarde effectuée", "Sauvegarde CSV", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}

@@ -19,6 +19,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -179,6 +182,25 @@ public class VuePrevisionSemaine extends JFrame {
 		});
 		pBas.add(bActu);
 		fenetre.add(pBas, BorderLayout.SOUTH);
+		
+		//Menu
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("Options");
+		JMenuItem jmi = new JMenuItem("Sauvegarder CSV");
+		jmi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int choix = JOptionPane.showConfirmDialog(null, "Sauvegarder le CSV va écraser le fichier précédent.\nVoulez-vous continuer?","Sauvegarder CSV",JOptionPane.YES_NO_OPTION);
+				if(choix==JOptionPane.YES_OPTION) {
+					u.saveCSV(u,(Integer) sSemaine.getValue());
+					JOptionPane.showMessageDialog(null, "Sauvegarde effectuée", "Sauvegarde CSV", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+		menu.add(jmi);
+		menuBar.add(menu);
+		this.setJMenuBar(menuBar);
 		
 		add(fenetre, "Center");
 	    this.pack();
