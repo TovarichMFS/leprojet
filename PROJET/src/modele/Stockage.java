@@ -9,7 +9,7 @@ package modele;
  */
 public class Stockage {
 	private String code, nom;
-	private int capacite, quantiteDispo;
+	private int capacite, quantiteDispo, remplissage;
 
 	/**
 	 * 
@@ -19,6 +19,7 @@ public class Stockage {
 		this.code = code;
 		this.nom = nom;
 		this.quantiteDispo = quantiteDispo;
+		this.remplissage = 0;
 	}
 
 	/**
@@ -53,6 +54,20 @@ public class Stockage {
 		this.quantiteDispo+=modif;
 	}
 	
+	/**
+	 * @return remplissage
+	 */
+	public int getRemplissage() {
+		return remplissage;
+	}
+
+	/**
+	 * @param remplissage remplissage to set
+	 */
+	public void modifRemplissage(int remplissage) {
+		this.remplissage += remplissage;
+	}
+
 	@Override
 	public String toString() {
 		return "Stockage "+this.getCode()+": "+this.getNom()+" Capacité: "+this.getCapacite()+" Quantité dispo: "+this.getQuantiteDispo();

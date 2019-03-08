@@ -35,11 +35,22 @@ public class ControleurStockage {
 		return this.stockage.getQuantiteDispo();
 	}
 	
-	public void modifQuantiteDispo(int modif) throws Exception {
-		if(this.getQuantiteDispo()+modif>this.getCapacite())
+	public int getRemplissage() {
+		return this.getRemplissage();
+	}
+	
+	public void modifRemplissage(int modif) throws Exception {
+		if(this.getRemplissage()+modif>(this.getCapacite()*this.getQuantiteDispo()))
 			throw new Exception("Stockage insuffisant!");
-		else if(this.getQuantiteDispo()+modif<0)
+		else if(this.getRemplissage()+modif<0)
 			throw new Exception("Stocks insuffisant!");
+		else
+			this.stockage.modifRemplissage(modif);
+	}
+	
+	public void modifQuantiteDispo(int modif) throws Exception {
+		if(this.getQuantiteDispo()+modif<0)
+			throw new Exception("Nombre de stockages négatif!");
 		else
 			this.stockage.modifQuantiteDispo(modif);
 	}
