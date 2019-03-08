@@ -103,11 +103,11 @@ public class VueChaine extends JFrame {
 		pContenu.setLayout(gLc);
 		
 		if(c!=null) {
-			listeE = new VueListeElementsChaine(this.cC.getEntrants(),cC,1);
-			listeS = new VueListeElementsChaine(this.cC.getSortants(),cC,2);
+			listeE = new VueListeElementsChaine(this.cC.getEntrants(),cC,u,1);
+			listeS = new VueListeElementsChaine(this.cC.getSortants(),cC,u,2);
 		}else {
-			listeE = new VueListeElementsChaine(new HashMap<>(),cC,1);
-			listeS = new VueListeElementsChaine(new HashMap<>(),cC,2);
+			listeE = new VueListeElementsChaine(new HashMap<>(),cC,u,1);
+			listeS = new VueListeElementsChaine(new HashMap<>(),cC,u,2);
 		}
 		
 		JPanel pEntrants = new JPanel();
@@ -130,7 +130,7 @@ public class VueChaine extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueElement vAddE = new VueElementChaine(null,cC,1);
+				VueElement vAddE = new VueElementChaine(null,cC,u,1);
 				vAddE.show();	
 			}
 		});
@@ -158,7 +158,7 @@ public class VueChaine extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VueElement vAddE = new VueElementChaine(null,cC,2);
+				VueElement vAddE = new VueElementChaine(null,cC,u,2);
 				vAddE.show();	
 			}
 		});
@@ -262,11 +262,11 @@ public class VueChaine extends JFrame {
 				pEntrants.remove(listeE);
 				pSortants.remove(listeS);
 				if(c!=null) {
-					listeE = new VueListeElementsChaine(cC.getEntrants(),cC,1);
-					listeS = new VueListeElementsChaine(cC.getSortants(),cC,2);
+					listeE = new VueListeElementsChaine(cC.getEntrants(),cC,u,1);
+					listeS = new VueListeElementsChaine(cC.getSortants(),cC,u,2);
 				}else {
-					listeE = new VueListeElementsChaine(new HashMap<>(),cC,1);
-					listeS = new VueListeElementsChaine(new HashMap<>(),cC,2);
+					listeE = new VueListeElementsChaine(new HashMap<>(),cC,u,1);
+					listeS = new VueListeElementsChaine(new HashMap<>(),cC,u,2);
 				}
 				listeE.revalidate();
 				listeE.repaint();

@@ -19,6 +19,7 @@ import modele.ChaineDeProduction;
 import modele.Element;
 import modele.MatierePremiere;
 import modele.Produit;
+import modele.Stockage;
 import modele.Usine;
 
 /**
@@ -33,10 +34,26 @@ public interface CSV {
 	public default Usine chargerCSV(int nSemaine) throws IOException {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
-		String file = "e"+nSemaine+".csv";
+		String file = "s"+nSemaine+".csv";
+		Path pS = Paths.get(file);
+		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pS);
+		lignes.remove(0);
+		for (String string : lignes) {
+			Stockage s;
+			String[] split = string.split(";");
+			String code = split[0];
+			String nom = split[1];
+			int capacite = Integer.parseInt(split[2]);
+			int quantiteDispo = Integer.parseInt(split[3]);
+			s = new Stockage(code, nom, capacite, quantiteDispo);
+			System.out.println(s);
+			cU.addStockage(s);
+		}
+		
+		file = "e"+nSemaine+".csv";
 		Path pE = Paths.get(file);
 
-		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pE);
+		lignes = (ArrayList<String>) Files.readAllLines(pE);
 		lignes.remove(0);
 		for (String string : lignes) {
 			Element e;
@@ -52,17 +69,22 @@ public interface CSV {
 				achat = Double.valueOf(split[4]);
 			if(!split[5].equals("NA"))
 				vente = Double.valueOf(split[5]);
+			String codeS = split[6];
+			System.out.println(codeS);
+			Stockage stockage = cU.getStockage(codeS);
+			System.out.println(stockage);
 			int demande = Integer.valueOf(split[7]);
 			if(achat==-1) {
 				if(vente==-1)
-					e = new Produit(code, nom, quantite, unite, demande);
+					e = new Produit(code, nom, quantite, unite, stockage, demande);
 				else
-					e = new Produit(code, nom, quantite, unite, vente, demande);
+					e = new Produit(code, nom, quantite, unite, vente, stockage, demande);
 			}else if(vente==-1) {
-				e = new MatierePremiere(code, nom, achat, quantite, unite, demande);
+				e = new MatierePremiere(code, nom, achat, quantite, unite, stockage, demande);
 			}else {
-				e = new Produit(code, nom, achat, quantite, unite, vente, demande);
+				e = new Produit(code, nom, achat, quantite, unite, vente, stockage, demande);
 			}
+			System.out.println(e);
 			cU.addStock(e);
 		}
 		
@@ -92,7 +114,7 @@ public interface CSV {
 							e1.printStackTrace();
 						}
 					else
-						e = new Produit(string2, "", 0, "", 0);
+						e = new Produit(string2, "", 0, "",null, 0);
 					inverse = 1;
 				}else {
 					string2 = string2.substring(0, string2.length()-1);
@@ -124,7 +146,7 @@ public interface CSV {
 			cCDP.changeNiveau(niveau);
 			cU.addChaine(c);
 		}
-
+		System.out.println(u);
 		return u;
 	}
 	
@@ -132,8 +154,26 @@ public interface CSV {
 	 * Sauvegarde les Element et les CHaineDeProduction dans un fichier CSV
 	 */
 	public default void saveCSV(ControleurUsine u, int nSemaine) {
-		String file = "e"+nSemaine+".csv";
+		String file = "s"+nSemaine+".csv";
 		File f = new File(file);
+		Path pS = Paths.get(file);
+		try {
+			Files.write(pS, String.format("Code;Nom;Capacite;Quantite disponible\n").getBytes());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		for (String cle : u.getStockages().keySet()) {
+			Stockage s = u.getStockage(cle);
+			String entree = s.getCode()+";"+s.getNom()+";"+s.getCapacite()+";"+s.getQuantiteDispo()+";\n";
+			try {
+				Files.write(pS, String.format(entree).getBytes(), APPEND);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		file = "e"+nSemaine+".csv";
+		f = new File(file);
 		Path p = Paths.get(file);
 		try {
 			Files.write(p, String.format("Code;Nom;Quantite;unite;achat;vente;?;demande\n").getBytes());
@@ -152,8 +192,9 @@ public interface CSV {
 				entree += "NA;";
 			else
 				entree += e.getPrixVente()+";";
+			String stockage = e.getStockage().getCode();
 			String demande = e.getDemande()+"";
-			entree+="?;"+demande+"\n";
+			entree+=stockage+";"+demande+"\n";
 			try {
 				Files.write(p, String.format(entree).getBytes(), APPEND);
 			} catch (IOException e1) {

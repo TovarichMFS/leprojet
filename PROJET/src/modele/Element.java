@@ -5,6 +5,7 @@ public abstract class Element implements Cloneable{
 	private String unite;
 	private double quantite,prixAchat,prixVente;
 	private int demande;
+	private Stockage stockage;
 	
 	/**
 	 * Construit un Element sans prix
@@ -13,11 +14,12 @@ public abstract class Element implements Cloneable{
 	 * @param quantite
 	 * @param unite
 	 */
-	public Element(String code, String nom, double quantite, String unite,int demande) {
+	public Element(String code, String nom, double quantite, String unite,Stockage stockage, int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
 		this.unite = unite;
+		this.stockage = stockage;
 		this.setDemande(demande);
 	}
 	
@@ -31,13 +33,14 @@ public abstract class Element implements Cloneable{
 	 * @param unite
 	 * @param prixVente
 	 */
-	public Element(String code, String nom, double prixAchat, double quantite, String unite, double prixVente,int demande) {
+	public Element(String code, String nom, double prixAchat, double quantite, String unite, double prixVente,Stockage stockage,int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
 		this.unite = unite;
 		this.setPrixAchat(prixAchat);
 		this.setPrixVente(prixVente);
+		this.stockage = stockage;
 		this.setDemande(demande);
 	}
 	
@@ -49,12 +52,13 @@ public abstract class Element implements Cloneable{
 	 * @param quantite
 	 * @param unite
 	 */
-	public Element(String code, String nom, double prixAchat, double quantite, String unite,int demande) {
+	public Element(String code, String nom, double prixAchat, double quantite, String unite,Stockage stockage,int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
 		this.unite = unite;
 		this.setPrixAchat(prixAchat);
+		this.stockage = stockage;
 		this.setDemande(demande);
 	}
 	
@@ -66,12 +70,13 @@ public abstract class Element implements Cloneable{
 	 * @param unite
 	 * @param prixVente
 	 */
-	public Element(String code, String nom, double quantite, String unite, double prixVente,int demande) {
+	public Element(String code, String nom, double quantite, String unite, double prixVente,Stockage stockage,int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
 		this.unite = unite;
 		this.setPrixVente(prixVente);
+		this.stockage = stockage;
 		this.setDemande(demande);
 	}
 
@@ -170,6 +175,22 @@ public abstract class Element implements Cloneable{
 	 */
 	public void setDemande(int demande) {
 		this.demande = demande;
+	}
+
+
+	/**
+	 * @return the stockage
+	 */
+	public Stockage getStockage() {
+		return stockage;
+	}
+
+
+	/**
+	 * @param stockage the stockage to set
+	 */
+	public void setStockage(Stockage stockage) {
+		this.stockage = stockage;
 	}
 
 

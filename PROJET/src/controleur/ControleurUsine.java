@@ -3,21 +3,13 @@
  */
 package controleur;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import static java.nio.file.StandardOpenOption.APPEND;
-
 import modele.ChaineDeProduction;
 import modele.Element;
-import modele.MatierePremiere;
-import modele.Produit;
+import modele.Stockage;
 import modele.Usine;
 import others.CSV;
-import others.CalculException;
 import others.CalculsProduction;
 
 /**
@@ -161,6 +153,26 @@ public class ControleurUsine implements CSV, CalculsProduction{
 	 */
 	public void setChaines(ArrayList<ChaineDeProduction> chaines) {
 		this.u.setChaines(chaines);
+	}
+	
+	public HashMap<String, Stockage> getStockages(){
+		return this.u.getStockages();
+	}
+	
+	public Stockage getStockage(String code) {
+		return this.u.getStockages().get(code);
+	}
+	
+	public void addStockage(Stockage s) {
+		this.getStockages().put(s.getCode(), s);
+	}
+	
+	public void rmStockage(String code) {
+		this.getStockages().remove(code);
+	}
+	
+	public void setStockages(HashMap<String, Stockage> stockages) {
+		this.u.setStockages(stockages);
 	}
 	
 	/* (non-Javadoc)

@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import controleur.ControleurChaineDeProduction;
 import controleur.ControleurElement;
+import controleur.ControleurUsine;
 import modele.Element;
 
 /**
@@ -27,7 +28,7 @@ public class VueListeElementsChaine extends VueListeElements {
 	 * @param u
 	 * @param option
 	 */
-	public VueListeElementsChaine(HashMap<String, Element> listeE, ControleurChaineDeProduction c, int option) {
+	public VueListeElementsChaine(HashMap<String, Element> listeE, ControleurChaineDeProduction c, ControleurUsine u, int option) {
 		super(listeE, option);
 		for (String key : listeE.keySet()) {
 			ControleurElement cE = new ControleurElement(listeE.get(key));
@@ -69,7 +70,7 @@ public class VueListeElementsChaine extends VueListeElements {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					VueElement ve;
-					ve = new VueElementChaine(listeE.get(key),c,option);
+					ve = new VueElementChaine(listeE.get(key),c,u,option);
 					ve.show();
 				}
 			});

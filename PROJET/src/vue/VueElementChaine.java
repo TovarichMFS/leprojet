@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import controleur.ControleurChaineDeProduction;
+import controleur.ControleurUsine;
 import modele.Element;
 import modele.MatierePremiere;
 import modele.Produit;
@@ -22,7 +23,7 @@ public class VueElementChaine extends VueElement {
 	/**
 	 * @param e
 	 */
-	public VueElementChaine(Element e,ControleurChaineDeProduction c,int option) {
+	public VueElementChaine(Element e,ControleurChaineDeProduction c,ControleurUsine u,int option) {
 		super(e);
 		this.bAjout.addActionListener(new ActionListener() {
 			
@@ -31,6 +32,7 @@ public class VueElementChaine extends VueElement {
 				String code = tCode.getText();
 				String nom = tNom.getText();
 				String unite = tUnite.getText();
+				String stockage = tStockage.getText();
 				double quantite,achat,vente;
 				int demande;
 				try {
@@ -42,12 +44,12 @@ public class VueElementChaine extends VueElement {
 					JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur ajout", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0 && demande>=0) {
+				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0 && demande>=0 && stockage!="") {
 					Element nE;
 					if(achat !=0 && vente==0) {
-						nE = new MatierePremiere(code, nom, achat, quantite, unite, demande);
+						nE = new MatierePremiere(code, nom, achat, quantite, unite, u.getStockage(stockage), demande);
 					}else {
-						nE = new Produit(code, nom,achat, quantite, unite, vente, demande);
+						nE = new Produit(code, nom,achat, quantite, unite, vente, u.getStockage(stockage), demande);
 					}
 					if(option==1)
 						c.addEntrant(nE);
@@ -77,13 +79,14 @@ public class VueElementChaine extends VueElement {
 				}
 			}
 		});
-this.bModif.addActionListener(new ActionListener() {
+		this.bModif.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				int choix = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment modifier cet élément?","Modifier élément",JOptionPane.YES_NO_OPTION);
 				if(choix==JOptionPane.YES_OPTION) {
 					String nom = tNom.getText();
+					String stockage = tStockage.getText();
 					double quantite,achat,vente;
 					int demande;
 					try {
@@ -95,12 +98,12 @@ this.bModif.addActionListener(new ActionListener() {
 						JOptionPane.showMessageDialog(null, "Erreur, des paramètres sont manquants ou invalides", "Erreur modification", JOptionPane.WARNING_MESSAGE);
 						return;
 					}
-					if(nom!="" && quantite>=0 && achat>=0 && vente>=0 && demande>=0) {
+					if(nom!="" && quantite>=0 && achat>=0 && vente>=0 && demande>=0 && stockage!="") {
 						Element nE;
 						if(achat !=0 && vente==0) {
-							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), demande);
+							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), u.getStockage(stockage), demande);
 						}else {
-							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, demande);
+							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, u.getStockage(stockage), demande);
 						}
 						if(option==1)
 							c.addEntrant(nE);

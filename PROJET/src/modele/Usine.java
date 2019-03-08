@@ -15,6 +15,7 @@ import others.CSV;
 public class Usine {
 	private ArrayList<ChaineDeProduction> chaines;
 	private HashMap<String,Element> stocks, listeAchats;
+	private HashMap<String, Stockage>stockages;
 
 	/**
 	 * Construit une Usine
@@ -24,6 +25,7 @@ public class Usine {
 		this.chaines = new ArrayList<ChaineDeProduction>();
 		this.stocks = new HashMap<String,Element>();
 		this.listeAchats = new HashMap<String,Element>();
+		this.stockages = new HashMap<String, Stockage>();
 	}
 
 	/**
@@ -74,6 +76,20 @@ public class Usine {
 		this.listeAchats = listeAchats;
 	}
 
+	/**
+	 * @return the stockages
+	 */
+	public HashMap<String, Stockage> getStockages() {
+		return stockages;
+	}
+
+	/**
+	 * @param stockages the stockages to set
+	 */
+	public void setStockages(HashMap<String, Stockage> stockages) {
+		this.stockages = stockages;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -87,11 +103,15 @@ public class Usine {
 		for (Element e : this.stocks.values()) {
 			stocks += e.toString()+"\n";
 		}
+		String stockages = "";
+		for (String key : this.getStockages().keySet()) {
+			stockages += this.getStockages().get(key).toString()+"\n";
+		}
 		String achats = "";
 		for (String key : this.getListeAchats().keySet()) {
 			achats += this.getListeAchats().get(key).toString()+"\n";
 		}
-		return "Usine :\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines+"Liste d'achats:\n"+achats;
+		return "Usine :\nStocks:\n"+stocks+"Chaines de Production:\n"+chaines+"Stockages:\n"+stockages+"Liste d'achats:\n"+achats;
 	}
 
 }

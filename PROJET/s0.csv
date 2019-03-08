@@ -1,0 +1,7 @@
+Code;Nom;Capacite;Quantite disponible
+p;Palette;200;250;
+pr;Palette refrigeree;200;100;
+clr;Cuve liquide refrigeree;400;5;
+cl;Cuve liquide;500;7;
+cp;Cuve poudre;500;25;
+cb;Cuve brassee;200;5;

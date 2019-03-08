@@ -16,8 +16,8 @@ public class Produit extends Element {
 	 * @param quantite
 	 * @param unite
 	 */
-	public Produit(String code, String nom, double quantite, String unite,int demande) {
-		super(code,nom,quantite,unite,demande);
+	public Produit(String code, String nom, double quantite, String unite,Stockage stockage,int demande) {
+		super(code,nom,quantite,unite,stockage,demande);
 	}
 
 	/**
@@ -29,8 +29,8 @@ public class Produit extends Element {
 	 * @param uniteQuantite
 	 * @param prixVente
 	 */
-	public Produit(String code, String nom, double prixAchat, double quantite, String unite, double prixVente,int demande) {
-		super(code, nom, prixAchat, quantite, unite, prixVente,demande);
+	public Produit(String code, String nom, double prixAchat, double quantite, String unite, double prixVente,Stockage stockage,int demande) {
+		super(code, nom, prixAchat, quantite, unite, prixVente,stockage,demande);
 	}
 
 	/**
@@ -41,8 +41,8 @@ public class Produit extends Element {
 	 * @param uniteQuantite
 	 * @param prixVente
 	 */
-	public Produit(String code, String nom, double quantite, String unite, double prixVente,int demande) {
-		super(code, nom, quantite, unite, prixVente,demande);
+	public Produit(String code, String nom, double quantite, String unite, double prixVente,Stockage stockage,int demande) {
+		super(code, nom, quantite, unite, prixVente,stockage,demande);
 	}
 	
 	/* (non-Javadoc)
@@ -56,7 +56,7 @@ public class Produit extends Element {
 		if(this.getPrixVente()!=0.0)
 			prix += " Prix Vente: "+this.getPrixVente()+" €";
 			
-		return "Produit "+this.getNom()+" ("+this.getCode()+"): "+this.getQuantite()+" "+this.getUniteQuantite()+prix+" Demande: "+this.getDemande();
+		return "Produit "+this.getNom()+" ("+this.getCode()+"): "+this.getQuantite()+" "+this.getUniteQuantite()+prix+" Demande: "+this.getDemande()+" "+this.getStockage();
 	}
 
 }

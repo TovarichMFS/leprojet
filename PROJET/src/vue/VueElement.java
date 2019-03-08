@@ -39,7 +39,7 @@ public abstract class VueElement extends JFrame {
 
 	protected ControleurElement cE;
 	protected JButton bAjout, bSuppr,bModif;
-	protected JTextField tCode,tNom,tQuantite,tUnite,tAchat,tVente;
+	protected JTextField tCode,tNom,tQuantite,tUnite,tAchat,tVente, tStockage;
 	protected JSpinner sDemande;
 	
 	/**
@@ -104,15 +104,22 @@ public abstract class VueElement extends JFrame {
 		this.tQuantite = new JTextField(5);
 		Component lUnite;
 		this.tUnite = new JTextField(10);
+		JLabel lStockage = new JLabel("Stockage:");
+		Component ltStockage;
+		this.tStockage = new JTextField(5);
 		if(e!=null) {
 			tQuantite.setText(this.cE.getQuantite()+"");
 			lUnite = new JLabel(this.cE.getUnite());
+			ltStockage = new JLabel(e.getStockage().getCode());
 		}else {
 			lUnite = tUnite;
+			ltStockage = tStockage;
 		}
 		pQuantite.add(lQuantite);
 		pQuantite.add(tQuantite);
 		pQuantite.add(lUnite);
+		pQuantite.add(lStockage);
+		pQuantite.add(ltStockage);
 		pContenu.add(pQuantite);
 		
 		JPanel pPrix = new JPanel();
