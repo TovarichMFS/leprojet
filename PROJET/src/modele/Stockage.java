@@ -70,6 +70,6 @@ public class Stockage {
 
 	@Override
 	public String toString() {
-		return "Stockage "+this.getCode()+": "+this.getNom()+" Capacité: "+this.getCapacite()+" Quantité dispo: "+this.getQuantiteDispo();
+		return "Stockage "+this.getCode()+": "+this.getNom()+" Capacité: "+this.getCapacite()+" Quantité dispo: "+this.getQuantiteDispo()+" Remplissage: "+this.getRemplissage();
 	}
 }
