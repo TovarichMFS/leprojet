@@ -3,6 +3,7 @@
  */
 package others;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -10,6 +11,7 @@ import java.util.Random;
 import controleur.ControleurUsine;
 import modele.ChaineDeProduction;
 import modele.Element;
+import modele.Stockage;
 import modele.Usine;
 
 /**
@@ -22,9 +24,10 @@ public interface CalculsProduction {
 	 * @return double
 	 * @throws CalculException 
 	 * @throws CloneNotSupportedException 
+	 * @throws StockageException 
 	 */
 	@SuppressWarnings("unchecked")
-	public default double calculerProduction(ControleurUsine u) throws CalculException, CloneNotSupportedException {
+	public default double calculerProduction(ControleurUsine u) throws CalculException, CloneNotSupportedException, StockageException, NullPointerException {
 		HashMap<String,Element> cpStocks = new HashMap<String, Element>();
 		for (String key : u.getStocks().keySet()) {
 			cpStocks.put(key, u.getStocks().get(key).clone());
@@ -37,11 +40,19 @@ public interface CalculsProduction {
 		for (ChaineDeProduction c : u.getChaines()) {
 			for (String key : c.getEntrants().keySet()) {
 				Element e = c.getEntrants().get(key);
+				Stockage st = u.getStockage(e.getStockage());
+				st.modifRemplissage(-(int) (e.getQuantite()*c.getNiveau()));
 				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
 			}
 			for (String key : c.getSortants().keySet()) {
 				Element s = c.getSortants().get(key);
-				cpStocks.get(s.getCode()).setQuantite(cpStocks.get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()));
+				Stockage st = u.getStockage(s.getStockage());
+				if((int)(st.getRemplissage()+(s.getQuantite()*c.getNiveau()))<(st.getCapacite()*st.getQuantiteDispo())) {
+					st.modifRemplissage((int) (s.getQuantite()*c.getNiveau()));
+					cpStocks.get(s.getCode()).setQuantite(cpStocks.get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()));
+				}else {
+					throw new StockageException(st.getCode());
+				}
 			}
 		}
 		for (String key : cpStocks.keySet()) {
@@ -65,6 +76,7 @@ public interface CalculsProduction {
 				}
 			}
 		}
+		u.setStocks(cpStocks);
 		u.setListeAchats(cpAchats);
 		return montant;
 	}
@@ -80,6 +92,9 @@ public interface CalculsProduction {
 				else {
 					percent = (Double.valueOf(s.getQuantite()) + Double.valueOf((c.getSortants().get(key).getQuantite()*c.getNiveau())))/Double.valueOf(s.getDemande());
 					percent*=100;
+					if(percent>100) {
+						percent=100;
+					}
 					if(percent==Double.POSITIVE_INFINITY)
 						percent = 0;
 				}
@@ -98,24 +113,32 @@ public interface CalculsProduction {
 		return res;
 	}
 	
-	public default double calculerProductionSemaines(ControleurUsine u, int nbSemaines) throws CalculException, CloneNotSupportedException {
+	public default double calculerProductionSemaines(ControleurUsine u, int nbSemaines, HashMap<String,String[]> bestPrix) throws CalculException, CloneNotSupportedException, StockageException, IOException {
+		ControleurUsine nU = new ControleurUsine(u.chargerCSV(nbSemaines));
 		double total = 0;
 		Random r = new Random();
-		for(int i=0;i<nbSemaines+1;i++) {
-				total+=u.calculerProduction(u);
-				for (String key : u.getStocks().keySet()) {
-					if(u.getStock(key).getPrixAchat()!=0)
-						u.getStock(key).setPrixAchat((r.nextDouble()*100)%20);
+		for(int i=0;i<nbSemaines;i++) {
+			total+=u.calculerProduction(u);
+			for (String key : u.getStocks().keySet()) {
+				if(u.getStock(key).getPrixAchat()!=0) {
+					u.getStock(key).setPrixAchat((r.nextDouble()*100)%20);
 				}
-				for (String key : u.getListeAchats().keySet()) {
-					if(u.getStock(key).getPrixAchat()!=0 && u.getStock(key).getPrixAchat()<u.getAchat(key).getPrixAchat())
-						u.getAchat(key).setPrixAchat(u.getStock(key).getPrixAchat());
-				}
+				if(u.getListeAchats().containsKey(key))
+					u.getAchat(key).setPrixAchat(u.getStock(key).getPrixAchat());
+			}
+			for (String key : u.getListeAchats().keySet()) {
+				String[] ligne = {u.getStock(key).getPrixAchat()+"",nbSemaines+""};
+				if(bestPrix.get(key)==null)
+					bestPrix.put(key,ligne);
+				else if(u.getStock(key).getPrixAchat()!=0 && u.getStock(key).getPrixAchat()<Double.parseDouble(bestPrix.get(key)[0]))
+					bestPrix.put(key,ligne);
+			}
 		}
 		return total;
 	}
 	
-	public default HashMap<String,Double> calculResultatDemandeSemaine(ControleurUsine u,int nbSemaine){
+	public default HashMap<String,Double> calculResultatDemandeSemaine(ControleurUsine u,int nbSemaine) throws IOException{
+		u = new ControleurUsine(u.chargerCSV(nbSemaine));
 		HashMap<String,Double> res = new HashMap<String,Double>();
 		res = calculResultatDemande(u);
 		HashMap<String,Double> tmp = new HashMap<String,Double>();

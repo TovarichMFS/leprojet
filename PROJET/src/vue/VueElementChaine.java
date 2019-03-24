@@ -47,9 +47,9 @@ public class VueElementChaine extends VueElement {
 				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0 && demande>=0 && stockage!="") {
 					Element nE;
 					if(achat !=0 && vente==0) {
-						nE = new MatierePremiere(code, nom, achat, quantite, unite, u.getStockage(stockage), demande);
+						nE = new MatierePremiere(code, nom, achat, quantite, unite, stockage, demande);
 					}else {
-						nE = new Produit(code, nom,achat, quantite, unite, vente, u.getStockage(stockage), demande);
+						nE = new Produit(code, nom,achat, quantite, unite, vente, stockage, demande);
 					}
 					if(option==1)
 						c.addEntrant(nE);
@@ -101,9 +101,9 @@ public class VueElementChaine extends VueElement {
 					if(nom!="" && quantite>=0 && achat>=0 && vente>=0 && demande>=0 && stockage!="") {
 						Element nE;
 						if(achat !=0 && vente==0) {
-							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), u.getStockage(stockage), demande);
+							nE = new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), stockage, demande);
 						}else {
-							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, u.getStockage(stockage), demande);
+							nE = new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, stockage, demande);
 						}
 						if(option==1)
 							c.addEntrant(nE);

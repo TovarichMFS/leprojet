@@ -80,7 +80,7 @@ public class Usine {
 	 * @return the stockages
 	 */
 	public HashMap<String, Stockage> getStockages() {
-		return stockages;
+		return this.stockages;
 	}
 
 	/**

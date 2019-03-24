@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
@@ -22,6 +23,7 @@ import javax.swing.border.EtchedBorder;
 
 import controleur.ControleurUsine;
 import others.CalculException;
+import others.StockageException;
 
 /**
  * @author tovarich
@@ -43,9 +45,15 @@ public class VueResultatProduction extends JPanel{
 		lTete.setFont(new Font(getName(), Font.BOLD, 30));
 		this.add(lTete,BorderLayout.NORTH);
 		double cout = 0;
-		HashMap<String, Double> liste = u.calculResultatDemandeSemaine(u, nbSemaine);
+		HashMap<String, Double> liste = null;
 		JPanel pContenu = new JPanel();
 		pContenu.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		try {
+			liste = u.calculResultatDemandeSemaine(u, nbSemaine);
+		} catch (IOException e2) {
+			JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
+			pContenu.add(new JLabel("Erreur!"));
+		}
 		try {
 			cout = u.calculerProduction(u);
 		} catch (CalculException e1) {
@@ -54,6 +62,10 @@ public class VueResultatProduction extends JPanel{
 		} catch (CloneNotSupportedException e1) {
 			JOptionPane.showMessageDialog(null, "Une erreur est survenue", "Erreur", JOptionPane.ERROR_MESSAGE);
 			pContenu.add(new JLabel("Erreur!"));
+		} catch (StockageException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Production impossible", JOptionPane.ERROR_MESSAGE);
+		} catch (NullPointerException e1) {
+			JOptionPane.showMessageDialog(null, "Stockage indisponible", "Erreur", JOptionPane.ERROR_MESSAGE);
 		}
 		pContenu = new JPanel();
 		BoxLayout bl = new BoxLayout(pContenu, BoxLayout.PAGE_AXIS);
@@ -88,10 +100,11 @@ public class VueResultatProduction extends JPanel{
 		JTextField tCout = new JTextField(Double.valueOf(dc.format(cout).replaceAll(",", "."))+" €");
 		JLabel lPercent = new JLabel("Pourcentage assuré:");
 		JTextField tPercent = new JTextField();
+		double result = Double.valueOf(liste.get(null)) ;
 		if(liste.get(null)==Double.POSITIVE_INFINITY)
 			tPercent.setText(0+" %");
 		else
-			tPercent.setText(Double.valueOf(liste.get(null))+" %");
+			tPercent.setText(result+" %");
 		pBas.add(lCout);
 		pBas.add(tCout);
 		pBas.add(lPercent);

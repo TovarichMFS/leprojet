@@ -9,17 +9,18 @@ import modele.Produit;
 import modele.Stockage;
 import modele.Usine;
 import others.CalculException;
+import others.StockageException;
 
 public class TestControleur {
 
 	public static void main(String[] args) {
 		Usine us = new Usine();
 		ControleurUsine u = new ControleurUsine(us);
-		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg",new Stockage("cc","stockage",200,100),0));
-		u.addStock(new Produit("AB", "AH", 0, "kg",new Stockage("cc","stockage",200,100),10));
+		u.addStock(new MatierePremiere("AA", "AH", 12, 1, "kg","cc",0));
+		u.addStock(new Produit("AB", "AH", 0, "kg","cc",10));
 		ChaineDeProduction c = new ChaineDeProduction("CC", "CHAINE");
-		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg",new Stockage("cc","stockage",200,100),0));
-		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg",new Stockage("cc","stockage",200,100),10));
+		c.getEntrants().put("AA",new MatierePremiere("AA", "AH", 12, 1, "kg","cc",0));
+		c.getSortants().put("AB",new Produit("AB", "AH", 1, "kg","cc",10));
 		c.setNiveau(2);
 		u.addChaine(c);
 //		u.addAchat(new MatierePremiere("AA", "AH", 12, 1, "kg"));
@@ -33,6 +34,9 @@ public class TestControleur {
 		} catch (CalculException e) {
 			e.printStackTrace();
 		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		} catch (StockageException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(u);

@@ -17,7 +17,7 @@ public class MatierePremiere extends Element {
 	 * @param quantite
 	 * @param uniteQuantite
 	 */
-	public MatierePremiere(String code, String nom, double prixAchat, double quantite, String unite,Stockage stockage,int demande) {
+	public MatierePremiere(String code, String nom, double prixAchat, double quantite, String unite,String stockage,int demande) {
 		super(code, nom, prixAchat, quantite, unite,stockage,demande);
 	}
 	

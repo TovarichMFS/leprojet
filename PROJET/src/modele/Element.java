@@ -5,7 +5,7 @@ public abstract class Element implements Cloneable{
 	private String unite;
 	private double quantite,prixAchat,prixVente;
 	private int demande;
-	private Stockage stockage;
+	private String stockage;
 	
 	/**
 	 * Construit un Element sans prix
@@ -14,7 +14,7 @@ public abstract class Element implements Cloneable{
 	 * @param quantite
 	 * @param unite
 	 */
-	public Element(String code, String nom, double quantite, String unite,Stockage stockage, int demande) {
+	public Element(String code, String nom, double quantite, String unite,String stockage, int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -33,7 +33,7 @@ public abstract class Element implements Cloneable{
 	 * @param unite
 	 * @param prixVente
 	 */
-	public Element(String code, String nom, double prixAchat, double quantite, String unite, double prixVente,Stockage stockage,int demande) {
+	public Element(String code, String nom, double prixAchat, double quantite, String unite, double prixVente,String stockage,int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -52,7 +52,7 @@ public abstract class Element implements Cloneable{
 	 * @param quantite
 	 * @param unite
 	 */
-	public Element(String code, String nom, double prixAchat, double quantite, String unite,Stockage stockage,int demande) {
+	public Element(String code, String nom, double prixAchat, double quantite, String unite,String stockage,int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -70,7 +70,7 @@ public abstract class Element implements Cloneable{
 	 * @param unite
 	 * @param prixVente
 	 */
-	public Element(String code, String nom, double quantite, String unite, double prixVente,Stockage stockage,int demande) {
+	public Element(String code, String nom, double quantite, String unite, double prixVente,String stockage,int demande) {
 		this.code = code;
 		this.nom = nom;
 		this.setQuantite(quantite);
@@ -181,7 +181,7 @@ public abstract class Element implements Cloneable{
 	/**
 	 * @return the stockage
 	 */
-	public Stockage getStockage() {
+	public String getStockage() {
 		return stockage;
 	}
 
@@ -189,7 +189,7 @@ public abstract class Element implements Cloneable{
 	/**
 	 * @param stockage the stockage to set
 	 */
-	public void setStockage(Stockage stockage) {
+	public void setStockage(String stockage) {
 		this.stockage = stockage;
 	}
 

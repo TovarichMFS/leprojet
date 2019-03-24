@@ -36,7 +36,42 @@ public class ControleurStockage {
 	}
 	
 	public int getRemplissage() {
-		return this.getRemplissage();
+		return this.stockage.getRemplissage();
+	}
+	
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.stockage.setCode(code);;
+	}
+
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.stockage.setNom(nom);
+	}
+
+	/**
+	 * @param quantiteDispo the quantiteDispo to set
+	 */
+	public void setQuantiteDispo(int quantiteDispo) {
+		this.stockage.setQuantiteDispo(quantiteDispo);
+	}
+
+	/**
+	 * @param remplissage the remplissage to set
+	 */
+	public void setRemplissage(int remplissage) {
+		this.stockage.setRemplissage(remplissage);
+	}
+	
+	/**
+	 * @param capacite the capacite to set
+	 */
+	public void setCapacite(int capacite) {
+		this.stockage.setCapacite(capacite);
 	}
 	
 	public void modifRemplissage(int modif) throws Exception {

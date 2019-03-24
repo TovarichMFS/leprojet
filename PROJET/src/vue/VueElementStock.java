@@ -46,9 +46,9 @@ public class VueElementStock extends VueElement {
 				}
 				if(code!="" && nom!="" && quantite>=0 && unite!="" && achat>=0 && vente>=0 && demande>=0 && codeS!="") {
 					if(achat !=0 && vente==0) {
-						u.addStock(new MatierePremiere(code, nom, achat, quantite, unite,u.getStockage(codeS), demande));
+						u.addStock(new MatierePremiere(code, nom, achat, quantite, unite, codeS, demande));
 					}else {
-						u.addStock(new Produit(code, nom,achat, quantite, unite, vente, u.getStockage(codeS), demande));
+						u.addStock(new Produit(code, nom,achat, quantite, unite, vente, codeS, demande));
 					}
 					JOptionPane.showMessageDialog(null, "Elément ajouté!", "Elément ajouté", JOptionPane.INFORMATION_MESSAGE);
 					setVisible(false);
@@ -93,9 +93,9 @@ public class VueElementStock extends VueElement {
 					}
 					if(nom!="" && quantite>=0 && achat>=0 && vente>=0 && demande>=0) {
 						if(achat !=0 && vente==0) {
-							u.addStock(new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(),u.getStockage(codeS), demande));
+							u.addStock(new MatierePremiere(cE.getCode(), nom, achat, quantite, cE.getUnite(), codeS, demande));
 						}else {
-							u.addStock(new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente,u.getStockage(codeS), demande));
+							u.addStock(new Produit(cE.getCode(), nom,achat, quantite, cE.getUnite(), vente, codeS, demande));
 						}
 						JOptionPane.showMessageDialog(null, "Elément modifié!", "Elément modifié", JOptionPane.INFORMATION_MESSAGE);
 						setVisible(false);

@@ -136,5 +136,13 @@ public class ControleurElement {
 	public Element getElement() {
 		return this.e;
 	}
+	
+	public String getStockage() {
+		return this.e.getStockage();
+	}
+	
+	public void setStockage(String s) {
+		this.e.setStockage(s);
+	}
 
 }

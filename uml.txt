@@ -7,6 +7,8 @@ abstract class Element {
 -String unite
 -double prixAchat
 -double prixVente
+-int demande
+-String stockage
 +String getCode()
 +String getNom()
 +setNom(String nom)
@@ -17,6 +19,10 @@ abstract class Element {
 +double getPrixVente()
 +setPrixAchat(double achat)
 +setPrixVente(double vente)
++int getDemande()
++setDemande(int demande)
++String getStockage()
++setStockage(String stockage)
 +Element clone()
 }
 
@@ -33,8 +39,8 @@ class ChaineDeProduction {
 +setNom(String nom)
 +int getNiveau()
 +setNiveau(int niveau)
-+Element[] getEntrants()
-+Element[] getSortants()
++HashMap<String,Element> getEntrants()
++HashMap<String,Element> getSortants()
 +String toString()
 }
 
@@ -46,6 +52,27 @@ class Usine {
 +Element[] getStocks()
 +Element[] getListeAchats()
 +setListeAchats(HashMap<String,Element> listeAchats)
++HashMap<String, Stockage> getStockages()
++setStockages(HashMap<String, Stockage> stockages)
++String toString()
+}
+
+class Stockage {
+-String code
+-String nom
+-int capacite
+-int quantiteDispo
+-int remplissage
++String getCode()
++String getNom()
++int getCapacite()
++int getQuantiteDispo()
++int getRemplissage()
++modifQuantiteDispo(int modif)
++modifRemplissage(int modif)
++setCode(String code)
++setNom(String nom)
++setCapacite(int capacite)
 +String toString()
 }
 
@@ -64,6 +91,10 @@ class ControleurElement {
 +double getPrixVente()
 +setPrixAchat(double achat)
 +setPrixVente(double vente)
++int getDemande()
++setDemande(int demande)
++String getStockage()
++setStockage(String stockage)
 }
 
 class ControleurChaineDeProduction {
@@ -71,15 +102,15 @@ class ControleurChaineDeProduction {
 +String getNom()
 +setNom(String nom)
 +int getNiveau()
-+changerNiveau()
-+Element[] getEntrants()
-+Element[] getSortants()
++changerNiveau(int i)
++HashMap<String, Element> getEntrants()
++HashMap<String, Element> getSortants()
 +Element getEntrant(String code)
 +Element getSortant(String code)
-+addEntrant()
-+addSortant()
-+rmEntrant()
-+rmSortant()
++addEntrant(Element e)
++addSortant(Element e)
++rmEntrant(String code)
++rmSortant(String code)
 +String toString()
 }
 
@@ -91,16 +122,32 @@ class ControleurUsine {
 +Element getStock(String code)
 +ChaineDeProduction[] getChaines()
 +ChaineDeProduction getChaine(String code)
-+chargerCSV()
-+double calculerProduction()
++HashMap<String, Stockage> getStockages()
++Stockage getStockage(String code)
++addStockage(Stockage s)
++rmStockage(String code)
++setStockages(HashMap<String, Stockage> stockages)
 +String toString()
+}
+
+class ControleurStockage {
++String getCode()
++String getNom()
++int getCapacite()
++int getQuantiteDispo()
++int getRemplissage()
++modifQuantiteDispo(int modif)
++modifRemplissage(int modif)
++setCode(String code)
++setNom(String nom)
++setCapacite(int capacite)
 }
 
 }
 
 interface CalculsProduction{
 +double calculerProduction(ControleurUsine u)
-+double calculerProductionSemaines(ControleurUsine u, int nbSemaine)
++double calculerProductionSemaines(ControleurUsine u, int nbSemaine,HashMap<String,String[]> bestPrix)
 +HashMap<String,Double> calculResultatDemande(ControleurUsine u)
 +HashMap<String,Double> calculResultatDemandeSemaines(ControleurUsine u, int nbSemaine)
 }
@@ -121,14 +168,18 @@ class Vues {
 Vues -down- ControleurElement
 Vues -down- ControleurChaineDeProduction
 Vues -down- ControleurUsine
+Vues -down- ControleurStockage
 CSV -down- ControleurUsine
 Element -up- ControleurElement
 CalculsProduction -right- ControleurUsine
 ChaineDeProduction -up- ControleurChaineDeProduction
 Usine -up- ControleurUsine
+Stockage -up- ControleurStockage
 Usine -right- "*" ChaineDeProduction
 Usine -down- "*" Element
+Stockage "*" -down- Element
 ChaineDeProduction -down- "*" Element
+Usine -left- "*" Stockage
 Element <|-- Produit
 Element <|-- MatierePremiere
 @enduml

@@ -35,6 +35,13 @@ public interface CSV {
 		Usine u = new Usine();
 		ControleurUsine cU = new ControleurUsine(u);
 		String file = "s"+nSemaine+".csv";
+		File f = new File(file);
+		int decompte = nSemaine;
+		while(!f.exists()) {
+			decompte--;
+			file = "s"+decompte+".csv";
+			f = new File(file);
+		}
 		Path pS = Paths.get(file);
 		ArrayList<String> lignes = (ArrayList<String>) Files.readAllLines(pS);
 		lignes.remove(0);
@@ -46,11 +53,17 @@ public interface CSV {
 			int capacite = Integer.parseInt(split[2]);
 			int quantiteDispo = Integer.parseInt(split[3]);
 			s = new Stockage(code, nom, capacite, quantiteDispo);
-			System.out.println(s);
 			cU.addStockage(s);
 		}
 		
 		file = "e"+nSemaine+".csv";
+		f = new File(file);
+		decompte = nSemaine;
+		while(!f.exists()) {
+			decompte--;
+			file = "s"+decompte+".csv";
+			f = new File(file);
+		}
 		Path pE = Paths.get(file);
 
 		lignes = (ArrayList<String>) Files.readAllLines(pE);
@@ -70,25 +83,34 @@ public interface CSV {
 			if(!split[5].equals("NA"))
 				vente = Double.valueOf(split[5]);
 			String codeS = split[6];
-			System.out.println(codeS);
-			Stockage stockage = cU.getStockage(codeS);
-			System.out.println(stockage);
 			int demande = Integer.valueOf(split[7]);
 			if(achat==-1) {
 				if(vente==-1)
-					e = new Produit(code, nom, quantite, unite, stockage, demande);
+					e = new Produit(code, nom, quantite, unite, codeS, demande);
 				else
-					e = new Produit(code, nom, quantite, unite, vente, stockage, demande);
+					e = new Produit(code, nom, quantite, unite, vente, codeS, demande);
 			}else if(vente==-1) {
-				e = new MatierePremiere(code, nom, achat, quantite, unite, stockage, demande);
+				e = new MatierePremiere(code, nom, achat, quantite, unite, codeS, demande);
 			}else {
-				e = new Produit(code, nom, achat, quantite, unite, vente, stockage, demande);
+				e = new Produit(code, nom, achat, quantite, unite, vente, codeS, demande);
 			}
-			System.out.println(e);
 			cU.addStock(e);
 		}
 		
+		System.out.println("lol");
+		for (String key : cU.getStocks().keySet()) {
+			System.out.println(cU.getStockage(cU.getStock(key).getStockage()));
+			cU.getStockage(cU.getStock(key).getStockage()).setRemplissage((int) cU.getStock(key).getQuantite());
+		}
+		
 		file = "c"+nSemaine+".csv";
+		f = new File(file);
+		decompte = nSemaine;
+		while(!f.exists()) {
+			decompte--;
+			file = "s"+decompte+".csv";
+			f = new File(file);
+		}
 		Path pC = Paths.get(file);
 
 		lignes = (ArrayList<String>) Files.readAllLines(pC);
@@ -146,7 +168,6 @@ public interface CSV {
 			cCDP.changeNiveau(niveau);
 			cU.addChaine(c);
 		}
-		System.out.println(u);
 		return u;
 	}
 	
@@ -192,7 +213,7 @@ public interface CSV {
 				entree += "NA;";
 			else
 				entree += e.getPrixVente()+";";
-			String stockage = e.getStockage().getCode();
+			String stockage = e.getStockage();
 			String demande = e.getDemande()+"";
 			entree+=stockage+";"+demande+"\n";
 			try {

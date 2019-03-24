@@ -38,7 +38,7 @@ public abstract class VueListeElements extends JPanel{
 			BoxLayout bl = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 			this.setLayout(bl);
 			JPanel blocLabel = new JPanel();
-			GridLayout gLabel = new GridLayout(1, 7);
+			GridLayout gLabel = new GridLayout(1, 8);
 			blocLabel.setLayout(gLabel);
 			JLabel lCode = new JLabel("Code");
 			JLabel lNom = new JLabel("Nom");
@@ -46,12 +46,14 @@ public abstract class VueListeElements extends JPanel{
 			JLabel lAchat = new JLabel("Prix d'achat");
 			JLabel lVente = new JLabel("Prix de vente");
 			JLabel lDemande = new JLabel("  Demande");
+			JLabel lStockage = new JLabel("Stockage");
 			blocLabel.add(lCode);
 			blocLabel.add(lNom);
 			blocLabel.add(lQuantite);
 			blocLabel.add(lAchat);
 			blocLabel.add(lVente);
 			blocLabel.add(lDemande);
+			blocLabel.add(lStockage);
 			blocLabel.add(new JLabel(" "));
 			this.add(blocLabel);
 		}

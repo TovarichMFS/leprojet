@@ -48,6 +48,7 @@ public class MainWindow extends JFrame{
 	private VueListeChaines lC;
 	private VueListeElements lE;
 	private VueListeElements lA;
+	private VueListeStockages lS;
 
 	/**
 	 * 
@@ -87,7 +88,7 @@ public class MainWindow extends JFrame{
 		
 		//Contenu
 		JPanel pContenu = new JPanel();
-		GridLayout gL = new GridLayout(3, 1);
+		GridLayout gL = new GridLayout(4, 1);
 		pContenu.setLayout(gL);
 		
 		//Liste des stocks
@@ -120,7 +121,7 @@ public class MainWindow extends JFrame{
 		
 		lE = new VueListeElementsUsine(u.getStocks(),u,0);
 		pStocks.add(lE,BorderLayout.CENTER);
-		JScrollPane spStock = new JScrollPane(pStocks,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane spStock = new JScrollPane(pStocks,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		pContenu.add(spStock);
 		
 		//Liste des Chaines de production
@@ -153,10 +154,43 @@ public class MainWindow extends JFrame{
 		
 		lC = new VueListeChaines(u.getChaines(),u);
 		pChaines.add(lC,BorderLayout.CENTER);
-		JScrollPane spChaine = new JScrollPane(pChaines,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane spChaine = new JScrollPane(pChaines,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		pContenu.add(spChaine);
 		
 		fenetre.add(pContenu,BorderLayout.CENTER);
+		
+		//Liste des stockages
+		JPanel pStockages = new JPanel();
+		BorderLayout bLs = new BorderLayout();
+		pStockages.setLayout(bLs);
+		
+		JPanel pTeteStockages =  new JPanel();
+		GridLayout fLTSt = new GridLayout(1,3);
+		pTeteStockages.setLayout(fLTSt);
+		JLabel lStockages = new JLabel("Stockages");
+		pTeteStockages.setBackground(new Color(224, 224, 224));
+		pTeteStockages.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		lStockages.setFont(new Font(getName(), Font.BOLD, 18));
+		pTeteStockages.add(lStockages);
+		JPanel pFillSt = new JPanel();
+		pFillSt.setBackground(new Color(224, 224, 224));
+		pTeteStockages.add(pFillSt);
+		JButton bAddStockage = new JButton("Ajouter");
+		bAddStockage.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				VueStockage vAddS = new VueStockage(null,u);
+				vAddS.show();
+			}
+		});
+		pTeteStockages.add(bAddStockage);
+		pStockages.add(pTeteStockages,BorderLayout.NORTH);
+		
+		lS = new VueListeStockages(u.getStockages(),u);
+		pStockages.add(lS,BorderLayout.CENTER);
+		JScrollPane spStockage = new JScrollPane(pStockages,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		pContenu.add(spStockage);
 		
 		//Liste d'achats
 		JPanel pAchats = new JPanel();
@@ -207,6 +241,12 @@ public class MainWindow extends JFrame{
 				lE.revalidate();
 				lE.repaint();
 				pStocks.add(lE,BorderLayout.CENTER);
+				
+				pStockages.remove(lS);
+				lS = new VueListeStockages(u.getStockages(), u);
+				lS.revalidate();
+				lS.repaint();
+				pStockages.add(lS, BorderLayout.CENTER);
 				
 				pAchats.remove(lA);
 				lA = new VueListeElementsUsine(u.getListeAchats(),u,3);

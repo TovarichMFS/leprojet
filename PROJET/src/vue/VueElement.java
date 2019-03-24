@@ -105,21 +105,19 @@ public abstract class VueElement extends JFrame {
 		Component lUnite;
 		this.tUnite = new JTextField(10);
 		JLabel lStockage = new JLabel("Stockage:");
-		Component ltStockage;
 		this.tStockage = new JTextField(5);
 		if(e!=null) {
 			tQuantite.setText(this.cE.getQuantite()+"");
 			lUnite = new JLabel(this.cE.getUnite());
-			ltStockage = new JLabel(e.getStockage().getCode());
+			tStockage.setText(e.getStockage());
 		}else {
 			lUnite = tUnite;
-			ltStockage = tStockage;
 		}
 		pQuantite.add(lQuantite);
 		pQuantite.add(tQuantite);
 		pQuantite.add(lUnite);
 		pQuantite.add(lStockage);
-		pQuantite.add(ltStockage);
+		pQuantite.add(tStockage);
 		pContenu.add(pQuantite);
 		
 		JPanel pPrix = new JPanel();
