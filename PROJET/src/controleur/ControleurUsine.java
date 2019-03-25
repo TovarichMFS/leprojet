@@ -155,22 +155,43 @@ public class ControleurUsine implements CSV, CalculsProduction{
 		this.u.setChaines(chaines);
 	}
 	
+	/**
+	 * Retourne la liste des stockages de l'Usine u
+	 * @return listeStockages
+	 */
 	public HashMap<String, Stockage> getStockages(){
 		return this.u.getStockages();
 	}
 	
+	/**
+	 * Retourne le stockages d'id code
+	 * @param String code
+	 * @return Stockage
+	 */
 	public Stockage getStockage(String code) {
 		return this.u.getStockages().get(code);
 	}
 	
+	/**
+	 * Ajoute le Stockage s
+	 * @param Stockage s
+	 */
 	public void addStockage(Stockage s) {
 		this.getStockages().put(s.getCode(), s);
 	}
 	
+	/**
+	 * Retire le Stockage d'id code
+	 * @param String code
+	 */
 	public void rmStockage(String code) {
 		this.getStockages().remove(code);
 	}
 	
+	/**
+	 * Remplace la liste des Stockages
+	 * @param HashMap<String, Stockage> stockages
+	 */
 	public void setStockages(HashMap<String, Stockage> stockages) {
 		this.u.setStockages(stockages);
 	}

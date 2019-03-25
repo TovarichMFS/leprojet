@@ -19,14 +19,14 @@ public class StockageException extends Exception {
 	}
 
 	/**
-	 * @return the code
+	 * @return code
 	 */
 	public String getCode() {
 		return code;
 	}
 
 	/**
-	 * @param code the code to set
+	 * @param code
 	 */
 	public void setCode(String code) {
 		this.code = code;

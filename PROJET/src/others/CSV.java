@@ -28,7 +28,8 @@ import modele.Usine;
  */
 public interface CSV {
 	/**
-	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u
+	 * Charge les Elements et les ChaineDeProduction d'un fichier CSV dans l'objet Usine u pour la semaine nbSemaine
+	 * @param ControleurUsine u, int nSemaine
 	 * @throws IOException 
 	 */
 	public default Usine chargerCSV(int nSemaine) throws IOException {
@@ -97,10 +98,9 @@ public interface CSV {
 			cU.addStock(e);
 		}
 		
-		System.out.println("lol");
 		for (String key : cU.getStocks().keySet()) {
 			System.out.println(cU.getStockage(cU.getStock(key).getStockage()));
-			cU.getStockage(cU.getStock(key).getStockage()).setRemplissage((int) cU.getStock(key).getQuantite());
+			cU.getStockage(cU.getStock(key).getStockage()).modifRemplissage((int) cU.getStock(key).getQuantite());
 		}
 		
 		file = "c"+nSemaine+".csv";
@@ -172,7 +172,8 @@ public interface CSV {
 	}
 	
 	/**
-	 * Sauvegarde les Element et les CHaineDeProduction dans un fichier CSV
+	 * Sauvegarde les Element et les ChaineDeProduction dans un fichier CSV pour la semaine nbSemaine
+	 * @param ControleurUsine u, int nSemaine
 	 */
 	public default void saveCSV(ControleurUsine u, int nSemaine) {
 		String file = "s"+nSemaine+".csv";

@@ -1,52 +1,52 @@
 Code;Nom;Quantite;unite;achat;vente;?;demande
-E030;Brioche;60.0;carton;NA;14.0;p;300
-E031;Brioche beurre;150.0;carton;NA;16.0;p;100
-E032;Pain chocolat A;150.0;carton;NA;14.0;p;50
-E033;Pain chocolat B;150.0;carton;NA;12.0;p;75
-E034;Biscuit marque A;135.0;carton;NA;8.0;p;400
-E035;Biscuit marque B et C;140.0;carton;NA;7.0;p;750
-E036;Pate crepes;135.0;litre;11.725294090000226;NA;cb;0
-E037;Crepes natures;125.0;carton;NA;7.0;p;175
-E038;Crepes fourrees choc;125.0;carton;NA;9.0;p;100
-E039;Crepes fourres abricot;125.0;carton;NA;8.0;p;75
-E020;Chocolat 40§;52.0;litre;9.203031127248668;10.0;cl;0
-E021;Chocolat 50§;335.0;litre;2.7948248827041624;16.0;cl;0
-E022;Pate biscuit Q1;5990.0;litre;8.520522040295187;NA;clr;0
-E023;Pate biscuit Q2;60.0;litre;15.177400660762896;NA;clr;0
-E024;Pate biscuit Q3;140.0;litre;14.891742955316133;NA;clr;0
-E025;Gateau marque A;1025.0;carton;NA;10.0;p;200
-E026;Gateau marque B;35.0;carton;NA;8.0;p;300
-E027;Gateau marque C;35.0;carton;NA;7.0;p;250
-E028;Pate levée huile;985.0;kg;NA;NA;cb;0
-E029;Pate levée beurre;110.0;kg;NA;NA;cb;0
-E050;Madeleines Choc;35.0;carton;NA;8.0;p;100
-E051;Poudre a lever;76.0;kg;14.261205197447765;NA;cp;0
-E010;poudre a lever;50.0;kg;9.674801823107387;NA;p;0
-E011;beurre cacao;755.0;kg;7.08066123943;NA;p;0
-E012;pate cacao;90.0;kg;2.1490257831962456;NA;cp;0
-E013;proteine de lait;0.0;kg;5.982151129126933;NA;cp;0
-E014;lait en poudre;520.0;kg;15.16914203743233;NA;cp;0
-E015;emulsifiant;15.0;litre;11.986951461371149;NA;cl;0
-E016;levure;69.0;unite;18.277894108849047;NA;cp;0
-E017;confiture abricot;35.0;litre;4.247313444761902;NA;clr;0
-E018;noix;35.0;kg;3.4465605292963133;NA;p;0
-E019;Chocolat 30§;60.0;litre;12.24043316663883;8.0;cl;0
-E040;Brownies marque A;80.0;carton;NA;10.0;p;250
+E030;Brioche;90.0;carton;NA;14.0;p;300
+E031;Brioche beurre;180.0;carton;NA;16.0;p;100
+E032;Pain chocolat A;180.0;carton;NA;14.0;p;50
+E033;Pain chocolat B;180.0;carton;NA;12.0;p;75
+E034;Biscuit marque A;156.0;carton;NA;8.0;p;400
+E035;Biscuit marque B et C;164.0;carton;NA;7.0;p;750
+E036;Pate crepes;201.0;litre;5.3731823401640355;NA;cb;0
+E037;Crepes natures;140.0;carton;NA;7.0;p;175
+E038;Crepes fourrees choc;140.0;carton;NA;9.0;p;100
+E039;Crepes fourres abricot;140.0;carton;NA;8.0;p;75
+E020;Chocolat 40§;76.0;litre;8.028485904611543;10.0;cl;0
+E021;Chocolat 50§;356.0;litre;18.033229031094532;16.0;cl;0
+E022;Pate biscuit Q1;4034.0;litre;19.717499479732986;NA;clr;0
+E023;Pate biscuit Q2;96.0;litre;7.944726338461249;NA;clr;0
+E024;Pate biscuit Q3;224.0;litre;13.491509218527176;NA;clr;0
+E025;Gateau marque A;1040.0;carton;NA;10.0;p;200
+E026;Gateau marque B;50.0;carton;NA;8.0;p;300
+E027;Gateau marque C;50.0;carton;NA;7.0;p;250
+E028;Pate levée huile;976.0;kg;NA;NA;cb;0
+E029;Pate levée beurre;155.0;kg;NA;NA;cb;0
+E050;Madeleines Choc;50.0;carton;NA;8.0;p;100
+E051;Poudre a lever;107.0;kg;0.10329655456735054;NA;cp;0
+E010;poudre a lever;50.0;kg;2.045378876282925;NA;p;0
+E011;beurre cacao;728.0;kg;19.15273512129029;NA;p;0
+E012;pate cacao;54.0;kg;13.65998026186115;NA;cp;0
+E013;proteine de lait;0.0;kg;0.22569387536694308;NA;cp;0
+E014;lait en poudre;532.0;kg;16.771489519499397;NA;cp;0
+E015;emulsifiant;18.0;litre;15.021921007656537;NA;cl;0
+E016;levure;57.0;unite;9.571812914998688;NA;cp;0
+E017;confiture abricot;26.0;litre;17.654717049631696;NA;clr;0
+E018;noix;26.0;kg;18.705806624278267;NA;p;0
+E019;Chocolat 30§;84.0;litre;15.380341954567257;8.0;cl;0
+E040;Brownies marque A;116.0;carton;NA;10.0;p;250
 E041;Brownies marque B;0.0;carton;NA;8.0;p;275
 E042;Cookies Choc marque A;0.0;carton;NA;9.0;p;300
 E043;Cookies Choc marque B;0.0;carton;NA;8.0;p;400
-E044;Cookies Choc/Noix marque A;35.0;carton;NA;9.0;p;150
-E001;Sucre;-173.0;kg;11.65034082597262;NA;cp;0
-E045;Cookies Choc/Noix marque B;10.0;carton;NA;8.0;p;300
-E002;farine;4100.0;kg;12.258135981261898;NA;cp;0
-E046;Pate Madeleines Q1;45.0;litre;NA;NA;cb;0
-E003;farine complete;0.0;kg;11.900259388799839;NA;cp;0
-E047;Pate Madeleines Q2;65.0;litre;NA;NA;cb;0
-E004;blanc oeuf;210.0;litre;19.89392276682308;NA;cl;0
-E048;Madeleines marque A;25.0;carton;NA;8.0;p;200
-E005;jaune oeuf;370.0;litre;7.617786013558842;NA;cl;0
-E049;Madeleines marque B;25.0;carton;NA;7.0;p;150
-E006;beurre;2460.0;kg;0.23245682687123548;NA;pr;0
-E007;margarine;0.0;kg;4.387902041665313;NA;pr;0
-E008;huile palme;3995.0;litre;11.001020544245435;NA;p;0
-E009;huile colza;1455.0;litre;15.758600920905707;NA;p;0
+E044;Cookies Choc/Noix marque A;44.0;carton;NA;9.0;p;150
+E001;Sucre;23.0;kg;7.978031850915579;NA;cp;0
+E045;Cookies Choc/Noix marque B;16.0;carton;NA;8.0;p;300
+E002;farine;3185.0;kg;6.58053043215947;NA;cp;0
+E046;Pate Madeleines Q1;72.0;litre;NA;NA;cb;0
+E003;farine complete;0.0;kg;3.423707303191148;NA;cp;0
+E047;Pate Madeleines Q2;104.0;litre;NA;NA;cb;0
+E004;blanc oeuf;216.0;litre;11.22046300097081;NA;cl;0
+E048;Madeleines marque A;40.0;carton;NA;8.0;p;200
+E005;jaune oeuf;352.0;litre;2.3425173938970367;NA;cl;0
+E049;Madeleines marque B;40.0;carton;NA;7.0;p;150
+E006;beurre;2436.0;kg;14.191992848388175;NA;pr;0
+E007;margarine;0.0;kg;8.459435212221418;NA;pr;0
+E008;huile palme;4382.0;litre;19.025429417489576;NA;p;0
+E009;huile colza;1428.0;litre;16.09579149869181;NA;p;0

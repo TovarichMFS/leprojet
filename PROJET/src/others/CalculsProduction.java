@@ -21,6 +21,7 @@ import modele.Usine;
 public interface CalculsProduction {
 	/**
 	 * Calcule les revenus/coûts de la production prévue. Retourne une exception si la production est impossible.
+	 * @param ControleurUsine u
 	 * @return double
 	 * @throws CalculException 
 	 * @throws CloneNotSupportedException 
@@ -36,17 +37,21 @@ public interface CalculsProduction {
 		for (String key : u.getListeAchats().keySet()) {
 			cpAchats.put(key, u.getListeAchats().get(key).clone());
 		}
+		HashMap<String,Stockage> cpStockages = new HashMap<String, Stockage>();
+		for (String key : u.getStockages().keySet()) {
+			cpStockages.put(key, u.getStockages().get(key).clone());
+		}
 		double montant = 0;
 		for (ChaineDeProduction c : u.getChaines()) {
 			for (String key : c.getEntrants().keySet()) {
 				Element e = c.getEntrants().get(key);
-				Stockage st = u.getStockage(e.getStockage());
+				Stockage st = cpStockages.get(e.getStockage());
 				st.modifRemplissage(-(int) (e.getQuantite()*c.getNiveau()));
 				cpStocks.get(e.getCode()).setQuantite(cpStocks.get(e.getCode()).getQuantite() - (e.getQuantite()*c.getNiveau()));
 			}
 			for (String key : c.getSortants().keySet()) {
 				Element s = c.getSortants().get(key);
-				Stockage st = u.getStockage(s.getStockage());
+				Stockage st = cpStockages.get(s.getStockage());
 				if((int)(st.getRemplissage()+(s.getQuantite()*c.getNiveau()))<(st.getCapacite()*st.getQuantiteDispo())) {
 					st.modifRemplissage((int) (s.getQuantite()*c.getNiveau()));
 					cpStocks.get(s.getCode()).setQuantite(cpStocks.get(s.getCode()).getQuantite() + (s.getQuantite()*c.getNiveau()));
@@ -78,9 +83,15 @@ public interface CalculsProduction {
 		}
 		u.setStocks(cpStocks);
 		u.setListeAchats(cpAchats);
+		u.setStockages(cpStockages);
 		return montant;
 	}
 	
+	/**
+	 * Calcule le ratio de production par rapport à la demande
+	 * @param ControleurUsine u
+	 * @return HashMap<String,Double>
+	 */
 	public default HashMap<String,Double> calculResultatDemande(ControleurUsine u){
 		HashMap<String,Double> res = new HashMap<String,Double>();
 		for (ChaineDeProduction c : u.getChaines()) {
@@ -113,8 +124,16 @@ public interface CalculsProduction {
 		return res;
 	}
 	
+	/**
+	 * Calcule les revenus/coûts de la production prévue sur nbSemaines et conserve les meilleurs prix. Retourne une exception si la production est impossible.
+	 * @param ControleurUsine u, int nbSemaines, HashMap<String,String[]> bestPrix
+	 * @return double
+	 * @throws CalculException 
+	 * @throws CloneNotSupportedException 
+	 * @throws StockageException 
+	 * @throws IOException 
+	 */
 	public default double calculerProductionSemaines(ControleurUsine u, int nbSemaines, HashMap<String,String[]> bestPrix) throws CalculException, CloneNotSupportedException, StockageException, IOException {
-		ControleurUsine nU = new ControleurUsine(u.chargerCSV(nbSemaines));
 		double total = 0;
 		Random r = new Random();
 		for(int i=0;i<nbSemaines;i++) {
@@ -127,16 +146,23 @@ public interface CalculsProduction {
 					u.getAchat(key).setPrixAchat(u.getStock(key).getPrixAchat());
 			}
 			for (String key : u.getListeAchats().keySet()) {
-				String[] ligne = {u.getStock(key).getPrixAchat()+"",nbSemaines+""};
+				String[] ligne = {u.getStock(key).getPrixAchat()+"",i+""};
 				if(bestPrix.get(key)==null)
 					bestPrix.put(key,ligne);
 				else if(u.getStock(key).getPrixAchat()!=0 && u.getStock(key).getPrixAchat()<Double.parseDouble(bestPrix.get(key)[0]))
 					bestPrix.put(key,ligne);
 			}
+			u.saveCSV(u, i);
 		}
 		return total;
 	}
 	
+	/**
+	 * Calcule le ratio de production par rapport à la demande sur nbSemaines
+	 * @param ControleurUsine u, int nbSemaine
+	 * @return HashMap<String,Double>
+	 * * @throws IOException 
+	 */
 	public default HashMap<String,Double> calculResultatDemandeSemaine(ControleurUsine u,int nbSemaine) throws IOException{
 		u = new ControleurUsine(u.chargerCSV(nbSemaine));
 		HashMap<String,Double> res = new HashMap<String,Double>();

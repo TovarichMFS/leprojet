@@ -77,14 +77,14 @@ public class Usine {
 	}
 
 	/**
-	 * @return the stockages
+	 * @return stockages
 	 */
 	public HashMap<String, Stockage> getStockages() {
 		return this.stockages;
 	}
 
 	/**
-	 * @param stockages the stockages to set
+	 * @param stockages
 	 */
 	public void setStockages(HashMap<String, Stockage> stockages) {
 		this.stockages = stockages;

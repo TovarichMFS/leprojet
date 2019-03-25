@@ -137,10 +137,18 @@ public class ControleurElement {
 		return this.e;
 	}
 	
+	/**
+	 * Retourne l'id du Stockage
+	 * @return String idStockage
+	 */
 	public String getStockage() {
 		return this.e.getStockage();
 	}
 	
+	/**
+	 * Modifie l'id du Stockage
+	 * param String idStockage
+	 */
 	public void setStockage(String s) {
 		this.e.setStockage(s);
 	}
